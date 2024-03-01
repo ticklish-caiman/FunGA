@@ -1,4 +1,6 @@
 # FunGA
+![FunGA_logo1](https://github.com/ticklish-caiman/FunGA/assets/91501936/ce3bb87f-abf9-4a1d-bfd7-d695c00a48f1)
+
 <p align="justify">
 "In life sciences, funga is a recent term for the kingdom fungi similar to the longstanding fauna for animals and flora for plants."
   <p align="right">Source: https://en.wikipedia.org/wiki/Funga</p>
