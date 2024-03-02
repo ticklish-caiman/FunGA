@@ -53,7 +53,7 @@ Possible problems:
 
 # Roadmap
 1. GUI template<br/>
-![0%](https://progress-bar.dev/0?title=progress&width=400)
+![1%](https://progress-bar.dev/1?title=progress&width=400)
 2. Theory<br/>
 ![0%](https://progress-bar.dev/0?title=progress&width=400)
 3. Pipelines:<br/>
