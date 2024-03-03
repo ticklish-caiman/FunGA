@@ -1,5 +1,8 @@
 import streamlit as st
-from utils.streamlit_demos import sliders, chart, selectbox, multiselect, checkbox, file_uploader
+from utils.streamlit_demos import sliders, chart, selectbox, multiselect, checkbox, file_uploader, layout
+
+st.set_page_config(page_title="FunGA")
+# layout.layout_demo()
 
 sidebar_options = ["Hello", "Button", "Sliders demo", "Chart demo", "Select box demo", "Multiselect demo",
                    "Checkbox demo", "File uploader demo"]
@@ -38,3 +41,4 @@ def show_sidebar():
 
 
 show_sidebar()
+
