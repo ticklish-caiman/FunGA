@@ -1,11 +1,11 @@
 import streamlit as st
-from utils.streamlit_demos import sliders, chart, selectbox, multiselect, checkbox, file_uploader, layout
+from utils.streamlit_demos import sliders, chart, selectbox, multiselect, checkbox, file_uploader, progress, form
 
 st.set_page_config(page_title="FunGA")
 # layout.layout_demo()
 
 sidebar_options = ["Hello", "Button", "Sliders demo", "Chart demo", "Select box demo", "Multiselect demo",
-                   "Checkbox demo", "File uploader demo"]
+                   "Checkbox demo", "File uploader demo", "Progress demo", "Form demo"]
 sidebar = st.sidebar.selectbox('Select your', sidebar_options)
 
 
@@ -38,6 +38,12 @@ def show_sidebar():
 
     elif sidebar == "File uploader demo":
         file_uploader.file_uploader_demo()
+
+    elif sidebar == "Progress demo":
+        progress.progress_demo()
+
+    elif sidebar == "Form demo":
+        form.form_demo()
 
 
 show_sidebar()
