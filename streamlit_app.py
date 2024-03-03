@@ -1,7 +1,8 @@
 import streamlit as st
-from utils.streamlit_demos import sliders, chart, selectbox, multiselect
+from utils.streamlit_demos import sliders, chart, selectbox, multiselect, checkbox, file_uploader
 
-sidebar_options = ["Hello", "Button", "Sliders demo", "Chart demo", "Select box demo", "Multiselect demo"]
+sidebar_options = ["Hello", "Button", "Sliders demo", "Chart demo", "Select box demo", "Multiselect demo",
+                   "Checkbox demo", "File uploader demo"]
 sidebar = st.sidebar.selectbox('Select your', sidebar_options)
 
 
@@ -28,6 +29,12 @@ def show_sidebar():
 
     elif sidebar == "Multiselect demo":
         multiselect.multiselect_demo()
+
+    elif sidebar == "Checkbox demo":
+        checkbox.checkbox_demo()
+
+    elif sidebar == "File uploader demo":
+        file_uploader.file_uploader_demo()
 
 
 show_sidebar()
