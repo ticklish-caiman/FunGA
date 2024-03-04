@@ -1,6 +1,6 @@
 import streamlit as st
 from utils.streamlit_demos import sliders, chart, selectbox, multiselect, checkbox, file_uploader, progress, form, \
-    session_demo
+    session_demo, session_storage
 
 st.set_page_config(page_title="FunGA")
 # layout.layout_demo()
@@ -10,24 +10,13 @@ sidebar_options = ["Hello", "Button", "Sliders demo", "Chart demo", "Select box 
 sidebar = st.sidebar.selectbox('Select your', sidebar_options)
 
 
-def initialize_session_state():
-    if 'kg' not in st.session_state:
-        st.session_state['kg'] = 0
-    if 'lbs' not in st.session_state:
-        st.session_state['lbs'] = 0
-
-
-initialize_session_state()
-
 
 def show_sidebar():
     if sidebar == "Hello":
-        initialize_session_state()
         st.write('Hello funga world!')
         st.write("st.session_state object:", st.session_state)
 
     elif sidebar == "Button":
-        initialize_session_state()
         st.header('First funga button')
 
         if st.button('Answer me!'):
