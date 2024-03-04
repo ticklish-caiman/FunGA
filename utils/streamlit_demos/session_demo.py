@@ -4,8 +4,8 @@ import streamlit as st
 # It seems that "reactivity" of Streamlit renders the session basically useless -
 # it gets erased even after clicking a button
 # It's possible that behavior is caused by the fact that we are creating the variables
-# inside, therefore they are created locally
-# TODO experiment with session_state or find a different solution  
+# inside a function, therefore they are created locally
+# TODO experiment with session_state or find a different solution
 
 def session_demo():
     st.title('st.session_state')
