@@ -46,6 +46,11 @@ Possible problems:
 </p>
     
     • Streamlit may not be enough for some functionality - switching to other library may be necessary
+      UPDATE: Pure Python approach is nice, all seems easy at first, 
+      but the lack of robust native support for persistent client-side storage is a valid limitation of Streamlit.
+      I am also not a fan of top-down refreshes on almost every action.
+      Well... let's look for different library.
+
 
 # Roadmap
 1. GUI template<br/>
