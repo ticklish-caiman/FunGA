@@ -75,6 +75,9 @@ def show_sidebar():
         else:
             st.write('What is FunGa?')
 
+        st.image('img/funga_img01.jpg', use_column_width=True, caption='Beautiful')
+        st.image('img/funga_img02.jpg', caption='Also Beautiful')
+
     elif sidebar == "Sliders demo":
         sliders.sliders_demo()
 
