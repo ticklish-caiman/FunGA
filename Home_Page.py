@@ -1,4 +1,7 @@
 import streamlit as st
+import streamlit_authenticator as stauth
+import yaml
+from yaml.loader import SafeLoader
 from utils.streamlit_demos import sliders, chart, selectbox, multiselect, checkbox, file_uploader, progress, form, \
     session_demo, session_storage
 
@@ -28,6 +31,18 @@ def show_sidebar():
     if sidebar == "Hello":
         st.write('Hello funga world!')
         st.write("st.session_state object:", st.session_state)
+
+        with open('configs/config.yaml') as file:
+            config = yaml.load(file, Loader=SafeLoader)
+
+        authenticator = stauth.Authenticate(
+            config['credentials'],
+            config['cookie']['name'],
+            config['cookie']['key'],
+            config['cookie']['expiry_days'],
+            config['preauthorized']
+        )
+        authenticator.login()
 
     elif sidebar == "Button":
         st.header('First funga button')
