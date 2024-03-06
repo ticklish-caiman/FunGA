@@ -32,6 +32,7 @@ def show_sidebar():
         st.write('Hello funga world!')
         st.write("st.session_state object:", st.session_state)
 
+        # Authenticator initialization
         with open('configs/config.yaml') as file:
             config = yaml.load(file, Loader=SafeLoader)
 
@@ -42,7 +43,11 @@ def show_sidebar():
             config['cookie']['expiry_days'],
             config['preauthorized']
         )
+
+        # Login widget
         authenticator.login()
+
+        # Authentication logic
         if st.session_state["authentication_status"]:
             authenticator.logout()
             st.write(f'Welcome *{st.session_state["name"]}*')
@@ -51,6 +56,16 @@ def show_sidebar():
             st.error('Username/password is incorrect')
         elif st.session_state["authentication_status"] is None:
             st.warning('Please enter your username and password')
+
+        # Password reset
+        if st.session_state["authentication_status"]:
+            try:
+                if authenticator.reset_password(st.session_state["username"]):
+                    with open('configs/config.yaml', 'w') as file:
+                        yaml.dump(config, file, default_flow_style=False)
+                    st.success('Password modified successfully')
+            except Exception as e:
+                st.error(e)
 
     elif sidebar == "Button":
         st.header('First funga button')

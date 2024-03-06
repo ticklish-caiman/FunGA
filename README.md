@@ -63,8 +63,13 @@ Possible problems:
     • use Streamlit with database (probably would still require some additional libraries for users management)
     • migrate to Anvil, Panel, Dash or Flask
 
+
 It's important do decide soon! <br/>
 I could start building other components in Streamlit - if that goes well I may stick with SL, but if I hit another wall I'll switch to a different framework.
+
+UPDATE 3 - The new hope: <br/>
+streamlit_authenticator works fine, session cookies hold even after switching tabs/refreshing page.
+I'll probably stick to streamlit after all.
 
 # Roadmap
 1. GUI template<br/>
