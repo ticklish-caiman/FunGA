@@ -3,9 +3,6 @@ import yaml
 
 
 def show_login_form(authenticator):
-    # Login widget
-    authenticator.login()
-
     # Authentication logic
     if st.session_state["authentication_status"]:
         st.sidebar.write(f'*{st.session_state["name"]}*')
@@ -14,7 +11,21 @@ def show_login_form(authenticator):
     elif st.session_state["authentication_status"] is False:
         st.error('Username/password is incorrect')
     elif st.session_state["authentication_status"] is None:
-        st.warning('Please enter your username and password')
+        st.info('Please enter your username and password')
+    # Login widget
+    authenticator.login()
+
+
+def show_register_form(authenticator, config):
+    try:
+        email_of_registered_user, username_of_registered_user, name_of_registered_user = authenticator.register_user(
+            preauthorization=False)
+        with open('../config.yaml', 'w') as file:
+            yaml.dump(config, file, default_flow_style=False)
+        if email_of_registered_user:
+            st.success('User registered successfully')
+    except Exception as e:
+        st.error(e)
 
 
 def show_change_password_form(authenticator, config):

@@ -6,9 +6,9 @@ credentials:
   usernames:
     jsmith:
       email: jsmith@gmail.com
-      logged_in: false
+      logged_in: true
       name: John Smith
-      password: $2b$12$eHctjHoJx9PSeq465wf4T.EF3uxmtWuTIOEgc0tK.tmXOjJ03uIUC
+      password: $2b$12$ZnVcxalC1DH7AifSl/SXoeOcwkpPqjENLn6BEDF/BZ5wW5vgqQqBy
     rbriggs:
       email: rbriggs@gmail.com
       logged_in: false
