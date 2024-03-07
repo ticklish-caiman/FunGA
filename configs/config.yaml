@@ -4,11 +4,21 @@ cookie:
   name: some_cookie_name
 credentials:
   usernames:
+    guest:
+      email: guest@guest.com
+      logged_in: false
+      name: John Doe
+      password: $2b$12$TjN2aoEmioqJf9ZcdDDEuOpV9gluXocd/bLZn8CbqWzkUE0yrSFWy
     jsmith:
       email: jsmith@gmail.com
       logged_in: true
       name: John Smith
       password: $2b$12$ZnVcxalC1DH7AifSl/SXoeOcwkpPqjENLn6BEDF/BZ5wW5vgqQqBy
+    mike:
+      email: koko@maroko.pl
+      logged_in: false
+      name: Michael J Fox
+      password: $2b$12$GkE1JN6gk1myqLp35cSzP.3ur8K9ApuRVaP8APnu5BTHOHA1fXkRC
     rbriggs:
       email: rbriggs@gmail.com
       logged_in: false

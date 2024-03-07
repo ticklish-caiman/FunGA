@@ -1,7 +1,5 @@
 import streamlit as st
 
-from utils import global_variables as gv
-from utils.auth import show_change_password_form
 from utils.streamlit_demos import sliders, chart, selectbox, multiselect, checkbox, file_uploader, progress, form, \
     session_demo
 
@@ -61,4 +59,5 @@ def show_tabs():
         st.write('Hello funga world!')
         st.write("st.session_state object:", st.session_state)
     with tabs[1]:
-        show_change_password_form(gv.authenticator, gv.config)
+        st.header('Hello')
+        # show_change_password_form(gv.authenticator, gv.config)
