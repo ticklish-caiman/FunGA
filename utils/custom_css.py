@@ -1,6 +1,7 @@
 import streamlit as st
 
 
+# TODO: decide on light/dark theme - or use both (with will require conditional custom CSS)
 def custom_tabs_css():
     st.markdown("""
     <style>
