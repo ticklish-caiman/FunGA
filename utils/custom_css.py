@@ -17,6 +17,8 @@ def custom_tabs_css():
     gap: 1px;
     padding-top: 10px;
     padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
     transition: background-color 0.2s ease; /* Add transition */
 }
 

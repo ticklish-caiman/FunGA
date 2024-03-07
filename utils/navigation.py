@@ -1,18 +1,18 @@
 import streamlit as st
+
+from utils import global_variables as gv
+from utils.auth import show_change_password_form
 from utils.streamlit_demos import sliders, chart, selectbox, multiselect, checkbox, file_uploader, progress, form, \
     session_demo
 
 sidebar_options = ["Hello", "Button", "Sliders demo", "Chart demo", "Select box demo", "Multiselect demo",
                    "Checkbox demo", "File uploader demo", "Progress demo", "Form demo", "Session demo"]
 
+tabs_options = ["Tab 1 ", "Tab 2 ", "Tab 3 ", "Tab 4 ", "Tab 5"]
+
 
 def show_sidebar():
     sidebar = st.sidebar.selectbox('Select your', sidebar_options)
-    tabs = st.tabs(sidebar_options)
-    with tabs[0]:
-        st.header('Hello')
-        st.write('Hello funga world!')
-        st.write("st.session_state object:", st.session_state)
     if sidebar == "Hello":
         None
     elif sidebar == "Button":
@@ -52,3 +52,13 @@ def show_sidebar():
 
     elif sidebar == "Session demo":
         session_demo.session_demo()
+
+
+def show_tabs():
+    tabs = st.tabs(tabs_options)
+    with tabs[0]:
+        st.header('Hello')
+        st.write('Hello funga world!')
+        st.write("st.session_state object:", st.session_state)
+    with tabs[1]:
+        show_change_password_form(gv.authenticator, gv.config)

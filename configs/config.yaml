@@ -8,7 +8,7 @@ credentials:
       email: jsmith@gmail.com
       logged_in: false
       name: John Smith
-      password: $2b$12$A9htputvlIPAlNo1Z12qSOLGO49BPfd0tL/4GlWAl5/rC4lcnf.CC #cba
+      password: $2b$12$eHctjHoJx9PSeq465wf4T.EF3uxmtWuTIOEgc0tK.tmXOjJ03uIUC
     rbriggs:
       email: rbriggs@gmail.com
       logged_in: false
