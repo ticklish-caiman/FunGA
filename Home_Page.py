@@ -27,9 +27,12 @@ def show_login_form():
     authenticator.login(location='sidebar')
     # Authentication logic
     if st.session_state["authentication_status"]:
-        authenticator.logout(location='sidebar')  # Logout button
-        st.sidebar.write(f'*{st.session_state["name"]}*')
-
+        # use .sidebar only in the top container, same goes for location='sidebar' (use 'main')
+        col1, col2 = st.sidebar.columns(2)
+        with col1:
+            st.latex(f'{st.session_state["name"]}')
+        with col2:
+            authenticator.logout(location='main')  # Logout button
         st.title('Some content')
     elif st.session_state["authentication_status"] is False:
         st.sidebar.error('Username/password is incorrect')
