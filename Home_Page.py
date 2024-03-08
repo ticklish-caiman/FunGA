@@ -30,14 +30,15 @@ def show_login_form():
         # use .sidebar only in the top container, same goes for location='sidebar' (use 'main')
         col1, col2 = st.sidebar.columns(2)
         with col1:
-            st.latex(f'{st.session_state["name"]}')
+            st.write('')
+            st.markdown(f'💻 {st.session_state["name"]}', help='Logged in user')
         with col2:
-            authenticator.logout(location='main')  # Logout button
+            authenticator.logout(button_name='Logout 🚀', location='main')  # Logout button
         st.title('Some content')
     elif st.session_state["authentication_status"] is False:
         st.sidebar.error('Username/password is incorrect')
     elif st.session_state["authentication_status"] is None:
-        st.sidebar.info('Please enter your username and password', )
+        st.sidebar.info('Please enter your username and password')
 
     # Register form
     if not st.session_state["authentication_status"]:
@@ -54,7 +55,7 @@ def show_login_form():
 
     # Password change
     # For authenticator.reset_password to properly display within expander in sidebar - use location='main'
-    with st.sidebar.expander("Change password"):
+    with st.sidebar.expander("⚙️ Change password"):
         if st.session_state["authentication_status"]:
             try:
                 if authenticator.reset_password(st.session_state["username"], location='main'):
