@@ -6,7 +6,7 @@ import yaml
 from utils.navigation import show_sidebar, show_tabs
 from utils.custom_css import custom_tabs_css
 
-st.set_page_config(page_title="FunGA")
+st.set_page_config(page_title="FunGA 🍄")
 custom_tabs_css()
 
 
@@ -59,7 +59,7 @@ def show_login_form():
         if st.session_state["authentication_status"]:
             try:
                 if authenticator.reset_password(st.session_state["username"], location='main',
-                                                fields={'Form name': '', 'Reset':'Change'}):
+                                                fields={'Form name': '', 'Reset': 'Change'}):
                     with open('configs/config.yaml', 'w') as file:
                         yaml.dump(config, file, default_flow_style=False)
                     st.sidebar.success('Password modified successfully ✔️')

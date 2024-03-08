@@ -2,6 +2,8 @@ import streamlit as st
 
 
 # TODO: decide on light/dark theme - or use both (with will require conditional custom CSS)
+
+# Setting custom style for tabs
 def custom_tabs_css():
     st.markdown("""
     <style>
@@ -29,8 +31,16 @@ def custom_tabs_css():
 .stTabs [data-baseweb="tab"]:hover {
     background-color: #d1d8e0; /* Slightly darker on hover */
 } 
-# Not sure if having a fixed width of the sidebar is a good idea...
-section[data-testid="stSidebar"] {
-        width: 25% !important; # NAVIGATION (SIDEBAR) WIDTH
-}    
     </style>""", unsafe_allow_html=True)
+
+    # Setting custom width spectrum for sidebar
+    st.markdown(
+        """
+       <style>
+       [data-testid="stSidebar"][aria-expanded="true"]{
+           min-width: 440px;
+           max-width: 800px;
+       }
+       """,
+        unsafe_allow_html=True,
+    )
