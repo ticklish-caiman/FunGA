@@ -27,8 +27,9 @@ def show_login_form():
     authenticator.login(location='sidebar')
     # Authentication logic
     if st.session_state["authentication_status"]:
-        st.sidebar.write(f'*{st.session_state["name"]}*')
         authenticator.logout(location='sidebar')  # Logout button
+        st.sidebar.write(f'*{st.session_state["name"]}*')
+
         st.title('Some content')
     elif st.session_state["authentication_status"] is False:
         st.sidebar.error('Username/password is incorrect')
@@ -49,16 +50,17 @@ def show_login_form():
             st.error(e)
 
     # Password change
-    if st.session_state["authentication_status"]:
-        try:
-            # TODO: expandable password reset field
-            if authenticator.reset_password(st.session_state["username"], location='sidebar'):
-                with open('configs/config.yaml', 'w') as file:
-                    yaml.dump(config, file, default_flow_style=False)
-                st.sidebar.success('Password modified successfully')
+    # For authenticator.reset_password to properly display within expander in sidebar - use location='main'
+    with st.sidebar.expander("Change password"):
+        if st.session_state["authentication_status"]:
+            try:
+                if authenticator.reset_password(st.session_state["username"], location='main'):
+                    with open('configs/config.yaml', 'w') as file:
+                        yaml.dump(config, file, default_flow_style=False)
+                    st.sidebar.success('Password modified successfully')
 
-        except Exception as e:
-            st.sidebar.error(e)
+            except Exception as e:
+                st.sidebar.error(e)
 
 
 show_login_form()
