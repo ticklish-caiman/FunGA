@@ -51,12 +51,14 @@ def show_login_form():
     # Password change
     if st.session_state["authentication_status"]:
         try:
-            if authenticator.reset_password(st.session_state["username"]):
+            # TODO: expandable password reset field
+            if authenticator.reset_password(st.session_state["username"], location='sidebar'):
                 with open('configs/config.yaml', 'w') as file:
                     yaml.dump(config, file, default_flow_style=False)
-                st.success('Password modified successfully')
+                st.sidebar.success('Password modified successfully')
+
         except Exception as e:
-            st.error(e)
+            st.sidebar.error(e)
 
 
 show_login_form()
