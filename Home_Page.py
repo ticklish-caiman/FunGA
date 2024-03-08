@@ -55,13 +55,14 @@ def show_login_form():
 
     # Password change
     # For authenticator.reset_password to properly display within expander in sidebar - use location='main'
-    with st.sidebar.expander("⚙️ Change password"):
+    with st.sidebar.expander("🛠️ Change password"):
         if st.session_state["authentication_status"]:
             try:
-                if authenticator.reset_password(st.session_state["username"], location='main'):
+                if authenticator.reset_password(st.session_state["username"], location='main',
+                                                fields={'Form name': '', 'Reset':'Change'}):
                     with open('configs/config.yaml', 'w') as file:
                         yaml.dump(config, file, default_flow_style=False)
-                    st.sidebar.success('Password modified successfully')
+                    st.sidebar.success('Password modified successfully ✔️')
 
             except Exception as e:
                 st.sidebar.error(e)

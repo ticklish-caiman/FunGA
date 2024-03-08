@@ -29,5 +29,8 @@ def custom_tabs_css():
 .stTabs [data-baseweb="tab"]:hover {
     background-color: #d1d8e0; /* Slightly darker on hover */
 } 
-    
+# Not sure if having a fixed width of the sidebar is a good idea...
+section[data-testid="stSidebar"] {
+        width: 25% !important; # NAVIGATION (SIDEBAR) WIDTH
+}    
     </style>""", unsafe_allow_html=True)
