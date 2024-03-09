@@ -49,7 +49,7 @@ Possible problems:
 
 # Roadmap
 1. GUI template<br/>
-![2%](https://progress-bar.dev/2?title=progress&width=400)
+![4%](https://progress-bar.dev/2?title=progress&width=400)
 2. Theory<br/>
 ![0%](https://progress-bar.dev/0?title=progress&width=400)
 3. Pipelines:<br/>
@@ -61,5 +61,11 @@ Possible problems:
    ![0%](https://progress-bar.dev/0?title=progress&width=400) <br/>
    d) ? <br/>
    e) ? <br/>
+
+# 100COMMITÓW:
+This repository takes part in:
+[<img src="https://100commitow.pl/img/100-comittow_long.png">](https://100commitow.pl/)
+Competition organized by:
+[<img src="https://100commitow.pl/img/devmentors-logo.png">](https://devmentors.io/)
      
 
