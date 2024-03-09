@@ -17,7 +17,7 @@ credentials:
     mike:
       email: koko@maroko.pl
       logged_in: false
-      name: Michael J Fox
+      name: Michael
       password: $2b$12$0MPX2N.whrim8Gqn1.5t7OFyKsJHxG8Wncs/cS4pF1HgawTEa9PMW
     rbriggs:
       email: rbriggs@gmail.com

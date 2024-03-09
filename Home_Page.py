@@ -21,7 +21,7 @@ def show_login_form():
         config['cookie']['expiry_days'],
         config['preauthorized']
     )
-    # Guest account
+    # Guest account TODO
 
     # Login widget
     authenticator.login(location='sidebar')
@@ -53,9 +53,23 @@ def show_login_form():
         except Exception as e:
             st.error(e)
 
+    # Update account details
+    # For authenticator.update_user_details to properly display within expander in sidebar - use location='main'
+    with st.sidebar.expander("🛠️ Change name/email"):
+        if st.session_state["authentication_status"]:
+            try:
+                if authenticator.update_user_details(st.session_state["username"]):
+                    with open('configs/config.yaml', 'w') as file:
+                        yaml.dump(config, file, default_flow_style=False)
+                    # TODO success message should be visible after the refresh
+                    st.sidebar.success('Change saved successfully ✔️')
+
+            except Exception as e:
+                st.sidebar.error(e)
+
     # Password change
     # For authenticator.reset_password to properly display within expander in sidebar - use location='main'
-    with st.sidebar.expander("🛠️ Change password"):
+    with st.sidebar.expander("🔒 Change password"):
         if st.session_state["authentication_status"]:
             try:
                 if authenticator.reset_password(st.session_state["username"], location='main',
@@ -80,6 +94,6 @@ if st.session_state["authentication_status"]:
 # if 'lbs' not in st.session_state:
 #     st.session_state['lbs'] = 0.2
 #
-# # Necessary to prevent streamlit from wiping out session_state when widget gets closed/hidden
+# # Necessary to prevent streamlit from wiping out session_state when the widget gets closed/hidden
 # st.session_state.kg = st.session_state.kg
 # st.session_state.lbs = st.session_state.lbs
