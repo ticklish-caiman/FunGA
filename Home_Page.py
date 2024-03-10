@@ -34,7 +34,7 @@ def show_login_form():
             st.markdown(f'💻 {st.session_state["name"]}', help='Logged in user')
         with col2:
             authenticator.logout(button_name='Logout 🚀', location='main')  # Logout button
-        st.title('Some content')
+
     elif st.session_state["authentication_status"] is False:
         st.sidebar.error('Username/password is incorrect')
     elif st.session_state["authentication_status"] is None:
