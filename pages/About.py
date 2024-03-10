@@ -1,5 +1,6 @@
 import streamlit as st
 
+
 st.header('100Commitów', divider=True)
 st.text('This project takes part in:')
 st.markdown(

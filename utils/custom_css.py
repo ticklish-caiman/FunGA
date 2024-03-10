@@ -38,7 +38,7 @@ def custom_tabs_css():
         """
        <style>
        [data-testid="stSidebar"][aria-expanded="true"]{
-           min-width: 440px;
+           min-width: 350px;
            max-width: 800px;
        }
        """,

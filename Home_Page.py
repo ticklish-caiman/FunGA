@@ -3,6 +3,7 @@ import streamlit_authenticator as stauth
 from yaml.loader import SafeLoader
 import yaml
 
+
 from utils.navigation import show_sidebar, show_tabs
 from utils.custom_css import custom_tabs_css
 
@@ -30,10 +31,10 @@ def show_login_form():
         # use .sidebar only in the top container, same goes for location='sidebar' (use 'main')
         col1, col2 = st.sidebar.columns(2)
         with col1:
-            st.write('')
-            st.markdown(f'💻 {st.session_state["name"]}', help='Logged in user')
-        with col2:
             authenticator.logout(button_name='Logout 🚀', location='main')  # Logout button
+        with col2:
+            name = f'💻 {st.session_state["name"]}'
+            st.markdown(f"""<p style="text-align: right">{name}</p>""", True, help='Logged in user')
 
     elif st.session_state["authentication_status"] is False:
         st.sidebar.error('Username/password is incorrect')
