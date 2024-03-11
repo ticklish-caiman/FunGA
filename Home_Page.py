@@ -14,17 +14,18 @@ custom_tabs_css()
 # To generate pot file use:
 #
 _ = gettext.gettext
-with st.sidebar.expander(_('🌍 Change language')):
+with st.sidebar.expander('🌍 Language/Język'):
     # label_visibility='collapsed' doesn't leave empty space in place of the label
     language = st.radio('Language', ['en', 'pl'], label_visibility='collapsed')
 try:
-    localizator = gettext.translation('base', localedir='locales', languages=[language], fallback=True)
+    # Important - languages=[language] have to be passed as a list, won't work without []
+    localizator = gettext.translation('base', localedir='locales', languages=[language])
     localizator.install()
     _ = localizator.gettext
 except Exception as e:
     st.error(e)
 
-print(_('The Kopytko'))
+print(_('Sample'))
 
 
 # ['💂 English', '🥟 Polski']
@@ -44,7 +45,11 @@ def show_login_form():
     # Guest account TODO
 
     # Login widget
-    authenticator.login(location='sidebar')
+    authenticator.login(location='sidebar', fields={'Form name': 'Login',
+                                                    'Username': _('Username'),
+                                                    'Password': _('Password'),
+                                                    'Login': 'Login'})
+    st.sidebar.text(_("not working"))
     # Authentication logic
     if st.session_state["authentication_status"]:
         # use .sidebar only in the top container, same goes for location='sidebar' (use 'main')
