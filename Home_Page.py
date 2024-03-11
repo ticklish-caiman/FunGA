@@ -3,6 +3,7 @@ import streamlit_authenticator as stauth
 from yaml.loader import SafeLoader
 import yaml
 
+import gettext
 
 from utils.navigation import show_sidebar, show_tabs
 from utils.custom_css import custom_tabs_css
@@ -10,6 +11,24 @@ from utils.custom_css import custom_tabs_css
 st.set_page_config(page_title="FunGA 🍄")
 custom_tabs_css()
 
+# To generate pot file use:
+#
+_ = gettext.gettext
+with st.sidebar.expander(_('🌍 Change language')):
+    # label_visibility='collapsed' doesn't leave empty space in place of the label
+    language = st.radio('Language', ['en', 'pl'], label_visibility='collapsed')
+try:
+    localizator = gettext.translation('base', localedir='locales', languages=[language], fallback=True)
+    localizator.install()
+    _ = localizator.gettext
+except Exception as e:
+    st.error(e)
+
+print(_('The Kopytko'))
+
+
+# ['💂 English', '🥟 Polski']
+# 🗽
 
 def show_login_form():
     with open('configs/config.yaml') as file:
@@ -33,8 +52,9 @@ def show_login_form():
         with col1:
             authenticator.logout(button_name='Logout 🚀', location='main')  # Logout button
         with col2:
-            name = f'💻 {st.session_state["name"]}'
-            st.markdown(f"""<p style="text-align: right">{name}</p>""", True, help='Logged in user')
+            st.markdown(f'💻 {st.session_state["name"]}')
+            # name = f'💻 {st.session_state["name"]}'
+            # st.markdown(f"""<p style="text-align: right">{name}</p>""", True, help='Logged in user')
 
     elif st.session_state["authentication_status"] is False:
         st.sidebar.error('Username/password is incorrect')
