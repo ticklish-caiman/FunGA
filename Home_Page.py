@@ -7,15 +7,19 @@ import gettext
 
 from utils.navigation import show_sidebar, show_tabs
 from utils.custom_css import custom_tabs_css
+from st_pages import Page, Section, show_pages, add_page_title, show_pages_from_config
 
-st.set_page_config(page_title="FunGA 🍄")
+add_page_title()
+show_pages_from_config()
+
+#st.set_page_config(page_title="FunGA 🍄")
 custom_tabs_css()
 
 # To generate pot file use:
 #
 _ = gettext.gettext
 with st.sidebar.expander('🌍 Language/Język'):
-    # label_visibility='collapsed' doesn't leave empty space in place of the label
+    # label_visibility='collapsed' doesn't leave empty space in place of the label TODO: aliases
     language = st.radio('Language', ['en', 'pl'], label_visibility='collapsed')
 try:
     # Important - languages=[language] have to be passed as a list, won't work without []
