@@ -22,10 +22,13 @@ else:
 
 _ = gettext.gettext
 with st.sidebar.expander('🌍 Language/Język'):
-    # label_visibility='collapsed' doesn't leave empty space in place of the label TODO: aliases
-    language = st.radio('Language', ['en', 'pl'], label_visibility='collapsed', index=language_index)
+    # ISSUE: when using index=language_index (necessary to not go back to en when switching pages) in the second
+    # language switch, it is necessary to click twice on the radio option
+    # label_visibility='collapsed' doesn't leave empty space in place of the label
+    st.session_state['language'] = st.radio('Language', ['en', 'pl'], label_visibility='collapsed',
+                                            index=language_index, captions=['💂 English', '🥟 Polski'])
     # if 'language' not in st.session_state:
-    st.session_state['language'] = language
+    # st.session_state['language'] = language
 try:
     # Important - languages=[language] have to be passed as a list, won't work without []
     localizator = gettext.translation('base', localedir='locales', languages=[st.session_state['language']])
@@ -38,9 +41,6 @@ st.sidebar.page_link("Home_Page.py", label="Home", icon="🏠")
 st.sidebar.page_link("pages/1_Theory.py", label=_("Page 1"), icon="1️⃣")
 st.sidebar.page_link("pages/About.py", label="Page 2", icon="2️⃣", disabled=True)
 
-
-# ['💂 English', '🥟 Polski']
-# 🗽
 
 def show_login_form():
     with open('configs/config.yaml') as file:
