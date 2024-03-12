@@ -10,6 +10,7 @@ from utils.custom_css import custom_tabs_css
 
 st.set_page_config(page_title="FunGA", page_icon='🍄')
 custom_tabs_css()
+_ = gettext.gettext
 
 if 'language' not in st.session_state:
     st.session_state['language'] = 'en'
@@ -20,8 +21,26 @@ else:
     if st.session_state['language'] == 'pl':
         language_index = 1
 
-_ = gettext.gettext
-with st.sidebar.expander('🌍 Language/Język'):
+# Apply translation only if needed
+if st.session_state['language'] != 'en':
+    print("Tłumaczę..")
+    try:
+        # Important - languages=[language] have to be passed as a list, won't work without []
+        localizator = gettext.translation('base', localedir='locales', languages=[st.session_state['language']])
+        localizator.install()
+        _ = localizator.gettext
+    except Exception as e:
+        st.error(e)
+
+# When localizator us executed below strange behavior occurs:
+#   It works great if you switch the page or try to switch the language back,
+#   it's possible that inserting some extra action would be a workaround,
+#   although for now the "double click" issue is much less problematic:
+#       1. It only occurs in second language switch - most users will do it once
+#       2. It's actually intuitive to click something second time if it didn't work the first time
+
+
+with st.sidebar.expander(_('🌍 Language/Język')):
     # ISSUE: when using index=language_index (necessary to not go back to en when switching pages) in the second
     # language switch, it is necessary to click twice on the radio option
     # label_visibility='collapsed' doesn't leave empty space in place of the label
@@ -29,14 +48,10 @@ with st.sidebar.expander('🌍 Language/Język'):
                                             index=language_index, captions=['💂 English', '🥟 Polski'])
     # if 'language' not in st.session_state:
     # st.session_state['language'] = language
-try:
-    # Important - languages=[language] have to be passed as a list, won't work without []
-    localizator = gettext.translation('base', localedir='locales', languages=[st.session_state['language']])
-    localizator.install()
-    _ = localizator.gettext
-except Exception as e:
-    st.error(e)
 
+# The expander's label gets translated correctly
+with st.sidebar.expander(_('🌍 Tea')):
+    st.text('yolo')
 st.sidebar.page_link("Home_Page.py", label="Home", icon="🏠")
 st.sidebar.page_link("pages/1_Theory.py", label=_("Page 1"), icon="1️⃣")
 st.sidebar.page_link("pages/About.py", label="Page 2", icon="2️⃣", disabled=True)
