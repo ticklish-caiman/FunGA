@@ -8,7 +8,7 @@ import gettext
 from utils.navigation import show_sidebar, show_tabs
 from utils.custom_css import custom_tabs_css
 
-st.set_page_config(page_title="FunGA 🍄")
+st.set_page_config(page_title="FunGA", page_icon='🍄')
 custom_tabs_css()
 
 # To generate pot file use:
