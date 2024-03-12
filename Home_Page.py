@@ -13,12 +13,17 @@ custom_tabs_css()
 
 if 'language' not in st.session_state:
     st.session_state['language'] = 'en'
-
+    language_index = 0
+else:
+    if st.session_state['language'] == 'en':
+        language_index = 0
+    if st.session_state['language'] == 'pl':
+        language_index = 1
 
 _ = gettext.gettext
 with st.sidebar.expander('🌍 Language/Język'):
     # label_visibility='collapsed' doesn't leave empty space in place of the label TODO: aliases
-    language = st.radio('Language', ['en', 'pl'], label_visibility='collapsed', index=1)
+    language = st.radio('Language', ['en', 'pl'], label_visibility='collapsed', index=language_index)
     # if 'language' not in st.session_state:
     st.session_state['language'] = language
 try:
@@ -28,7 +33,6 @@ try:
     _ = localizator.gettext
 except Exception as e:
     st.error(e)
-
 
 st.sidebar.page_link("Home_Page.py", label="Home", icon="🏠")
 st.sidebar.page_link("pages/1_Theory.py", label=_("Page 1"), icon="1️⃣")
