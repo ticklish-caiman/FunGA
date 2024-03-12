@@ -1,6 +1,6 @@
 import streamlit as st
 
-
+st.set_page_config(page_title="FunGA - About", page_icon='❓')
 st.header('100Commitów', divider=True)
 st.text('This project takes part in:')
 st.markdown(

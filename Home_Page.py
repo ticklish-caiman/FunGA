@@ -7,6 +7,7 @@ import gettext
 
 from utils.navigation import show_sidebar, show_tabs
 from utils.custom_css import custom_tabs_css
+from st_pages import Page, Section, show_pages, add_page_title
 
 st.set_page_config(page_title="FunGA", page_icon='🍄')
 custom_tabs_css()
@@ -25,7 +26,20 @@ try:
 except Exception as e:
     st.error(e)
 
-print(_('Sample'))
+
+@st.cache_resource
+def page_config():
+    show_pages(
+        [
+            Page("Home_Page.py", _("Home"), "🍄"),
+            Page("pages/1_Theory.py", "Theory", "📚"),
+            Page("pages/About.py", "About", "❓"),
+        ]
+    )
+
+
+# add_page_title()
+page_config()
 
 
 # ['💂 English', '🥟 Polski']
