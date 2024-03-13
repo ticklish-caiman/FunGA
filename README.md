@@ -49,10 +49,12 @@ Possible problems:
 
 # Roadmap
 1. GUI template<br/>
-![4%](https://progress-bar.dev/2?title=progress&width=400)
+![8%](https://progress-bar.dev/8?title=progress&width=400)
 2. Theory<br/>
 ![0%](https://progress-bar.dev/0?title=progress&width=400)
-3. Pipelines:<br/>
+3. Translation<br/>
+![1%](https://progress-bar.dev/1?title=progress&width=400)
+4. Pipelines:<br/>
    a) Treevolution<br/>
    ![0%](https://progress-bar.dev/0?title=progress&width=400) <br/>
    b) Shapevo<br/>
