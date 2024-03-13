@@ -14,25 +14,8 @@ _ = gettext.gettext
 
 if 'language' not in st.session_state:
     st.session_state['language'] = 'en'
-    language_index = 0
-else:
-    if st.session_state['language'] == 'en':
-        language_index = 0
-    if st.session_state['language'] == 'pl':
-        language_index = 1
 
-# Apply translation only if needed
-if st.session_state['language'] != 'en':
-    print("Tłumaczę..")
-    try:
-        # Important - languages=[language] have to be passed as a list, won't work without []
-        localizator = gettext.translation('base', localedir='locales', languages=[st.session_state['language']])
-        localizator.install()
-        _ = localizator.gettext
-    except Exception as e:
-        st.error(e)
-
-# When localizator us executed below strange behavior occurs:
+# When localizator is executed before the expander with language selection, strange behavior occurs:
 #   It works great if you switch the page or try to switch the language back,
 #   it's possible that inserting some extra action would be a workaround,
 #   although for now the "double click" issue is much less problematic:
@@ -41,17 +24,31 @@ if st.session_state['language'] != 'en':
 
 
 with st.sidebar.expander(_('🌍 Language/Język')):
+    # different aproach:
+    # it works with the same bug: you have to click button twice
+    # language_form = st.form('language_settings')
+    # language = st.session_state.get('language', 'en')  # Assuming you store this in session state
+    # st.session_state['language'] = language_form.radio(_('Language'), ['en', 'pl'], index=0 if language == 'en' else 1)
+    # submit = language_form.form_submit_button(_('Apply'))
     # ISSUE: when using index=language_index (necessary to not go back to en when switching pages) in the second
     # language switch, it is necessary to click twice on the radio option
+    language = st.session_state.get('language')
     # label_visibility='collapsed' doesn't leave empty space in place of the label
     st.session_state['language'] = st.radio('Language', ['en', 'pl'], label_visibility='collapsed',
-                                            index=language_index, captions=['💂 English', '🥟 Polski'])
+                                            index=0 if language == 'en' else 1, captions=['💂 English', '🥟 Polski'])
     # if 'language' not in st.session_state:
     # st.session_state['language'] = language
 
-# The expander's label gets translated correctly
-with st.sidebar.expander(_('🌍 Tea')):
-    st.text('yolo')
+# Apply translation only if needed
+if st.session_state['language'] != 'en':
+    try:
+        # Important - languages=[language] have to be passed as a list, won't work without []
+        localizator = gettext.translation('base', localedir='locales', languages=[st.session_state['language']])
+        localizator.install()
+        _ = localizator.gettext
+    except Exception as e:
+        st.error(e)
+
 st.sidebar.page_link("Home_Page.py", label="Home", icon="🏠")
 st.sidebar.page_link("pages/1_Theory.py", label=_("Page 1"), icon="1️⃣")
 st.sidebar.page_link("pages/About.py", label="Page 2", icon="2️⃣", disabled=True)
