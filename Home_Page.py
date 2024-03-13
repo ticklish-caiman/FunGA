@@ -15,29 +15,12 @@ _ = gettext.gettext
 if 'language' not in st.session_state:
     st.session_state['language'] = 'en'
 
-# When localizator is executed before the expander with language selection, strange behavior occurs:
-#   It works great if you switch the page or try to switch the language back,
-#   it's possible that inserting some extra action would be a workaround,
-#   although for now the "double click" issue is much less problematic:
-#       1. It only occurs in second language switch - most users will do it once
-#       2. It's actually intuitive to click something second time if it didn't work the first time
-
-
-with st.sidebar.expander(_('🌍 Language/Język')):
-    # different aproach:
-    # it works with the same bug: you have to click button twice
-    # language_form = st.form('language_settings')
-    # language = st.session_state.get('language', 'en')  # Assuming you store this in session state
-    # st.session_state['language'] = language_form.radio(_('Language'), ['en', 'pl'], index=0 if language == 'en' else 1)
-    # submit = language_form.form_submit_button(_('Apply'))
-    # ISSUE: when using index=language_index (necessary to not go back to en when switching pages) in the second
-    # language switch, it is necessary to click twice on the radio option
-    language = st.session_state.get('language')
-    # label_visibility='collapsed' doesn't leave empty space in place of the label
-    st.session_state['language'] = st.radio('Language', ['en', 'pl'], label_visibility='collapsed',
-                                            index=0 if language == 'en' else 1, captions=['💂 English', '🥟 Polski'])
-    # if 'language' not in st.session_state:
-    # st.session_state['language'] = language
+lang_menu = st.sidebar.popover(_('🌍 Language/Język'), use_container_width=True)
+language = st.session_state.get('language')
+# ISSUE: when using index=language_index (necessary to not go back to en when switching pages) in the second
+# language switch, it is necessary to click twice on the radio option
+st.session_state['language'] = lang_menu.radio('Language', ['en', 'pl'], label_visibility='collapsed',
+                                               index=0 if language == 'en' else 1, captions=['💂 English', '🥟 Polski'])
 
 # Apply translation only if needed
 if st.session_state['language'] != 'en':
@@ -72,7 +55,6 @@ def show_login_form():
                                                     'Username': _('Username'),
                                                     'Password': _('Password'),
                                                     'Login': 'Login'})
-    st.sidebar.text(_("not working"))
     # Authentication logic
     if st.session_state["authentication_status"]:
         # use .sidebar only in the top container, same goes for location='sidebar' (use 'main')
