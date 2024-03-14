@@ -50,6 +50,8 @@ def show_login_form():
     )
     # Guest account TODO
 
+    if st.session_state["authentication_status"] is None:
+        st.sidebar.info('Please enter your username and password')
     # Login widget
     authenticator.login(location='sidebar', fields={'Form name': 'Login',
                                                     'Username': _('Username'),
@@ -68,8 +70,6 @@ def show_login_form():
 
     elif st.session_state["authentication_status"] is False:
         st.sidebar.error('Username/password is incorrect')
-    elif st.session_state["authentication_status"] is None:
-        st.sidebar.info('Please enter your username and password')
 
     # Register form
     if not st.session_state["authentication_status"]:
@@ -128,3 +128,5 @@ if st.session_state["authentication_status"]:
 # # Necessary to prevent streamlit from wiping out session_state when the widget gets closed/hidden
 # st.session_state.kg = st.session_state.kg
 # st.session_state.lbs = st.session_state.lbs
+
+# Thing to consider: sidebar-less layout: https://discuss.streamlit.io/t/version-1-32-0/64158/2
