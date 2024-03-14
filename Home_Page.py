@@ -50,19 +50,25 @@ def show_login_form():
     )
     # Guest account TODO
 
-    if st.session_state["authentication_status"] is None:
-        st.sidebar.info('Please enter your username and password')
     # Login widget
     authenticator.login(location='sidebar', fields={'Form name': 'Login',
                                                     'Username': _('Username'),
                                                     'Password': _('Password'),
                                                     'Login': 'Login'})
     # Authentication logic
+    print(st.session_state["authentication_status"])
     if st.session_state["authentication_status"]:
         # use .sidebar only in the top container, same goes for location='sidebar' (use 'main')
         col1, col2 = st.sidebar.columns(2)
         with col1:
-            authenticator.logout(button_name='Logout 🚀', location='main')  # Logout button
+            # logout error (KeyError: 'cookie_name') is possibly caused by add-blockers
+            # it's a known issue https://github.com/mkhorasani/Streamlit-Authenticator/issues/134
+            # the author promises to fix this in v0.3.2.
+            # a temporary solution is to catch the KeyError
+            try:
+                authenticator.logout(button_name='Logout 🚀', location='main')  # Logout button
+            except KeyError:
+                st.session_state["authentication_status"] = None
         with col2:
             st.markdown(f'💻 {st.session_state["name"]}')
             # name = f'💻 {st.session_state["name"]}'
