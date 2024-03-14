@@ -5,12 +5,13 @@ import yaml
 
 import gettext
 
-from utils.navigation import show_sidebar, show_tabs
+from utils.navigation import show_sidebar, show_tabs, show_main_menu
 from utils.custom_css import custom_tabs_css
 
+_ = gettext.gettext
 st.set_page_config(page_title="FunGA", page_icon='🍄')
 custom_tabs_css()
-_ = gettext.gettext
+
 
 if 'language' not in st.session_state:
     st.session_state['language'] = 'en'
@@ -32,9 +33,7 @@ if st.session_state['language'] != 'en':
     except Exception as e:
         st.error(e)
 
-st.sidebar.page_link("Home_Page.py", label="Home", icon="🏠")
-st.sidebar.page_link("pages/1_Theory.py", label=_("Page 1"), icon="1️⃣")
-st.sidebar.page_link("pages/About.py", label="Page 2", icon="2️⃣", disabled=True)
+show_main_menu(_)
 
 
 def show_login_form():
