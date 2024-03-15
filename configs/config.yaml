@@ -18,7 +18,7 @@ credentials:
       email: koko@maroko.pl
       logged_in: false
       name: Michael
-      password: $2b$12$0MPX2N.whrim8Gqn1.5t7OFyKsJHxG8Wncs/cS4pF1HgawTEa9PMW
+      password: $2b$12$XUE1Kql4BmW2QY892VI7O.xwqoPHcasJ2HM2HOtAFgEXnrByA81E2
     rbriggs:
       email: rbriggs@gmail.com
       logged_in: false
