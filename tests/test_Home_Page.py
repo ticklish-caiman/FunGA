@@ -1,6 +1,10 @@
 from streamlit.testing.v1 import AppTest
 
 
+# This might be problematic
+# 1. Some updated elements aren't present in AppTest
+# 2. Can't even print some present elements
+
 def test_no_interaction():
     at = AppTest.from_file("../Home_Page.py")
     at.run()
@@ -17,6 +21,23 @@ def test_no_interaction():
     print(at.get(element_type="text"))
     print("All radios: ")
     print(at.get(element_type="radio"))
+    print("All dividers: ")
+    print(at.get(element_type="divider"))
+
+    print("All date_inputs: ")
+    print(at.get(element_type="date_input"))
+    print("All sidebars: ")
+    print(at.get(element_type="sidebar"))
+    print("All titles: ")
+    print(at.get(element_type="title"))
+    print("All markdowns: ")
+    print(at.get(element_type="markdown"))
+    print("All captions: ")
+    print(at.get(element_type="caption"))
+    print("All tabs: ")
+    print(at.get(element_type="tabs"))
+    print("All columnss: ")
+    print(at.get(element_type="columns"))
 
     assert len(at.text_input) == 7
     assert len(at.warning) == 0
