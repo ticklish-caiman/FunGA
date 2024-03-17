@@ -1,7 +1,10 @@
+import datetime
+
 import streamlit as st
 import streamlit_authenticator as stauth
 from yaml.loader import SafeLoader
 import yaml
+import sqlite3
 
 import gettext
 
@@ -120,8 +123,13 @@ def show_login_form():
 
 show_login_form()
 st.image('img/funGA_logo1.jpg')
-
 if st.session_state["authentication_status"]:
+    # Connect to a database or create it if it doesn't exist
+    con = sqlite3.connect("activity_data.db")
+    # Create cursor required to execute SQL statements
+    cur = con.cursor()
+    cur.execute("CREATE TABLE treevolution(date, seed, result)")
+
     show_sidebar()
     show_tabs()
 
