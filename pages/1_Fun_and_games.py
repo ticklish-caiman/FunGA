@@ -25,6 +25,10 @@ with tabs[0]:
     if st.button('Add user'):
         user = User('Mike', 'Michael', 'e@mail.com', '123')
         query = "INSERT INTO users (login, name, email, password) VALUES (?, ?, ?, ?)"
+        params = (user.login, user.name, user.email, user.password)
+        db_helper.execute_query(query, params)
+    res = db_helper.execute_query("SELECT * FROM users")
+    st.write("Users:", res.fetchall())
 with tabs[1]:
     st.header(_('Hello Evolving Shapes'))
 with tabs[2]:
