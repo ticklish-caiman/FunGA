@@ -15,9 +15,9 @@ tabs = st.tabs(tabs_options)
 with tabs[0]:
     st.header(_('Hello Evolving Trees'))
     if st.button('Add tree'):
-        activity = Activity(2, 'Mike', 'Treevolution', "Some game data to recreate game state")
-        query = "INSERT INTO activities (activity_id, login, game, data) VALUES (?, ?, ?, ?)"
-        params = (activity.activity_id, activity.login, activity.game, activity.data)
+        activity = Activity('Mike', 'Treevolution', "Some game data to recreate game state")
+        query = "INSERT INTO activities (login, game, data) VALUES (?, ?, ?)"
+        params = (activity.login, activity.game, activity.data)
         db_helper.execute_query(query, params)
     res = db_helper.execute_query("SELECT * FROM activities")
     st.write("Seeds:", res.fetchall())
