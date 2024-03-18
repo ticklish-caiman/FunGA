@@ -5,6 +5,7 @@ class DatabaseHelper:
     def __init__(self, db_path):
         self.db_path = db_path
         self.create_table('activities', 'activity_id INTEGER PRIMARY KEY, login TEXT, game TEXT, data TEXT')
+        self.create_table('users', 'user_id INTEGER PRIMARY KEY, login TEXT, name TEXT, email TEXT, password TEXT')
 
     def create_table(self, table_name, table_schema):
         """Creates a table if it doesn't exist.
@@ -29,3 +30,16 @@ class DatabaseHelper:
                 result = cursor.execute(query)
             conn.commit()
             return result
+
+    def add_user(self, user):
+        query = """
+            INSERT INTO users (login, name, email, password) 
+            VALUES (?, ?, ?, ?)
+        """
+        params = (user.login, user.name, user.email, user.password)
+        self.execute_query(query, params)
+
+    def get_user_by_login(self, login):
+        query = "SELECT * FROM users WHERE login=?"
+        result = self.fetchall(query, (login,))
+        return result  # Might return a list of 1 element, or empty list
