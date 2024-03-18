@@ -5,7 +5,10 @@ class DatabaseHelper:
     def __init__(self, db_path):
         self.db_path = db_path
         self.create_table('activities', 'activity_id INTEGER PRIMARY KEY, login TEXT, game TEXT, data TEXT')
-        self.create_table('users', 'user_id INTEGER PRIMARY KEY, login TEXT, name TEXT, email TEXT, password TEXT')
+        self.create_table('users',
+                          'user_id INTEGER PRIMARY KEY, login TEXT, name TEXT, email TEXT, password TEXT, logged_in INT')
+        # TODO: implement cookie settings from database
+        self.create_table('cookies', 'expiry_days TEXT, key TEXT, name TEXT')
 
     def create_table(self, table_name, table_schema):
         """Creates a table if it doesn't exist.
@@ -43,3 +46,35 @@ class DatabaseHelper:
         query = "SELECT * FROM users WHERE login=?"
         result = self.fetchall(query, (login,))
         return result  # Might return a list of 1 element, or empty list
+
+    def get_all_user_credentials(self):
+        query = "SELECT login, name, email, password FROM users"
+        results = self.fetchall(query)
+
+        credentials = {'usernames': {}}  # Start with empty 'usernames' dictionary
+        for (login, name, email, password) in results:
+            credentials['usernames'][login] = {  # Add each user dynamically
+                'name': name,
+                'email': email,
+                'password': password
+            }
+        return credentials
+
+    def fetchall(self, query, params=None):
+        """Executes a query and returns all results as a list of tuples.
+
+        Args:
+            query (str): The SQL query to execute.
+            params (tuple, optional): Optional parameters to bind to the query.
+
+        Returns:
+            list: A list of tuples, where each tuple represents a row of results.
+        """
+
+        with self.connect() as conn:
+            cursor = conn.cursor()
+            if params:
+                result = cursor.execute(query, params)
+            else:
+                result = cursor.execute(query)
+            return result.fetchall()

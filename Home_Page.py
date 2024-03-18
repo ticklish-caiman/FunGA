@@ -4,6 +4,7 @@ from yaml.loader import SafeLoader
 import yaml
 
 import gettext
+from database.database_helper import DatabaseHelper
 
 from utils.navigation import show_sidebar, show_tabs, show_main_menu
 from utils.custom_css import custom_tabs_css
@@ -11,6 +12,7 @@ from utils.custom_css import custom_tabs_css
 _ = gettext.gettext
 st.set_page_config(page_title="FunGA", page_icon='🍄')
 custom_tabs_css()
+db_helper = DatabaseHelper('database/data/funga_data.db')
 
 if 'language' not in st.session_state:
     st.session_state['language'] = 'en'
@@ -40,12 +42,13 @@ def show_login_form():
         config = yaml.load(file, Loader=SafeLoader)
     # Authenticator initialization
     authenticator = stauth.Authenticate(
-        config['credentials'],
+        db_helper.get_all_user_credentials(),
         config['cookie']['name'],
         config['cookie']['key'],
         config['cookie']['expiry_days'],
         config['preauthorized']
     )
+    print(config['credentials'])
     # Guest account TODO
 
     # Login widget
