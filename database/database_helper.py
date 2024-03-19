@@ -11,6 +11,12 @@ class DatabaseHelper:
                           'user_id INTEGER PRIMARY KEY, login TEXT, name TEXT, email TEXT, password TEXT, logged_in INT')
         # TODO: implement cookie settings from database
         self.create_table('cookies', 'expiry_days TEXT, key TEXT, name TEXT')
+        # If the config is empty -> insert default values
+        if not (self.execute_query('SELECT count(*) FROM (select 0 from cookies limit 1)').fetchall()[0][0]):
+            print('EMPTY CONFIG!')
+            query = "INSERT INTO cookies (expiry_days, key, name) VALUES (?, ?, ?)"
+            params = (30, 'FunGA_key', 'FunGA_cookie')
+            self.execute_query(query, params)
 
     def create_table(self, table_name, table_schema):
         """Creates a table if it doesn't exist.
@@ -24,17 +30,6 @@ class DatabaseHelper:
 
     def connect(self):
         return sqlite3.connect(self.db_path)
-
-    def execute_query(self, query, params=None):
-        with self.connect() as conn:
-            cursor = conn.cursor()
-
-            if params:
-                result = cursor.execute(query, params)
-            else:
-                result = cursor.execute(query)
-            conn.commit()
-            return result
 
     def add_user(self, user):
         query = """
@@ -62,7 +57,8 @@ class DatabaseHelper:
             }
         return credentials
 
-    def import_users_from_yaml(self, yaml_credentials):
+    # Exporting streamlit_authenticator credentials to SQLite
+    def safe_credentials_to_database(self, yaml_credentials):
         for username, user_data in yaml_credentials['usernames'].items():
             user_exists = self.get_user_by_login(username)
             if not user_exists:  # Only insert if the user doesn't exist
@@ -72,6 +68,17 @@ class DatabaseHelper:
                 password = user_data['password']
 
                 self.add_user(User(login, name, email, password))
+
+    def execute_query(self, query, params=None):
+        with self.connect() as conn:
+            cursor = conn.cursor()
+
+            if params:
+                result = cursor.execute(query, params)
+            else:
+                result = cursor.execute(query)
+            conn.commit()
+            return result
 
     def fetchall(self, query, params=None):
         """Executes a query and returns all results as a list of tuples.

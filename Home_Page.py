@@ -40,6 +40,10 @@ show_main_menu(_)
 def show_login_form():
     with open('configs/config.yaml') as file:
         config = yaml.load(file, Loader=SafeLoader)
+
+        # Authenticator stores all credentials and settings.
+        # TODO: For safety and scalability it would be better to replace it with custom logic
+
     # Authenticator initialization
     authenticator = stauth.Authenticate(
         db_helper.get_all_user_credentials(),
@@ -83,7 +87,8 @@ def show_login_form():
         try:
             email_of_registered_user, username_of_registered_user, name_of_registered_user = authenticator.register_user(
                 preauthorization=False, location='sidebar')
-            db_helper.import_users_from_yaml(authenticator.credentials)
+            print(authenticator.credentials)
+            db_helper.safe_credentials_to_database(authenticator.credentials)
             if email_of_registered_user:
                 st.sidebar.success('User registered successfully')
         except Exception as e:
