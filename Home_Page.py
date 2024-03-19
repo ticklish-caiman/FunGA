@@ -38,19 +38,15 @@ show_main_menu(_)
 
 
 def show_login_form():
-    with open('configs/config.yaml') as file:
-        config = yaml.load(file, Loader=SafeLoader)
-
-        # Authenticator stores all credentials and settings.
-        # TODO: For safety and scalability it would be better to replace it with custom logic
-
+    # Load cookie config from the database
+    config = db_helper.get_cookie_config()
     # Authenticator initialization
     authenticator = stauth.Authenticate(
         db_helper.get_all_user_credentials(),
-        config['cookie']['name'],
-        config['cookie']['key'],
-        config['cookie']['expiry_days'],
-        config['preauthorized']
+        config['name'],
+        config['cookie_key'],
+        int(config['expiry_days']),
+        None
     )
     # Guest account TODO
 

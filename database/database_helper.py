@@ -57,6 +57,19 @@ class DatabaseHelper:
             }
         return credentials
 
+    def get_cookie_config(self):
+        query = "SELECT expiry_days, cookie_key, name FROM cookies"
+        results = self.fetchall(query)
+        # Converting results to streamlit_authenticator compatible format
+        config = {}  # Start with empty 'usernames' dictionary
+        for (expiry_days, cookie_key, name) in results:
+            config = {  # Add each user dynamically
+                'name': name,
+                'cookie_key': cookie_key,
+                'expiry_days': expiry_days
+            }
+        return config
+
     # Exporting streamlit_authenticator credentials to SQLite
     def safe_credentials_to_database(self, yaml_credentials):
         for username, user_data in yaml_credentials['usernames'].items():
