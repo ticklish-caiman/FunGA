@@ -1,5 +1,7 @@
 import sqlite3
 
+from database.model.user import User
+
 
 class DatabaseHelper:
     def __init__(self, db_path):
@@ -50,7 +52,7 @@ class DatabaseHelper:
     def get_all_user_credentials(self):
         query = "SELECT login, name, email, password FROM users"
         results = self.fetchall(query)
-
+        # Converting results to streamlit_authenticator compatible format
         credentials = {'usernames': {}}  # Start with empty 'usernames' dictionary
         for (login, name, email, password) in results:
             credentials['usernames'][login] = {  # Add each user dynamically
@@ -59,6 +61,17 @@ class DatabaseHelper:
                 'password': password
             }
         return credentials
+
+    def import_users_from_yaml(self, yaml_credentials):
+        for username, user_data in yaml_credentials['usernames'].items():
+            user_exists = self.get_user_by_login(username)
+            if not user_exists:  # Only insert if the user doesn't exist
+                login = username
+                name = user_data['name']
+                email = user_data['email']
+                password = user_data['password']
+
+                self.add_user(User(login, name, email, password))
 
     def fetchall(self, query, params=None):
         """Executes a query and returns all results as a list of tuples.

@@ -48,7 +48,6 @@ def show_login_form():
         config['cookie']['expiry_days'],
         config['preauthorized']
     )
-    print(config['credentials'])
     # Guest account TODO
 
     # Login widget
@@ -84,12 +83,11 @@ def show_login_form():
         try:
             email_of_registered_user, username_of_registered_user, name_of_registered_user = authenticator.register_user(
                 preauthorization=False, location='sidebar')
-            with open('configs/config.yaml', 'w') as file:
-                yaml.dump(config, file, default_flow_style=False)
+            db_helper.import_users_from_yaml(authenticator.credentials)
             if email_of_registered_user:
                 st.sidebar.success('User registered successfully')
         except Exception as e:
-            st.error(e)
+            st.sidebar.error(e)
 
     # Update account details
     # For authenticator.update_user_details to properly display within expander in sidebar - use location='main'
