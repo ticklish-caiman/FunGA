@@ -10,11 +10,11 @@ class DatabaseHelper:
         self.create_table('users',
                           'user_id INTEGER PRIMARY KEY, login TEXT, name TEXT, email TEXT, password TEXT, logged_in INT')
         # TODO: implement cookie settings from database
-        self.create_table('cookies', 'expiry_days TEXT, key TEXT, name TEXT')
+        self.create_table('cookies', 'expiry_days TEXT, cookie_key TEXT, name TEXT')
         # If the config is empty -> insert default values
         if not (self.execute_query('SELECT count(*) FROM (select 0 from cookies limit 1)').fetchall()[0][0]):
             print('EMPTY CONFIG!')
-            query = "INSERT INTO cookies (expiry_days, key, name) VALUES (?, ?, ?)"
+            query = "INSERT INTO cookies (expiry_days, cookie_key, name) VALUES (?, ?, ?)"
             params = (30, 'FunGA_key', 'FunGA_cookie')
             self.execute_query(query, params)
 
