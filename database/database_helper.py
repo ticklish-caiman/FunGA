@@ -39,6 +39,22 @@ class DatabaseHelper:
         params = (user.login, user.name, user.email, user.password)
         self.execute_query(query, params)
 
+    def update_user(self, user):
+        """Updates an existing user in the database.
+
+        Args:
+            user (User): The User object containing the updated information.
+        """
+
+        query = """
+            UPDATE users
+            SET name = ?, email = ?, password = ?
+            WHERE login = ?
+        """
+        params = (user.name, user.email, user.password, user.login)
+        print("Paramamamama:", params)
+        self.execute_query(query, params)
+
     def get_user_by_login(self, login):
         query = "SELECT * FROM users WHERE login=?"
         result = self.fetchall(query, (login,))
@@ -81,6 +97,18 @@ class DatabaseHelper:
                 password = user_data['password']
 
                 self.add_user(User(login, name, email, password))
+
+# TODO: separate name/mail update from password update
+    def update_credentials_in_database(self, yaml_credentials, active_username):
+        for username, user_data in yaml_credentials['usernames'].items():
+            print('Username: ', username)
+            print('Active: ', active_username)
+            if username == active_username:  # Only update logged-in user
+                login = username
+                name = user_data['name']
+                email = user_data['email']
+                password = user_data['password']
+                self.update_user(User(login, name, email, password))
 
     def execute_query(self, query, params=None):
         with self.connect() as conn:
