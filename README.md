@@ -17,46 +17,39 @@ Must-haves:
     • easy to use web interface in Streamlit
     • some theory - necessary boring part
     • some practice - awesome fun part, interactive GA
- 
 
 Should-haves:
 
-
+    • second language
     • basic optimization - caching and maybe some JS magic
-    • unit tests
+    • some database solution for saving and loading experiments
 
 Could-haves:
 
-
-    • some database solution for saving and loading experiments
     • other fun topics like Conway's Game of life
-    • Neural-Networks also would be NEAT ;) 
-    • Second language
+    • neural-networks also would be NEAT ;) 
+    • unit tests
+    • linter (Ruff/SonarLint)
 
 Won't-haves:
 
+    • integrated chat-bot
+    • loot-boxes
+    • micro-transactions
 
-    • Integrated chat-bot
-    • Loot-boxes
-    • Micro-transactions
-
-
-<p align="justify">
-Possible problems:
-</p>
-    
-    • Streamlit may not be enough for some functionality - switching to other library may be necessary
 
 # Roadmap
 1. GUI template<br/>
-![8%](https://progress-bar.dev/8?title=progress&width=400)
+![12%](https://progress-bar.dev/12?title=progress&width=400)
 2. Theory<br/>
 ![0%](https://progress-bar.dev/0?title=progress&width=400)
 3. Tests<br/>
 ![0%](https://progress-bar.dev/0?title=progress&width=400)
 4. Translation<br/>
 ![1%](https://progress-bar.dev/1?title=progress&width=400)
-5. Pipelines:<br/>
+5. Database<br/>
+![25%](https://progress-bar.dev/25?title=progress&width=400)
+6. Pipelines:<br/>
    a) Treevolution<br/>
    ![0%](https://progress-bar.dev/0?title=progress&width=400) <br/>
    b) Shapevo<br/>
