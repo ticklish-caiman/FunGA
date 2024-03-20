@@ -98,7 +98,7 @@ class DatabaseHelper:
 
                 self.add_user(User(login, name, email, password))
 
-# TODO: separate name/mail update from password update
+    # TODO: separate name/mail update from password update
     def update_credentials_in_database(self, yaml_credentials, active_username):
         for username, user_data in yaml_credentials['usernames'].items():
             print('Username: ', username)
@@ -111,14 +111,25 @@ class DatabaseHelper:
                 self.update_user(User(login, name, email, password))
 
     def execute_query(self, query, params=None):
-        with self.connect() as conn:
-            cursor = conn.cursor()
+        """Executes a query against the database, optionally using parameters.
+
+        Args:
+            query (str): The SQL query to execute.
+            params (tuple, optional): A tuple of parameters to bind to the query.
+
+        Returns:
+            The result of the query execution.
+        """
+
+        with self.connect() as conn:  # Open a database connection, "with" statement ensure automatic closure
+            cursor = conn.cursor()  # Create a cursor object for query execution
 
             if params:
-                result = cursor.execute(query, params)
+                result = cursor.execute(query, params)  # Execute with parameters
             else:
-                result = cursor.execute(query)
-            conn.commit()
+                result = cursor.execute(query)  # Execute without parameters
+
+            conn.commit()  # Commit changes to the database
             return result
 
     def fetchall(self, query, params=None):
