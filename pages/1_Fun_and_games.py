@@ -1,3 +1,5 @@
+import math
+
 import streamlit as st
 from utils.navigation import show_main_menu, get_localizator
 from PIL import Image, ImageDraw
@@ -62,6 +64,24 @@ combined_array = [[grid_array[y][x] and not circle_array[y][x] for x in range(20
                   for y in range(200)]
 
 result_image = draw_image_from_array(combined_array)
+
+
+def draw_tree(image, draw, x, y, length, angle):
+    if length < 5:  # Stop drawing if branches get too small
+        return
+
+    x2 = x + int(math.cos(angle) * length)
+    y2 = y + int(math.sin(angle) * length)
+
+    draw.line((x, y, x2, y2), fill='brown', width=2)  # Draw branch
+
+    draw_tree(image, draw, x2, y2, length * 0.8, angle - 0.2)  # Recursion left
+    draw_tree(image, draw, x2, y2, length * 0.8, angle + 0.2)  # Recursion right
+
+
+image = Image.new('RGB', (200, 200), color='white')
+draw = ImageDraw.Draw(image)
+draw_tree(image, draw, 100, 180, 60, -math.pi / 2)  # Start at the bottom
 
 tabs = st.tabs(tabs_options)
 with tabs[0]:
