@@ -3,3 +3,4 @@ streamlit-elements~=0.1.0
 pandas~=2.2.1
 numpy~=1.26.4
 pyyaml~=6.0.1
+pillow~=10.2.0
