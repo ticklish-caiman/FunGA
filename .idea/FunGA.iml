@@ -5,4 +5,7 @@
     <orderEntry type="jdk" jdkName="funga_env" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
+  <component name="SonarLintModuleSettings">
+    <option name="uniqueId" value="c6d776ed-8cb4-4752-8940-560cdeb0fe8a" />
+  </component>
 </module>
