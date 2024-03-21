@@ -83,27 +83,51 @@ image = Image.new('RGB', (200, 200), color='white')
 draw = ImageDraw.Draw(image)
 draw_tree(image, draw, 100, 180, 60, -math.pi / 2)  # Start at the bottom
 
+
+def mutation(array):
+    for x in range(len(array)):
+        for y in range(len(array[x])):
+            if random.random() < 0.2:
+                array[x][y] = 1
+    return array
+
+
+def evolve(generations=30, pop_size=4):
+    # init population
+    arrays = [None] * pop_size
+    for x in range(pop_size):
+        arrays[x] = [[random.randint(0, 1) for x in range(200)]  # Random 0s and 1s
+                     for y in range(200)]
+    # evolve
+    for _ in range(generations):
+        for x in range(pop_size):
+            random.shuffle(arrays)
+            arrays[x] = mutation(arrays[x])
+            st.image(draw_image_from_array(arrays[x]))
+
+
 tabs = st.tabs(tabs_options)
 with tabs[0]:
     st.header(_('Hello Evolving Shapes'))
 
-    # Show image
-    st.text('Sample image:')
-    st.image(result_image)
-
-    all_arrays = [binary_array_grid_pattern, binary_array_alternating_squares, binary_array_circle, binary_array_random,
-                  grid_array, circle_array]
-
-    random.shuffle(all_arrays)
-    st.text('Random image:')
-    result_image = draw_image_from_array(all_arrays[0])
-    st.image(result_image)
-
-    st.text('Randomly combined image:')
-    combined_array = [[all_arrays[0][y][x] and not all_arrays[1][y][x] for x in range(200)]
-                      for y in range(200)]
-    result_image = draw_image_from_array(combined_array)
-    st.image(result_image)
+    # # Show image
+    # st.text('Sample tree image:')
+    # st.image(image)
+    #
+    # all_arrays = [binary_array_grid_pattern, binary_array_alternating_squares, binary_array_circle, binary_array_random,
+    #               grid_array, circle_array]
+    #
+    # random.shuffle(all_arrays)
+    # st.text('Random image:')
+    # result_image = draw_image_from_array(all_arrays[0])
+    # st.image(result_image)
+    #
+    # st.text('Randomly combined image:')
+    # combined_array = [[all_arrays[0][y][x] and not all_arrays[1][y][x] for x in range(200)]
+    #                   for y in range(200)]
+    # result_image = draw_image_from_array(combined_array)
+    # st.image(result_image)
+    evolve()
 
 with tabs[1]:
     st.header(_('Hello Evolving Trees'))
