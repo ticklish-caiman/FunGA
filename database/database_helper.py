@@ -8,8 +8,8 @@ class DatabaseHelper:
         self.db_path = db_path
         self.create_table('activities', 'activity_id INTEGER PRIMARY KEY, login TEXT, game TEXT, data TEXT')
         self.create_table('users',
-                          'user_id INTEGER PRIMARY KEY, login TEXT, name TEXT, email TEXT, password TEXT, logged_in INT')
-        # TODO: implement cookie settings from database
+                          'user_id INTEGER PRIMARY KEY, login TEXT UNIQUE, name TEXT, email TEXT, password TEXT, '
+                          'logged_in INT')
         self.create_table('cookies', 'expiry_days TEXT, cookie_key TEXT, name TEXT')
         # If the config is empty -> insert default values
         if not (self.execute_query('SELECT count(*) FROM (select 0 from cookies limit 1)').fetchall()[0][0]):
