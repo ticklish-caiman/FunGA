@@ -35,57 +35,20 @@ if st.session_state['language'] != 'en':
 show_main_menu(_)
 
 
-def show_login_form():
-    # Load cookie config from the database
-    config = db_helper.get_cookie_config()
-    # Authenticator initialization
-    authenticator = stauth.Authenticate(
-        db_helper.get_all_user_credentials(),
-        config['name'],
-        config['cookie_key'],
-        int(config['expiry_days']),
-        None
-    )
-    # Guest account TODO
-
-    # Login widget
-    authenticator.login(location='sidebar', fields={'Form name': 'Login',
-                                                    'Username': _('Username'),
-                                                    'Password': _('Password'),
-                                                    'Login': 'Login'})
-    # Authentication logic
-    print(st.session_state["authentication_status"])
-    if st.session_state["authentication_status"]:
-        # use .sidebar only in the top container, same goes for location='sidebar' (use 'main')
-        col1, col2 = st.sidebar.columns(2)
-        with col1:
-            # logout error (KeyError: 'cookie_name') is possibly caused by add-blockers
-            # it's a known issue https://github.com/mkhorasani/Streamlit-Authenticator/issues/134
-            # the author promises to fix this in v0.3.2.
-            # a temporary solution is to catch the KeyError
-            try:
-                authenticator.logout(button_name='Logout 🚀', location='main')  # Logout button
-            except KeyError:
-                st.session_state["authentication_status"] = None
-        with col2:
-            st.markdown(f'💻 {st.session_state["name"]}')
-            # name = f'💻 {st.session_state["name"]}'
-            # st.markdown(f"""<p style="text-align: right">{name}</p>""", True, help='Logged in user')
-
-    elif st.session_state["authentication_status"] is False:
-        st.sidebar.error('Username/password is incorrect')
-
-    # Register form
-    if not st.session_state["authentication_status"]:
-        st.sidebar.warning('Don\'t have an account? Register below.')
+def show_logged_user_menu(authenticator: stauth):
+    # use .sidebar only in the top container, same goes for location='sidebar' (use 'main')
+    col1, col2 = st.sidebar.columns(2)
+    with col1:
+        # logout error (KeyError: 'cookie_name') is possibly caused by add-blockers
+        # it's a known issue https://github.com/mkhorasani/Streamlit-Authenticator/issues/134
+        # the author promises to fix this in v0.3.2.
+        # a temporary solution is to catch the KeyError
         try:
-            email_of_registered_user, username_of_registered_user, name_of_registered_user = authenticator.register_user(
-                preauthorization=False, location='sidebar')
-            db_helper.safe_credentials_to_database(authenticator.credentials)
-            if email_of_registered_user:
-                st.sidebar.success('User registered successfully')
-        except Exception as e:
-            st.sidebar.error(e)
+            authenticator.logout(button_name='Logout 🚀', location='main')  # Logout button
+        except KeyError:
+            st.session_state["authentication_status"] = None
+    with col2:
+        st.markdown(f'💻 {st.session_state["name"]}')
 
     # Update account details
     # For authenticator.update_user_details to properly display within expander in sidebar - use location='main'
@@ -93,7 +56,8 @@ def show_login_form():
         if st.session_state["authentication_status"]:
             try:
                 if authenticator.update_user_details(st.session_state["username"]):
-                    db_helper.update_credentials_in_database(authenticator.credentials, st.session_state["username"])
+                    db_helper.update_credentials_in_database(authenticator.credentials,
+                                                             st.session_state["username"])
                     # TODO success message should be visible after the refresh
                     st.sidebar.success('Change saved successfully ✔️')
 
@@ -107,11 +71,58 @@ def show_login_form():
             try:
                 if authenticator.reset_password(st.session_state["username"], location='main',
                                                 fields={'Form name': '', 'Reset': 'Change'}):
-                    db_helper.update_credentials_in_database(authenticator.credentials, st.session_state["username"])
+                    db_helper.update_credentials_in_database(authenticator.credentials,
+                                                             st.session_state["username"])
                     st.sidebar.success('Password modified successfully ✔️')
 
             except Exception as e:
                 st.sidebar.error(e)
+
+
+def show_register_form(authenticator: stauth):
+    st.sidebar.warning('Don\'t have an account? Register below.')
+    try:
+        email_of_registered_user, _, _ = authenticator.register_user(
+            preauthorization=False, location='sidebar')
+        db_helper.safe_credentials_to_database(authenticator.credentials)
+        if email_of_registered_user:
+            st.sidebar.success('User registered successfully')
+    except Exception as e:
+        st.sidebar.error(e)
+
+
+def authentication(authenticator: stauth):
+    # Authentication logic
+    print(st.session_state["authentication_status"])
+    if st.session_state["authentication_status"]:
+        show_logged_user_menu(authenticator)
+
+    elif st.session_state["authentication_status"] is False:
+        st.sidebar.error('Username/password is incorrect')
+
+    # Register form
+    if not st.session_state["authentication_status"]:
+        show_register_form(authenticator)
+
+
+def show_login_form():
+    # Load cookie config from the database
+    config = db_helper.get_cookie_config()
+    # Authenticator initialization
+    authenticator = stauth.Authenticate(
+        db_helper.get_all_user_credentials(),
+        config['name'],
+        config['cookie_key'],
+        int(config['expiry_days']),
+        None
+    )
+
+    # Login widget
+    authenticator.login(location='sidebar', fields={'Form name': 'Login',
+                                                    'Username': _('Username'),
+                                                    'Password': _('Password'),
+                                                    'Login': 'Login'})
+    authentication(authenticator)
 
 
 show_login_form()
@@ -119,14 +130,5 @@ st.image('img/funGA_logo1.jpg')
 if st.session_state["authentication_status"]:
     show_sidebar()
     show_tabs()
-
-# if 'kg' not in st.session_state:
-#     st.session_state['kg'] = 0.1
-# if 'lbs' not in st.session_state:
-#     st.session_state['lbs'] = 0.2
-#
-# # Necessary to prevent streamlit from wiping out session_state when the widget gets closed/hidden
-# st.session_state.kg = st.session_state.kg
-# st.session_state.lbs = st.session_state.lbs
 
 # Thing to consider: sidebar-less layout: https://discuss.streamlit.io/t/version-1-32-0/64158/2

@@ -1,6 +1,2 @@
 
-apython:S1481R"IReplace the unused local variable "username_of_registered_user" with "_".(‚Ç¸õ
-]python:S1481R"EReplace the unused local variable "name_of_registered_user" with "_".(‚Ç¸õ
-qpython:S3776&"TRefactor this function to reduce its Cognitive Complexity from 19 to the 15 allowed.(ƒû˜öþÿÿÿÿ
-5python:S125H"Remove this commented out code.(ÜÊãe
-Qpython:S1135a"4Complete the task associated to this "TODO" comment.(—­×æýÿÿÿÿ
+~python:S1135="4Complete the task associated to this "TODO" comment.(—­×æýÿÿÿÿ8²éä‰æ1J$fba7621b-4ca5-416f-9a92-e22dc4967689
