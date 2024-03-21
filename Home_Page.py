@@ -81,7 +81,6 @@ def show_login_form():
         try:
             email_of_registered_user, username_of_registered_user, name_of_registered_user = authenticator.register_user(
                 preauthorization=False, location='sidebar')
-            print(authenticator.credentials)
             db_helper.safe_credentials_to_database(authenticator.credentials)
             if email_of_registered_user:
                 st.sidebar.success('User registered successfully')

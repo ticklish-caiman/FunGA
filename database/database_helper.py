@@ -13,7 +13,6 @@ class DatabaseHelper:
         self.create_table('cookies', 'expiry_days TEXT, cookie_key TEXT, name TEXT')
         # If the config is empty -> insert default values
         if not (self.execute_query('SELECT count(*) FROM (select 0 from cookies limit 1)').fetchall()[0][0]):
-            print('EMPTY CONFIG!')
             query = "INSERT INTO cookies (expiry_days, cookie_key, name) VALUES (?, ?, ?)"
             params = (30, 'FunGA_key', 'FunGA_cookie')
             self.execute_query(query, params)
@@ -52,7 +51,6 @@ class DatabaseHelper:
             WHERE login = ?
         """
         params = (user.name, user.email, user.password, user.login)
-        print("Paramamamama:", params)
         self.execute_query(query, params)
 
     def get_user_by_login(self, login):
@@ -101,8 +99,6 @@ class DatabaseHelper:
     # TODO: separate name/mail update from password update
     def update_credentials_in_database(self, yaml_credentials, active_username):
         for username, user_data in yaml_credentials['usernames'].items():
-            print('Username: ', username)
-            print('Active: ', active_username)
             if username == active_username:  # Only update logged-in user
                 login = username
                 name = user_data['name']
