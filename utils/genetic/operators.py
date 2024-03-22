@@ -1,4 +1,5 @@
 import random
+import scipy.stats
 
 
 def mutation(array):
@@ -6,6 +7,21 @@ def mutation(array):
         for y in range(len(array[x])):
             if random.random() < 0.2:
                 array[x][y] = 1
+    return array
+
+
+def entropy_mutation(array, target_entropy=None):
+    # TODO: other mutation operations like inversions, shifting, etc.
+
+    # Entropy control
+    current_entropy = scipy.stats.entropy(array.flatten())  # Flatten for entropy calculation
+    print('Entropy: ', current_entropy)
+    if target_entropy:
+        entropy_diff = abs(target_entropy - current_entropy)
+        if random.random() < entropy_diff:  # Mutation more likely if far from target
+            # Add additional random changes here
+            pass
+
     return array
 
 
