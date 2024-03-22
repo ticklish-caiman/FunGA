@@ -14,6 +14,19 @@ def calculate_average_fitness(population):
     return total_fitness / len(population)
 
 
+def apply_elitism(population, elitism_rate=0.1):
+    num_elites = int(elitism_rate * len(population))
+    fitness_scores = [calculate_fitness(x) for x in population]
+    elite_indices = np.argsort(fitness_scores)[-num_elites:]
+
+    # Replace individuals in the same population (more efficient)
+    for i in range(len(population)):
+        if i >= num_elites:  # Only replace non-elites
+            population[i] = population[elite_indices[i % num_elites]]  # Cycle through elites
+
+    return population
+
+
 def tournament_selection(population, tournament_size=10):
     # Sample indices of participants
     participant_indices = random.sample(range(len(population)), tournament_size)
