@@ -14,7 +14,7 @@ _ = get_localizator()
 st.set_page_config(page_title=_("FunGA - About"), page_icon='🕹️')
 show_main_menu(_)
 
-tabs_options = ["Treevolution", "Shapevo", "TSP "]
+tabs_options = ["Shapevo", "Treevolution", "TSP "]
 
 # db_helper = DatabaseHelper('database/data/funga_data.db')
 
