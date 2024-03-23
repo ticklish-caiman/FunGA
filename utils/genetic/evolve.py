@@ -12,12 +12,13 @@ def evolve(population, generations=600, elitism_rate=0.1):
 
         # Generate the rest of the new population (crossover/mutation)
         for _ in range(len(population) - num_elites):
-            # parent1 = tournament_selection(population)
-            # parent2 = tournament_selection(population)
-            parent1 = roulette_selection(population)
-            parent2 = roulette_selection(population)
+            parent1 = tournament_selection(population)
+            parent2 = tournament_selection(population)
+            #parent1 = roulette_selection(population)
+            #parent2 = roulette_selection(population)
             offspring = crossover(parent1, parent2)
             new_population.append(mutation(offspring))
+            # new_population.append(offspring)
 
         population = new_population  # Replace old population
 
