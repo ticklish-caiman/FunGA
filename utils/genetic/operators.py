@@ -40,7 +40,7 @@ def apply_elitism(population, num_elites=1):
     return new_population
 
 
-def tournament_selection(population, tournament_size=10):
+def tournament_selection(population, tournament_size=4):
     # Sample indices of participants
     participant_indices = random.sample(range(len(population)), tournament_size)
 
@@ -52,7 +52,19 @@ def tournament_selection(population, tournament_size=10):
     return population[winner_index]
 
 
-def mutation(array, mutation_rate=0.01):
+def roulette_selection(population):
+    fitness_scores = [calculate_fitness(x) for x in population]
+    score_sum = np.sum(fitness_scores)  # Use NumPy's sum for efficiency
+    wheel_sum = 0.0
+    choice = np.random.uniform(0.0, 1.0)
+
+    for i, individual in enumerate(population):
+        wheel_sum += (fitness_scores[i] / score_sum)
+        if wheel_sum >= choice:
+            return individual
+
+
+def mutation(array, mutation_rate=0.05):
     # Create a mutation mask
     mutation_mask = np.random.rand(*array.shape) < mutation_rate
 
