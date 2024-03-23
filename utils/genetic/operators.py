@@ -15,7 +15,7 @@ def calculate_fitness(array):
     # Calculate a white pixel ratio (assuming white is 0 and black is 1)
     white_ratio = np.mean(array == 0)
     # Combine with a weighting factor (play around with this value)
-    fitness = 0.5 * entropy + 0.5 * white_ratio
+    fitness = 0.9 * entropy + 0.1 * white_ratio
 
     return fitness
 
@@ -26,7 +26,7 @@ def calculate_fitness_return_all(array):
     # Calculate a white pixel ratio (assuming white is 0 and black is 1)
     white_ratio = np.mean(array == 0)
     # Combine with a weighting factor (play around with this value)
-    fitness = 0.5 * entropy + 0.5 * white_ratio
+    fitness = 0.9 * entropy + 0.1 * white_ratio
 
     return entropy, white_ratio, fitness
 
@@ -132,6 +132,43 @@ def row_column_swap_mutation(array, mutation_rate=0.9):
         temp = np.copy(array[row_index, :])  # Copy the row
         array[row_index, :] = array[:, col_index]  # Replace row with column
         array[:, col_index] = temp  # Replace column with the original row
+
+    return array
+
+
+def diagonal_reflection_mutation(array, mutation_chance=0.9):
+    if random.random() < mutation_chance:
+        start_row = random.randint(0, array.shape[0] - 1)
+        start_col = random.randint(0, array.shape[1] - 1)
+        sub_size = random.randint(1, min(array.shape[0] - start_row, array.shape[1] - start_col))
+
+        # Extract square sub-region
+        sub_array = array[start_row:start_row + sub_size, start_col:start_col + sub_size]
+
+        # Choose a diagonal (randomly or add a parameter to control this)
+        if random.random() < 0.5:
+            sub_array = np.fliplr(sub_array)  # Left-right flip
+        else:
+            sub_array = np.flipud(sub_array)  # Up-down flip
+
+        # Replace the subregion
+        array[start_row:start_row + sub_size, start_col:start_col + sub_size] = sub_array
+
+    return array
+
+
+def rotation_mutation(array, mutation_chance=0.5):
+    if random.random() < mutation_chance:
+        start_row = random.randint(0, array.shape[0] - 1)
+        start_col = random.randint(0, array.shape[1] - 1)
+        sub_size = random.randint(1, min(array.shape[0] - start_row, array.shape[1] - start_col))
+
+        sub_array = array[start_row:start_row + sub_size, start_col:start_col + sub_size]
+
+        num_rotations = random.randint(1, 3)  # Rotate 90, 180, or 270 degrees
+        sub_array = np.rot90(sub_array, k=num_rotations)
+
+        array[start_row:start_row + sub_size, start_col:start_col + sub_size] = sub_array
 
     return array
 
