@@ -16,7 +16,7 @@ def calculate_fitness(array):
     white_ratio = np.mean(array == 0)
 
     # Combine with a weighting factor (play around with this value)
-    fitness = 0.0 * entropy + 1.0 * white_ratio
+    fitness = 0.8 * entropy + 0.2 * white_ratio
 
     return fitness
 
@@ -107,7 +107,7 @@ def multi_point_crossover(individual1, individual2):
     # Ensure arrays have the same shape
     assert individual1.shape == individual2.shape
 
-    num_crossover_points = 10
+    num_crossover_points = 4
     crossover_points_x = random.sample(range(individual1.shape[0]), num_crossover_points)
     crossover_points_y = random.sample(range(individual1.shape[1]), num_crossover_points)
 
