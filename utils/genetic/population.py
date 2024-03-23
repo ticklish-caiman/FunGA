@@ -6,6 +6,7 @@ from utils.genetic.genes import get_binary_array_circle_cutout, get_binary_array
 
 
 def init_population(population_size):
+    min_gene_generator = [get_binary_array_alternating_squares()]
     basic_gene_generator = [get_binary_array_circle_cutout(), get_binary_array_circle(),
                             get_binary_biased_array_random([0.25, 0.5, 0.75]), get_binary_array_alternating_squares()]
     advanced_gene_generator = [get_binary_array_circle_cutout(), get_binary_array_circle(),
@@ -15,7 +16,7 @@ def init_population(population_size):
                                                        random.choice(basic_gene_generator))]
     population = []
     for _ in range(population_size):
-        array = random.choice(advanced_gene_generator)
+        array = random.choice(min_gene_generator)
 
         population.append(array)
     return population

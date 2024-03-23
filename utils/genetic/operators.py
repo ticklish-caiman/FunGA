@@ -96,6 +96,34 @@ def mutation(array, mutation_rate=0.001):
     return array
 
 
+def burst_mutation(array, mutation_rate=0.1, burst_size=8):
+
+    mutation_center_y = random.randint(0, array.shape[0] - 1)
+    mutation_center_x = random.randint(0, array.shape[1] - 1)
+
+    for y in range(mutation_center_y - burst_size, mutation_center_y + burst_size + 1):
+        for x in range(mutation_center_x - burst_size, mutation_center_x + burst_size + 1):
+            if 0 <= y < array.shape[0] and 0 <= x < array.shape[1]:  # Within bounds
+                if random.random() < mutation_rate:
+                    array[y, x] = ~array[y, x]  # Invert the bit
+
+    return array
+
+
+def row_column_flip_mutation(array):
+
+    if random.random() < 0.5:
+        # Row Flip
+        row_index = random.randint(0, array.shape[0] - 1)
+        array[row_index, :] = ~array[row_index, :]
+    else:
+        # Column Flip
+        col_index = random.randint(0, array.shape[1] - 1)
+        array[:, col_index] = ~array[:, col_index]
+
+    return array
+
+
 def crossover(individual1, individual2):
     # Ensure arrays have the same shape
     assert individual1.shape == individual2.shape
