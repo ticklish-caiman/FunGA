@@ -20,6 +20,17 @@ def calculate_fitness(array):
     return fitness
 
 
+def calculate_fitness_return_all(array):
+    entropy = scipy.stats.entropy(array.flatten()) * 0.1
+
+    # Calculate a white pixel ratio (assuming white is 0 and black is 1)
+    white_ratio = np.mean(array == 0)
+    # Combine with a weighting factor (play around with this value)
+    fitness = 0.5 * entropy + 0.5 * white_ratio
+
+    return entropy, white_ratio, fitness
+
+
 # def calculate_fitness(array, target_entropy=5.0):  # Example target
 #     entropy = scipy.stats.entropy(array.flatten())
 #     raw_fitness = 1 / (entropy + 1)

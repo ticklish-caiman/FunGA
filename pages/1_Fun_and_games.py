@@ -3,6 +3,7 @@ import math
 import streamlit as st
 
 from utils.genetic.evolve import evolve
+from utils.genetic.operators import calculate_fitness_return_all
 from utils.genetic.phenotype import draw_image_from_array
 from utils.genetic.population import init_population
 from utils.navigation import show_main_menu, get_localizator
@@ -27,12 +28,16 @@ with tabs[0]:
         st.header("Initial population")
         population = init_population(20)
         for individual in population:
-            st.image(draw_image_from_array(individual))
+            entropy, white_ratio, fitness = calculate_fitness_return_all(individual)
+            st.image(draw_image_from_array(individual),
+                     caption=f"Entropy: {entropy:.4f}, White Ratio: {white_ratio:4f}, Fitness: {fitness:.4f}")
     with col2:
         evolved_population = evolve(population)
         st.header('Evolved population')
         for individual in evolved_population:
-            st.image(draw_image_from_array(individual))
+            entropy, white_ratio, fitness = calculate_fitness_return_all(individual)
+            st.image(draw_image_from_array(individual),
+                     caption=f"Entropy: {entropy:.4f}, White Ratio: {white_ratio:4f}, Fitness: {fitness:.4f}")
 
 with tabs[1]:
     st.header(_('Hello Evolving Trees'))
