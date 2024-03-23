@@ -9,22 +9,35 @@ def calculate_fitness(array):
     return fitness
 
 
-def calculate_average_fitness(population):
-    total_fitness = sum(calculate_fitness(array) for array in population)
-    return total_fitness / len(population)
+# def calculate_fitness(array, target_entropy=5.0):  # Example target
+#     entropy = scipy.stats.entropy(array.flatten())
+#     raw_fitness = 1 / (entropy + 1)
+#
+#     # Penalize if far from the target
+#     distance_from_target = abs(entropy - target_entropy)
+#     if distance_from_target > 2.0:  # Adjust this threshold
+#         raw_fitness *= 0.1  # Significant penalty
+#
+#     return raw_fitness
 
 
-def apply_elitism(population, elitism_rate=0.1):
-    num_elites = int(elitism_rate * len(population))
+def calculate_fitness_stats(population):
+    fitness_scores = [calculate_fitness(array) for array in population]
+    average_fitness = sum(fitness_scores) / len(population)
+    highest_fitness = max(fitness_scores)
+
+    return average_fitness, highest_fitness
+
+
+def apply_elitism(population, num_elites=1):
+    # Evaluate fitness and find elites
     fitness_scores = [calculate_fitness(x) for x in population]
     elite_indices = np.argsort(fitness_scores)[-num_elites:]
 
-    # Replace individuals in the same population (more efficient)
-    for i in range(len(population)):
-        if i >= num_elites:  # Only replace non-elites
-            population[i] = population[elite_indices[i % num_elites]]  # Cycle through elites
+    # Create a new population, starting with the elites
+    new_population = [population[i] for i in elite_indices]
 
-    return population
+    return new_population
 
 
 def tournament_selection(population, tournament_size=10):
