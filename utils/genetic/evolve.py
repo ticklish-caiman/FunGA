@@ -2,7 +2,7 @@ import numpy as np
 
 from utils.genetic.operators import mutation, tournament_selection, crossover, calculate_fitness_stats, apply_elitism, \
     roulette_selection, multi_point_crossover, row_based_crossover, shape_based_crossover, burst_mutation, \
-    row_column_flip_mutation
+    row_column_flip_mutation, row_column_swap_mutation
 
 
 def evolve(population, generations=200, elitism_rate=0.1):
@@ -18,7 +18,7 @@ def evolve(population, generations=200, elitism_rate=0.1):
             # parent1 = roulette_selection(population)
             # parent2 = roulette_selection(population)
             offspring = multi_point_crossover(parent1, parent2)
-            new_population.append(row_column_flip_mutation(offspring))
+            new_population.append(row_column_swap_mutation(offspring))
             # new_population.append(offspring)
 
         population = new_population  # Replace old population

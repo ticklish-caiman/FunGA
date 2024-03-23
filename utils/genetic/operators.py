@@ -97,7 +97,6 @@ def mutation(array, mutation_rate=0.001):
 
 
 def burst_mutation(array, mutation_rate=0.1, burst_size=8):
-
     mutation_center_y = random.randint(0, array.shape[0] - 1)
     mutation_center_x = random.randint(0, array.shape[1] - 1)
 
@@ -111,7 +110,6 @@ def burst_mutation(array, mutation_rate=0.1, burst_size=8):
 
 
 def row_column_flip_mutation(array):
-
     if random.random() < 0.5:
         # Row Flip
         row_index = random.randint(0, array.shape[0] - 1)
@@ -120,6 +118,20 @@ def row_column_flip_mutation(array):
         # Column Flip
         col_index = random.randint(0, array.shape[1] - 1)
         array[:, col_index] = ~array[:, col_index]
+
+    return array
+
+
+def row_column_swap_mutation(array, mutation_rate=0.9):
+    if random.random() < mutation_rate:
+        # Select random indices for row and column
+        row_index = random.randint(0, array.shape[0] - 1)
+        col_index = random.randint(0, array.shape[1] - 1)
+
+        # Perform the swap (using a temporary variable for clarity)
+        temp = np.copy(array[row_index, :])  # Copy the row
+        array[row_index, :] = array[:, col_index]  # Replace row with column
+        array[:, col_index] = temp  # Replace column with the original row
 
     return array
 
