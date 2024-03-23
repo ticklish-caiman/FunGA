@@ -15,7 +15,7 @@ def calculate_fitness(array):
     # Calculate a white pixel ratio (assuming white is 0 and black is 1)
     white_ratio = np.mean(array == 0)
     # Combine with a weighting factor (play around with this value)
-    fitness = 0.9 * entropy + 0.1 * white_ratio
+    fitness = 0.5 * entropy + 0.5 * white_ratio
 
     return fitness
 
@@ -26,7 +26,7 @@ def calculate_fitness_return_all(array):
     # Calculate a white pixel ratio (assuming white is 0 and black is 1)
     white_ratio = np.mean(array == 0)
     # Combine with a weighting factor (play around with this value)
-    fitness = 0.9 * entropy + 0.1 * white_ratio
+    fitness = 0.5 * entropy + 0.5 * white_ratio
 
     return entropy, white_ratio, fitness
 

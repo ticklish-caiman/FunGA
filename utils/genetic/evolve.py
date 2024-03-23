@@ -5,7 +5,7 @@ from utils.genetic.operators import mutation, tournament_selection, crossover, c
     row_column_flip_mutation, row_column_swap_mutation, rotation_mutation
 
 
-def evolve(population, generations=200, elitism_rate=0.1):
+def evolve(population, generations=50, elitism_rate=0.01):
     for _ in range(generations):
 
         num_elites = int(elitism_rate * len(population))
@@ -18,7 +18,7 @@ def evolve(population, generations=200, elitism_rate=0.1):
             # parent1 = roulette_selection(population)
             # parent2 = roulette_selection(population)
             offspring = multi_point_crossover(parent1, parent2)
-            new_population.append(rotation_mutation(offspring))
+            new_population.append(rotation_mutation(burst_mutation(offspring)))
             # new_population.append(offspring)
 
         population = new_population  # Replace old population

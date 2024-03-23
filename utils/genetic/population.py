@@ -16,7 +16,8 @@ def init_population(population_size):
                                                        random.choice(basic_gene_generator))]
     population = []
     for _ in range(population_size):
-        array = random.choice(basic_gene_generator)
+        #array = random.choice(min_gene_generator)
+        array = get_binary_array_circle_cutout()
 
         population.append(array)
     return population
