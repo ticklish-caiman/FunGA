@@ -10,13 +10,12 @@ from scipy.ndimage import label
 #     return fitness
 
 def calculate_fitness(array):
-    entropy = scipy.stats.entropy(array.flatten())
+    entropy = scipy.stats.entropy(array.flatten()) * 0.1
 
     # Calculate a white pixel ratio (assuming white is 0 and black is 1)
     white_ratio = np.mean(array == 0)
-
     # Combine with a weighting factor (play around with this value)
-    fitness = 0.8 * entropy + 0.2 * white_ratio
+    fitness = 0.5 * entropy + 0.5 * white_ratio
 
     return fitness
 
@@ -76,7 +75,7 @@ def roulette_selection(population):
             return individual
 
 
-def mutation(array, mutation_rate=0.01):
+def mutation(array, mutation_rate=0.001):
     # Create a mutation mask
     mutation_mask = np.random.rand(*array.shape) < mutation_rate
 
@@ -107,7 +106,7 @@ def multi_point_crossover(individual1, individual2):
     # Ensure arrays have the same shape
     assert individual1.shape == individual2.shape
 
-    num_crossover_points = 4
+    num_crossover_points = 10
     crossover_points_x = random.sample(range(individual1.shape[0]), num_crossover_points)
     crossover_points_y = random.sample(range(individual1.shape[1]), num_crossover_points)
 

@@ -1,15 +1,21 @@
 import random
 import numpy as np
 
-from utils.genetic.genes import get_binary_array_circle_cutout, get_binary_array_circle, get_binary_biased_array_random
+from utils.genetic.genes import get_binary_array_circle_cutout, get_binary_array_circle, get_binary_biased_array_random, \
+    get_binary_array_alternating_squares, get_array_and_not_array
 
 
 def init_population(population_size):
+    basic_gene_generator = [get_binary_array_circle_cutout(), get_binary_array_circle(),
+                            get_binary_biased_array_random([0.25, 0.5, 0.75]), get_binary_array_alternating_squares()]
+    advanced_gene_generator = [get_binary_array_circle_cutout(), get_binary_array_circle(),
+                               get_binary_biased_array_random([0.25, 0.5, 0.75]),
+                               get_binary_array_alternating_squares(),
+                               get_array_and_not_array(random.choice(basic_gene_generator),
+                                                       random.choice(basic_gene_generator))]
     population = []
-    for _ in range(population_size - 2):
-        array = get_binary_biased_array_random([0.25, 0.5, 0.75])
+    for _ in range(population_size):
+        array = random.choice(advanced_gene_generator)
 
         population.append(array)
-    population.append(np.array(get_binary_array_circle_cutout(), dtype=bool))
-    population.append(np.array(get_binary_array_circle(), dtype=bool))
     return population
