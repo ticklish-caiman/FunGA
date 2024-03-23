@@ -75,7 +75,7 @@ def roulette_selection(population):
             return individual
 
 
-def mutation(array, mutation_rate=0.0001):
+def mutation(array, mutation_rate=0.001):
     # Create a mutation mask
     mutation_mask = np.random.rand(*array.shape) < mutation_rate
 
@@ -102,21 +102,21 @@ def crossover(individual1, individual2):
     return offspring
 
 
-def crossover(individual1, individual2):
-    # Ensure arrays have the same shape
-    assert individual1.shape == individual2.shape
-
-    # Choose a random crossover point
-    crossover_point_x = random.randint(0, individual1.shape[0] - 1)
-    crossover_point_y = random.randint(0, individual1.shape[1] - 1)
-
-    # Create offspring
-    offspring = np.copy(individual1)  # Start with a copy of individual1
-
-    # Perform crossover (swap portions of the arrays)
-    offspring[:crossover_point_x, :crossover_point_y] = individual2[:crossover_point_x, :crossover_point_y]
-
-    return offspring
+# def crossover(individual1, individual2):
+#     # Ensure arrays have the same shape
+#     assert individual1.shape == individual2.shape
+#
+#     # Choose a random crossover point
+#     crossover_point_x = random.randint(0, individual1.shape[0] - 1)
+#     crossover_point_y = random.randint(0, individual1.shape[1] - 1)
+#
+#     # Create offspring
+#     offspring = np.copy(individual1)  # Start with a copy of individual1
+#
+#     # Perform crossover (swap portions of the arrays)
+#     offspring[:crossover_point_x, :crossover_point_y] = individual2[:crossover_point_x, :crossover_point_y]
+#
+#     return offspring
 
 # def extract_patches(image_array, patch_size=50):
 #     patches = []
