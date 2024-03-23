@@ -1,6 +1,7 @@
 import random
 import scipy.stats
 import numpy as np
+from scipy.ndimage import label
 
 
 # def calculate_fitness(array):
@@ -51,7 +52,7 @@ def apply_elitism(population, num_elites=1):
     return new_population
 
 
-def tournament_selection(population, tournament_size=2):
+def tournament_selection(population, tournament_size=4):
     # Sample indices of participants
     participant_indices = random.sample(range(len(population)), tournament_size)
 
@@ -75,7 +76,7 @@ def roulette_selection(population):
             return individual
 
 
-def mutation(array, mutation_rate=0.001):
+def mutation(array, mutation_rate=0.01):
     # Create a mutation mask
     mutation_mask = np.random.rand(*array.shape) < mutation_rate
 
@@ -101,6 +102,77 @@ def crossover(individual1, individual2):
 
     return offspring
 
+
+def multi_point_crossover(individual1, individual2):
+    # Ensure arrays have the same shape
+    assert individual1.shape == individual2.shape
+
+    num_crossover_points = 10
+    crossover_points_x = random.sample(range(individual1.shape[0]), num_crossover_points)
+    crossover_points_y = random.sample(range(individual1.shape[1]), num_crossover_points)
+
+    offspring = np.copy(individual1)
+    for i in range(num_crossover_points // 2):  # Alternate between parents
+        start_x, end_x = crossover_points_x[2 * i: 2 * i + 2]
+        start_y, end_y = crossover_points_y[2 * i: 2 * i + 2]
+        offspring[start_x:end_x, start_y:end_y] = individual2[start_x:end_x, start_y:end_y]
+
+    return offspring
+
+
+def row_based_crossover(individual1, individual2):
+    # Ensure arrays have the same shape
+    assert individual1.shape == individual2.shape
+
+    num_crossover_rows = random.randint(1, individual1.shape[0] // 2)
+    crossover_rows = random.sample(range(individual1.shape[0]), num_crossover_rows)
+
+    offspring = np.copy(individual1)
+    for row_index in crossover_rows:
+        offspring[row_index, :] = individual2[row_index, :]
+
+    return offspring
+
+
+def find_connected_regions(bool_array):
+    # Identifies connected regions of True values in a Boolean array
+
+    labeled_array, num_regions = label(bool_array)  # Efficient labeling
+
+    # Create region masks
+    region_masks = []
+    for region_id in range(1, num_regions + 1):  # Region IDs start from 1
+        mask = labeled_array == region_id
+        region_masks.append(mask)
+
+    return region_masks
+
+
+def shape_based_crossover(individual1, individual2):
+    assert individual1.shape == individual2.shape
+
+    # Find connected regions
+    blob_masks1 = find_connected_regions(individual1)
+    blob_masks2 = find_connected_regions(individual2)
+
+    # Select random blobs (Prioritizes larger blobs)
+    blob_sizes1 = [np.sum(mask) for mask in blob_masks1]
+    blob_sizes2 = [np.sum(mask) for mask in blob_masks2]
+
+    selected_blob_index1 = random.choices(range(len(blob_masks1)), weights=blob_sizes1)[0]
+    selected_blob_index2 = random.choices(range(len(blob_masks2)), weights=blob_sizes2)[0]
+
+    blob_mask1 = blob_masks1[selected_blob_index1]
+    blob_mask2 = blob_masks2[selected_blob_index2]
+
+    # Create offspring
+    offspring = np.copy(individual1)
+
+    # Swap the selected regions between the parents
+    offspring[blob_mask1] = individual2[blob_mask1]
+    offspring[blob_mask2] = individual1[blob_mask2]
+
+    return offspring
 
 # def crossover(individual1, individual2):
 #     # Ensure arrays have the same shape

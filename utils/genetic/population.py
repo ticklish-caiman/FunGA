@@ -1,10 +1,12 @@
 import random
 import numpy as np
 
+from utils.genetic.genes import get_binary_array_circle_cutout, get_binary_array_circle
+
 
 def init_population(population_size):
     population = []
-    for _ in range(population_size):
+    for _ in range(population_size - 2):
         # Determine a random white pixel ratio
         white_pixel_ratio = random.choice([0.25, 0.5, 0.75])
 
@@ -15,4 +17,6 @@ def init_population(population_size):
         array.flat[white_indices] = True  # Efficiently set as white
 
         population.append(array)
+    population.append(np.array(get_binary_array_circle_cutout(), dtype=bool))
+    population.append(np.array(get_binary_array_circle(), dtype=bool))
     return population

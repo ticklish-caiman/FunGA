@@ -25,7 +25,7 @@ with tabs[0]:
     col1, col2 = st.columns(2)
     with col1:
         st.header("Initial population")
-        population = init_population(20)
+        population = init_population(10)
         for individual in population:
             st.image(draw_image_from_array(individual))
     with col2:

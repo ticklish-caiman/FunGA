@@ -24,10 +24,6 @@ def get_binary_array_random():
             for y in range(200)]
 
 
-def get_binary_array_grid():  # Same as get_binary_array_grid_pattern
-    return get_binary_array_grid_pattern()
-
-
 def get_binary_array_circle_cutout():  # Notice the change for cutout
     return [[0 if (x - 100) ** 2 + (y - 100) ** 2 <= 50 ** 2 else 1
              for x in range(200)]
