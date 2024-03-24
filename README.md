@@ -40,7 +40,7 @@ Won't-haves:
 
 # Roadmap
 1. GUI template<br/>
-![12%](https://progress-bar.dev/12?title=progress&width=400)
+![16%](https://progress-bar.dev/16?title=progress&width=400)
 2. Theory<br/>
 ![0%](https://progress-bar.dev/0?title=progress&width=400)
 3. Tests<br/>
@@ -53,7 +53,7 @@ Won't-haves:
    a) Treevolution<br/>
    ![0%](https://progress-bar.dev/0?title=progress&width=400) <br/>
    b) Shapevo<br/>
-   ![0%](https://progress-bar.dev/0?title=progress&width=400) <br/>
+   ![2%](https://progress-bar.dev/2?title=progress&width=400) <br/>
    c) TSP <br/>
    ![0%](https://progress-bar.dev/0?title=progress&width=400) <br/>
    d) ? <br/>
