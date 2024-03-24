@@ -1,8 +1,6 @@
-import numpy as np
-
-from utils.genetic.operators import mutation, tournament_selection, crossover, calculate_fitness_stats, apply_elitism, \
-    roulette_selection, multi_point_crossover, row_based_crossover, shape_based_crossover, burst_mutation, \
-    row_column_flip_mutation, row_column_swap_mutation, rotation_mutation
+from utils.genetic.shapevo.operators import tournament_selection, calculate_fitness_stats, apply_elitism, \
+    multi_point_crossover, burst_mutation, \
+    rotation_mutation
 
 
 def evolve(population, generations=50, elitism_rate=0.01):
