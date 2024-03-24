@@ -8,7 +8,7 @@ def plot_route(route, iterations, cities):
     plt.figure(figsize=(8, 6))
     x_coords = [cities[i][0] for i in route]
     y_coords = [cities[i][1] for i in route]
-    x_coords.append(x_coords[0])  # Close the loop
+    x_coords.append(x_coords[0])
     y_coords.append(y_coords[0])
     plt.plot(x_coords, y_coords, 'bo-')
 
