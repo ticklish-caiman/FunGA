@@ -1,6 +1,5 @@
 import math
 import random
-from PIL import Image, ImageDraw
 
 
 class Biomorph:
@@ -26,9 +25,9 @@ def generate_default_body(start_x, start_y, biomorph, img_size, color):
     return biomorph.body
 
 
-def generate_leg(start_x=None, start_y=None, color=None, width=1):
-    length = 10
-    angle = random.random() * 0.5 * math.pi  # Random angle (0 to 90 degrees)
+def generate_leg(start_x=None, start_y=None, color=None, width=1, angle=0):
+    length = 30
+    angle = (random.randrange(1, 10, 1) / 20) + angle
     end_x = int(start_x + length * math.cos(angle))
     end_y = int(start_y + length * math.sin(angle))
     leg = ({'type': 'line',
@@ -40,7 +39,28 @@ def generate_leg(start_x=None, start_y=None, color=None, width=1):
     return leg
 
 
-def generate_biomorph(start_x=None, start_y=None, legs_amount=4, img_size=(300, 300), biomorph=None):
+def generate_legs(biomorph, start_x, start_y, num_legs, color, width, angle):
+    if num_legs == 0:
+        # Generate foot
+        foot_radius = 10
+        last_x, last_y = biomorph.legs[-1]['x2'], biomorph.legs[-1]['y2']
+        biomorph.legs.append({
+            'type': 'ellipse',
+            'x1': last_x - foot_radius,
+            'y1': last_y - foot_radius,
+            'width': foot_radius * 2,
+            'height': foot_radius * 2,
+            'color': color
+        })
+        return
+
+    biomorph.legs.append(generate_leg(start_x, start_y, color, width, angle))
+    last_part = biomorph.legs[-1]
+
+    generate_legs(biomorph, last_part['x2'], last_part['y2'], num_legs - 1, color, width, angle)
+
+
+def generate_biomorph(start_x=None, start_y=None, num_legs=4, img_size=(300, 300), biomorph=None, leg_segments=4):
     if biomorph is None:
         biomorph = Biomorph()
         color = random.choice(['red', 'green', 'blue'])
@@ -56,52 +76,7 @@ def generate_biomorph(start_x=None, start_y=None, legs_amount=4, img_size=(300, 
     if biomorph.body is None:
         biomorph.body = generate_default_body(start_x, start_y, biomorph, img_size, color)
 
-    if not biomorph.legs:
-        biomorph.legs.append(generate_leg(start_x, start_y, color, width))
+    for angle in range(num_legs):
+        generate_legs(biomorph, start_x, start_y, leg_segments, color, width, angle)
 
-    while legs_amount > 0:
-        # Option to create the next segment starting from a random previously generated segment
-        #                      last_part = biomorph.legs[random.randint(-len(biomorph.legs), -1)]
-        last_part = biomorph.legs[-1]
-        new_start_x = last_part['x2']
-        new_start_y = last_part['y2']
-        biomorph.legs.append(generate_leg(new_start_x, new_start_y, color, width))
-        legs_amount = legs_amount - 1
-    else:
-        # Generate foot
-        foot_radius = 5
-        last_x, last_y = biomorph.legs[-1]['x2'], biomorph.legs[-1]['y2']
-        biomorph.legs.append({
-            'type': 'ellipse',
-            'x1': last_x - foot_radius,
-            'y1': last_y - foot_radius,
-            'width': foot_radius * 2,
-            'height': foot_radius * 2,
-            'color': color
-        })
     return biomorph
-
-
-def draw_biomorph(biomorph, img_size=(300, 300)):
-    img = Image.new('RGB', img_size, color='white')
-    draw = ImageDraw.Draw(img)
-
-    xy = (biomorph.body['x1'], biomorph.body['y1'], biomorph.body['x1'] + biomorph.body['width'],
-          biomorph.body['y1'] + biomorph.body['height'])
-    draw.ellipse(xy, fill=biomorph.body['color'])
-
-    for part in biomorph.legs:
-        if part['type'] == 'line':
-            draw.line((part['x1'], part['y1'], part['x2'], part['y2']),
-                      fill=part['color'], width=part['width'])
-        if part['type'] == 'ellipse':
-            xy = (part['x1'], part['y1'], part['x1'] + part['width'],
-                  part['y1'] + part['height'])
-            draw.ellipse(xy, fill=part['color'])
-
-    return img
-
-
-# Example usage (For now, let's print the Biomorph structure)
-my_biomorph = generate_biomorph(legs_amount=10)
-draw_biomorph(my_biomorph).show()
