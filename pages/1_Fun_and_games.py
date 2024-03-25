@@ -1,5 +1,6 @@
 import base64
 from pathlib import Path
+from PIL import Image, ImageDraw
 
 import streamlit as st
 
@@ -42,9 +43,16 @@ with tabs[0]:
         #              caption=f"Entropy: {entropy:.4f}, White Ratio: {white_ratio:4f}, Fitness: {fitness:.4f}")
 
 with tabs[1]:
+    def generate_simple_biomorph(row, col):
+        img = Image.new('RGB', (200, 150), color='white')  # Match your button size
+        draw = ImageDraw.Draw(img)
+        draw.ellipse((10 * (row + 1), 30, 30 * (col + 1), 120), fill='red')  # Example: A red circle
+        return img
+
+
     st.header(_('Biomorphs'))
 
-    img_path = Path(__file__).parent.parent / 'img' / 'test1.jpg'
+    img_path = Path(__file__).parent.parent / 'img'
 
     if 'biomorph_message' not in st.session_state:
         st.session_state['biomorph_message'] = ''
@@ -53,22 +61,43 @@ with tabs[1]:
 
     biomorphs_output = st.write(st.session_state['biomorph_message'])
 
+
     # Function to read image and encode as Base64
     def get_base64_of_image(image_path):
         with open(image_path, "rb") as image_file:
             encoded_string = base64.b64encode(image_file.read()).decode()
         return f"data:image/png;base64,{encoded_string}"
 
-    base64_img = get_base64_of_image(st.session_state['img_path'])
+
+    try:
+        base64_img = get_base64_of_image(st.session_state['img_path'])
+    except FileNotFoundError and PermissionError:
+        new_biomorph_image = generate_simple_biomorph(0, 0)
+
+        # Save the Biomorph Image (using row and col for naming)
+        new_biomorph_image.save(img_path / f'00.jpg')
+
+        # Update an image path in session state
+        st.session_state['img_path'] = img_path / f'00.jpg'
+        base64_img = get_base64_of_image(st.session_state['img_path'])
+
 
     def on_click(row, col):
         st.session_state['biomorph_message'] = f"You chose square at row {row}, column {col}"
-        st.session_state['img_path'] = Path(__file__).parent.parent / 'img' / 'test3.jpg'
+        st.session_state['img_path'] = Path(__file__).parent.parent / 'img' / f'{row}{col}.jpg'
+        # Generate a new Biomorph
+        new_biomorph_image = generate_simple_biomorph(row, col)
+
+        # Save the Biomorph Image (using row and col for naming)
+        new_biomorph_image.save(img_path / f'{row}{col}.jpg')
+
+        # Update an image path in session state
+        st.session_state['img_path'] = img_path / f'{row}{col}.jpg'
 
 
     st.write("Choose the best specimen:")
 
-    rows = 4
+    rows = 3
     cols = 3
 
     st.markdown(f"""
