@@ -44,7 +44,7 @@ with tabs[0]:
 
 with tabs[1]:
     def generate_simple_biomorph(row, col):
-        img = Image.new('RGB', (200, 150), color='white')  # Match your button size
+        img = Image.new('RGB', (150, 150), color='white')  # Match your button size
         draw = ImageDraw.Draw(img)
         draw.ellipse((10 * (row + 1), 30, 30 * (col + 1), 120), fill='red')  # Example: A red circle
         return img
@@ -98,17 +98,19 @@ with tabs[1]:
     st.write("Choose the best specimen:")
 
     rows = 3
-    cols = 3
-
+    cols = 4
     st.markdown(f"""
     <style>
     .stButton button {{
-        width: 200px; /* Adjust as needed */
+        width: 150px; /* Adjust as needed */
         height: 150px; /* Adjust as needed */
         background-image: url("{base64_img}"); 
         background-size: cover; /* To fit the image */
         border: none;
-        color: transparent; /* Hide the default button text */
+        color: transparent; /* Hide the default button text */  
+    }}
+    .stButton p {{ 
+        display: none; /* Hide button label */
     }}
     </style>
     """, unsafe_allow_html=True)
@@ -116,7 +118,7 @@ with tabs[1]:
         cols_container = st.columns(cols)  # Create a row of columns
         for col in range(cols):
             with cols_container[col]:
-                if st.button(f"({row}, {col})", on_click=on_click, args=(row, col)):
+                if st.button(f"({row}, {col})", on_click=on_click, args=(row, col), help="Click me!"):
                     pass
 with tabs[2]:
     st.header(_('Hello Traveling Salesman'))
