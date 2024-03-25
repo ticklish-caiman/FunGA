@@ -5,65 +5,103 @@ from PIL import Image, ImageDraw
 
 class Biomorph:
     def __init__(self):
-        self.parts = []
+        self.body = None
+        self.head = None
+        self.legs = []
 
 
-def generate_random_biomorph(start_x=None, start_y=None, shapes_amount=5, img_size=(300, 300), new_biomorph=None):
-    if new_biomorph is None:
-        new_biomorph = Biomorph()
+def generate_default_body(start_x, start_y, biomorph, img_size, color):
+    # Fill this
+    if start_x is None or start_y is None:
+        # Use default center coordinates if the body was not provided
+        start_x, start_y = img_size[0] / 2, img_size[1] / 2
+
+    foot_radius = 50
+    biomorph.body = ({'type': 'ellipse',
+                      'x1': start_x - foot_radius,
+                      'y1': start_y - foot_radius,
+                      'width': foot_radius * 2,
+                      'height': foot_radius * 2,
+                      'color': color})
+    return biomorph.body
+
+
+def generate_leg(start_x=None, start_y=None, color=None, width=1):
+    length = 10
+    angle = random.random() * 0.5 * math.pi  # Random angle (0 to 90 degrees)
+    end_x = int(start_x + length * math.cos(angle))
+    end_y = int(start_y + length * math.sin(angle))
+    leg = ({'type': 'line',
+            'x1': start_x, 'y1': start_y,
+            'x2': end_x, 'y2': end_y,
+            'width': width,
+            'color': color})
+
+    return leg
+
+
+def generate_biomorph(start_x=None, start_y=None, legs_amount=4, img_size=(300, 300), biomorph=None):
+    if biomorph is None:
+        biomorph = Biomorph()
         color = random.choice(['red', 'green', 'blue'])
         width = random.randint(3, 5)
     else:
-        color = new_biomorph.parts[0]['color']
-        width = new_biomorph.parts[0]['width']
+        color = biomorph.legs[0]['color']
+        width = biomorph.legs[0]['width']
 
     if start_x is None or start_y is None:
         # Start at the center if no start coordinates were given
         start_x, start_y = img_size[0] / 2, img_size[1] / 2
 
-    # Create the initial line
-    length = 50  # Calculate the desired length
-    angle = random.random() * 1 * math.pi  # Random angle (0 to 180 degrees)
-    end_x = int(start_x + length * math.cos(angle))
-    end_y = int(start_y + length * math.sin(angle))
-    new_biomorph.parts.append({'type': 'line',
-                               'x1': start_x, 'y1': start_y,
-                               'x2': end_x, 'y2': end_y,
-                               'width': width,
-                               'color': color})
-    print('after append:', new_biomorph.parts)
-    print('start_x:', start_x, 'start_y:', start_y, 'end_x:', end_x, 'end_y:', end_y)
-    if shapes_amount > 0:
-        last_part = new_biomorph.parts[random.randint(-len(new_biomorph.parts), -1)]
-        # last_part = new_biomorph.parts[-1]
+    if biomorph.body is None:
+        biomorph.body = generate_default_body(start_x, start_y, biomorph, img_size, color)
+
+    if not biomorph.legs:
+        biomorph.legs.append(generate_leg(start_x, start_y, color, width))
+
+    while legs_amount > 0:
+        # Option to create the next segment starting from a random previously generated segment
+        #                      last_part = biomorph.legs[random.randint(-len(biomorph.legs), -1)]
+        last_part = biomorph.legs[-1]
         new_start_x = last_part['x2']
         new_start_y = last_part['y2']
-        print('new_start_x:', new_start_x, 'new_start_y:', new_start_y)
-        generate_random_biomorph(new_start_x, new_start_y, shapes_amount - 1, img_size, new_biomorph)
-
-    return new_biomorph
+        biomorph.legs.append(generate_leg(new_start_x, new_start_y, color, width))
+        legs_amount = legs_amount - 1
+    else:
+        # Generate foot
+        foot_radius = 5
+        last_x, last_y = biomorph.legs[-1]['x2'], biomorph.legs[-1]['y2']
+        biomorph.legs.append({
+            'type': 'ellipse',
+            'x1': last_x - foot_radius,
+            'y1': last_y - foot_radius,
+            'width': foot_radius * 2,
+            'height': foot_radius * 2,
+            'color': color
+        })
+    return biomorph
 
 
 def draw_biomorph(biomorph, img_size=(300, 300)):
     img = Image.new('RGB', img_size, color='white')
     draw = ImageDraw.Draw(img)
 
-    for part in biomorph.parts:
+    xy = (biomorph.body['x1'], biomorph.body['y1'], biomorph.body['x1'] + biomorph.body['width'],
+          biomorph.body['y1'] + biomorph.body['height'])
+    draw.ellipse(xy, fill=biomorph.body['color'])
+
+    for part in biomorph.legs:
         if part['type'] == 'line':
             draw.line((part['x1'], part['y1'], part['x2'], part['y2']),
                       fill=part['color'], width=part['width'])
-
-        elif part['type'] == 'ellipse':
-            xy = (part['x1'], part['y1'], part['x1'] + part['width'], part['y1'] + part['height'])
+        if part['type'] == 'ellipse':
+            xy = (part['x1'], part['y1'], part['x1'] + part['width'],
+                  part['y1'] + part['height'])
             draw.ellipse(xy, fill=part['color'])
-
-        elif part['type'] == 'rectangle':
-            # TODO: Implement rectangle drawing using xy coordinates and width/height
-            pass
 
     return img
 
 
 # Example usage (For now, let's print the Biomorph structure)
-my_biomorph = generate_random_biomorph(shapes_amount=10)
+my_biomorph = generate_biomorph(legs_amount=10)
 draw_biomorph(my_biomorph).show()
