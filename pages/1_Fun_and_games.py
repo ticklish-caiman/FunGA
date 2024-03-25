@@ -71,7 +71,7 @@ with tabs[1]:
 
     try:
         base64_img = get_base64_of_image(st.session_state['img_path'])
-    except FileNotFoundError and PermissionError:
+    except PermissionError:
         new_biomorph_image = generate_simple_biomorph(0, 0)
 
         # Save the Biomorph Image (using row and col for naming)
