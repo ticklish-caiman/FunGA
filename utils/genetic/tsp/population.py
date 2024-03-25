@@ -13,7 +13,7 @@ def create_population(pop_size, city_count):
 
 
 # Main GA loop
-population_size = 200
+population_size = 50
 generations = 10000
 tournament_size = 3
 mutation_rate = 0.1

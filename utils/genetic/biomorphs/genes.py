@@ -12,7 +12,6 @@ genes = {
 
 
 def generate_random_genes():
-    # Example with random values, you'll want to set sensible ranges
     return {
         'body_radius': random.randint(30, 70),
         'head_radius': random.randint(20, 50),

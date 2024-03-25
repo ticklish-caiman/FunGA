@@ -1,9 +1,9 @@
 from utils.genetic.shapevo.operators import tournament_selection, calculate_fitness_stats, apply_elitism, \
     multi_point_crossover, burst_mutation, \
-    rotation_mutation
+    rotation_mutation, row_based_crossover, row_column_swap_mutation, diagonal_reflection_mutation
 
 
-def evolve(population, generations=50, elitism_rate=0.01):
+def evolve(population, generations=200, elitism_rate=0.1):
     for _ in range(generations):
 
         num_elites = int(elitism_rate * len(population))
@@ -16,7 +16,8 @@ def evolve(population, generations=50, elitism_rate=0.01):
             # parent1 = roulette_selection(population)
             # parent2 = roulette_selection(population)
             offspring = multi_point_crossover(parent1, parent2)
-            new_population.append(rotation_mutation(burst_mutation(offspring)))
+            new_population.append(
+                diagonal_reflection_mutation(row_column_swap_mutation(rotation_mutation(burst_mutation(offspring)))))
             # new_population.append(offspring)
 
         population = new_population  # Replace old population

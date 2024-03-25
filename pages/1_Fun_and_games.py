@@ -3,9 +3,10 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 import streamlit as st
+from streamlit.components.v1 import html
 
 from utils.genetic.biomorphs.evolve import evolve_biomorphs
-from utils.genetic.biomorphs.phenotype import draw_biomorph
+from utils.genetic.biomorphs.phenotype import draw_biomorph, get_base64_of_image
 from utils.genetic.shapevo.evolve import evolve
 from utils.genetic.shapevo.operators import calculate_fitness_return_all, rotation_mutation
 from utils.genetic.shapevo.phenotype import draw_image_from_array
@@ -45,38 +46,7 @@ with tabs[0]:
         #              caption=f"Entropy: {entropy:.4f}, White Ratio: {white_ratio:4f}, Fitness: {fitness:.4f}")
 
 with tabs[1]:
-
-
     st.header(_('Biomorphs'))
-
-    img_path = Path(__file__).parent.parent / 'img'
-
-    if 'biomorph_message' not in st.session_state:
-        st.session_state['biomorph_message'] = ''
-    if 'img_path' not in st.session_state:
-        st.session_state['img_path'] = img_path
-
-    biomorphs_output = st.write(st.session_state['biomorph_message'])
-
-    # Function to read image and encode as Base64
-    def get_base64_of_image(image_path):
-        with open(image_path, "rb") as image_file:
-            encoded_string = base64.b64encode(image_file.read()).decode()
-        return f"data:image/png;base64,{encoded_string}"
-
-
-    try:
-        base64_img = get_base64_of_image(st.session_state['img_path'])
-    except PermissionError:
-        new_biomorph_image = evolve_biomorphs()
-
-        # Save the Biomorph Image (using row and col for naming)
-        new_biomorph_image.save(img_path / f'00.jpg')
-
-        # Update an image path in session state
-        st.session_state['img_path'] = img_path / f'00.jpg'
-        base64_img = get_base64_of_image(st.session_state['img_path'])
-
 
     def on_click(row, col):
         st.session_state['biomorph_message'] = f"You chose square at row {row}, column {col}"
@@ -84,37 +54,44 @@ with tabs[1]:
         # Generate a new Biomorph
         new_biomorph_image = evolve_biomorphs()
 
-        # Save the Biomorph Image (using row and col for naming)
-        new_biomorph_image.save(img_path / f'{row}{col}.jpg')
+        # # Save the Biomorph Image (using row and col for naming)
+        # new_biomorph_image.save(img_path / f'{row}{col}.jpg')
+        #
+        # # Update an image path in session state
+        # st.session_state['img_path'] = img_path / f'{row}{col}.jpg'
 
-        # Update an image path in session state
-        st.session_state['img_path'] = img_path / f'{row}{col}.jpg'
+
+    def ChangeButtonColour(widget_label, font_color, image_data):
+        htmlstr = f"""
+            <script>
+                var elements = window.parent.document.querySelectorAll('button');
+                for (var i = 0; i < elements.length; ++i) {{ 
+                    if (elements[i].innerText == '{widget_label}') {{ 
+                        elements[i].style.color = '{font_color}';
+                        elements[i].style.backgroundImage = `url(${image_data})`
+                    }}
+                }}
+            </script>
+            """
+        html(f"{htmlstr}", height=0, width=0)
 
 
     st.write("Choose the best specimen:")
 
     rows = 3
     cols = 4
-    st.markdown(f"""
-    <style>
-    .stButton button {{
-        width: 150px; /* Adjust as needed */
-        height: 150px; /* Adjust as needed */
-        background-image: url("{base64_img}"); 
-        background-size: cover; /* To fit the image */
-        border: none;
-        color: transparent; /* Hide the default button text */  
-    }}
-    .stButton p {{ 
-        display: none; /* Hide button label */
-    }}
-    </style>
-    """, unsafe_allow_html=True)
+    biomorphs = []
+    for i in range(rows * cols):
+        biomorphs.append(get_base64_of_image(evolve_biomorphs()))
+    bm_index = 0
     for row in range(rows):
         cols_container = st.columns(cols)  # Create a row of columns
         for col in range(cols):
             with cols_container[col]:
-                if st.button(f"({row}, {col})", on_click=on_click, args=(row, col), help="Click me!"):
-                    pass
+                # Customization of the button
+                button_label = f"({row}, {col})"
+                ChangeButtonColour(button_label, 'transparent', image_data=biomorphs[bm_index])
+                st.button(button_label, on_click=on_click, args=(row, col), help="Click me!")
+
 with tabs[2]:
     st.header(_('Hello Traveling Salesman'))

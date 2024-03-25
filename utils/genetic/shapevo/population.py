@@ -16,7 +16,7 @@ def init_population(population_size):
     population = []
     for _ in range(population_size):
         array = random.choice(advanced_gene_generator)
-        # array = get_binary_array_circle_cutout()
+        #array = get_binary_array_alternating_squares()
 
         population.append(array)
     return population

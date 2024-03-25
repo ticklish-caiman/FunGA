@@ -1,3 +1,6 @@
+import base64
+from io import BytesIO
+
 from PIL import Image, ImageDraw
 
 from utils.genetic.biomorphs.population import generate_biomorph
@@ -30,6 +33,11 @@ def draw_biomorph(biomorph=None, img_size=(300, 300)):
                   part['y1'] + part['height'])
             draw.ellipse(xy, fill=part['color'])
 
-
-
     return img
+
+
+def get_base64_of_image(img):
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    base64_encoded_img = base64.b64encode(buffer.getvalue()).decode('utf-8')
+    return f"data:image/png;base64,{base64_encoded_img}"
