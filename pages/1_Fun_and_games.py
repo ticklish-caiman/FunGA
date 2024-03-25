@@ -4,6 +4,7 @@ from PIL import Image, ImageDraw
 
 import streamlit as st
 
+from utils.genetic.biomorphs.evolve import evolve_biomorphs
 from utils.genetic.biomorphs.phenotype import draw_biomorph
 from utils.genetic.shapevo.evolve import evolve
 from utils.genetic.shapevo.operators import calculate_fitness_return_all, rotation_mutation
@@ -67,7 +68,7 @@ with tabs[1]:
     try:
         base64_img = get_base64_of_image(st.session_state['img_path'])
     except PermissionError:
-        new_biomorph_image = draw_biomorph()
+        new_biomorph_image = evolve_biomorphs()
 
         # Save the Biomorph Image (using row and col for naming)
         new_biomorph_image.save(img_path / f'00.jpg')
@@ -81,7 +82,7 @@ with tabs[1]:
         st.session_state['biomorph_message'] = f"You chose square at row {row}, column {col}"
         st.session_state['img_path'] = Path(__file__).parent.parent / 'img' / f'{row}{col}.jpg'
         # Generate a new Biomorph
-        new_biomorph_image = draw_biomorph()
+        new_biomorph_image = evolve_biomorphs()
 
         # Save the Biomorph Image (using row and col for naming)
         new_biomorph_image.save(img_path / f'{row}{col}.jpg')
