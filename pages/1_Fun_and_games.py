@@ -45,41 +45,41 @@ with tabs[1]:
     if "clicked" not in st.session_state:
         st.session_state["clicked"] = ""
 
-    biomorphs = []
-    for i in range(12):
-        biomorphs.append(get_base64_of_image(evolve_biomorphs()))
+    # User input for columns and rows
+    # num_columns = st.sidebar.number_input("Number of columns", min_value=1, max_value=12, value=3)
+    num_columns = 3  # only 3 columns look good
+    num_rows = st.sidebar.number_input("Number of rows", min_value=1, max_value=12, value=3)
 
 
     def on_click():
         biomorphs = []
-        for i in range(12):
+        for i in range(num_columns * num_rows):
             biomorphs.append(get_base64_of_image(evolve_biomorphs()))
 
 
-    col1, col2, col3 = st.columns(3)
+    # Initialize biomorphs (you may want to move this into on_click
+    # if they need to be generated on demand)
+    biomorphs = []
+    for i in range(num_columns * num_rows):
+        biomorphs.append(get_base64_of_image(evolve_biomorphs()))
 
-    for i in range(12):
-        if i < 4:
-            with col1:
+    biomorph_id = 0
+    # Dynamic grid creation
+    for row in range(num_rows):
+        cols = st.columns(num_columns)
+        start_index = row * num_columns
+        end_index = start_index + num_columns
+
+        for i, biomorph in enumerate(biomorphs[start_index:end_index]):
+            col_index = i % num_columns  # Get the column index within the current row
+
+            with cols[col_index]:
                 with st.container(border=1):
-                    if st.button("⬇️ Choose me ⬇️", args=i, key=i, on_click=on_click(), use_container_width=True):
-                        st.session_state["clicked"] = i
-                        test_pass_choice(i)
-                    st.image(biomorphs[i], width=200)
-        elif i < 8:
-            with col2:
-                with st.container(border=1):
-                    if st.button("⬇️ Choose me ⬇️", args=i, key=i, on_click=on_click(), use_container_width=True):
-                        st.session_state["clicked"] = i
-                        test_pass_choice(i)
-                    st.image(biomorphs[i], width=200)
-        else:
-            with col3:
-                with st.container(border=1):
-                    if st.button("⬇️ Choose me ⬇️", args=i, key=i, on_click=on_click(), use_container_width=True):
-                        st.session_state["clicked"] = i
-                        test_pass_choice(i)
-                    st.image(biomorphs[i], width=200)
+                    if st.button("⬇️ Choose me ⬇️", args=i, key=biomorph_id, on_click=on_click()):
+                        st.session_state["clicked"] = biomorph_id
+                        test_pass_choice(biomorph_id)
+                    st.image(biomorph, width=200)
+                biomorph_id += 1
 
 with tabs[2]:
     st.header(_('Hello Traveling Salesman'))
