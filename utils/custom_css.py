@@ -58,3 +58,25 @@ def custom_tabs_css():
             color:#ffffff;
             }
         </style>""", unsafe_allow_html=True)
+
+
+def custom_buttons_style():
+    st.markdown("""
+    <style>
+        div.element-container div.row-widget.stButton { 
+            display: flex;
+            justify-content: center; /* Horizontal Centering */
+            # align-items: center;     /* Vertical Centering */
+        }
+        div.element-container div.row-widget.stButton > button { 
+            background-color: #228B22; 
+            color: #ffffff;
+        }
+        div.element-container div.row-widget.stButton > button:hover { 
+            background-color: #00FF00; 
+            color: #ffffff;
+        }
+
+
+    </style>
+    """, unsafe_allow_html=True)

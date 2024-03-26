@@ -1,5 +1,6 @@
 import streamlit as st
 
+from utils.custom_css import custom_buttons_style
 from utils.genetic.biomorphs.evolve import evolve_biomorphs, test_pass_choice
 from utils.genetic.biomorphs.phenotype import get_base64_of_image
 from utils.genetic.shapevo.operators import calculate_fitness_return_all
@@ -41,6 +42,8 @@ with tabs[0]:
 
 with tabs[1]:
     st.header(_('Biomorphs'))
+
+    custom_buttons_style()
 
     if "clicked" not in st.session_state:
         st.session_state["clicked"] = ""
