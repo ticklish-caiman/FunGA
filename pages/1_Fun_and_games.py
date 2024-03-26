@@ -12,6 +12,7 @@ from utils.genetic.shapevo.operators import calculate_fitness_return_all, rotati
 from utils.genetic.shapevo.phenotype import draw_image_from_array
 from utils.genetic.shapevo.population import init_population
 from utils.navigation import show_main_menu, get_localizator
+from st_clickable_images import clickable_images
 
 # from database.database_helper import DatabaseHelper
 
@@ -48,50 +49,23 @@ with tabs[0]:
 with tabs[1]:
     st.header(_('Biomorphs'))
 
-    def on_click(row, col):
-        st.session_state['biomorph_message'] = f"You chose square at row {row}, column {col}"
-        st.session_state['img_path'] = Path(__file__).parent.parent / 'img' / f'{row}{col}.jpg'
-        # Generate a new Biomorph
-        new_biomorph_image = evolve_biomorphs()
+    if "clicked" not in st.session_state:
+        st.session_state["clicked"] = ""
+    st.text(st.session_state["clicked"])
 
-        # # Save the Biomorph Image (using row and col for naming)
-        # new_biomorph_image.save(img_path / f'{row}{col}.jpg')
-        #
-        # # Update an image path in session state
-        # st.session_state['img_path'] = img_path / f'{row}{col}.jpg'
-
-
-    def ChangeButtonColour(widget_label, font_color, image_data):
-        htmlstr = f"""
-            <script>
-                var elements = window.parent.document.querySelectorAll('button');
-                for (var i = 0; i < elements.length; ++i) {{ 
-                    if (elements[i].innerText == '{widget_label}') {{ 
-                        elements[i].style.color = '{font_color}';
-                        elements[i].style.backgroundImage = `url(${image_data})`
-                    }}
-                }}
-            </script>
-            """
-        html(f"{htmlstr}", height=0, width=0)
-
-
-    st.write("Choose the best specimen:")
-
-    rows = 3
-    cols = 4
     biomorphs = []
-    for i in range(rows * cols):
+    for i in range(12):
         biomorphs.append(get_base64_of_image(evolve_biomorphs()))
-    bm_index = 0
-    for row in range(rows):
-        cols_container = st.columns(cols)  # Create a row of columns
-        for col in range(cols):
-            with cols_container[col]:
-                # Customization of the button
-                button_label = f"({row}, {col})"
-                ChangeButtonColour(button_label, 'transparent', image_data=biomorphs[bm_index])
-                st.button(button_label, on_click=on_click, args=(row, col), help="Click me!")
+
+    clicked = clickable_images(
+        biomorphs,
+        titles=[f"Creature #{str(i + 1)}" for i in range(len(biomorphs))],
+        div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
+        img_style={"margin": "10px", "height": "200px"},
+    )
+    if clicked:
+        st.session_state["clicked"] = clicked
+    st.markdown(f"Image #{clicked} clicked" if clicked > -1 else "No image clicked")
 
 with tabs[2]:
     st.header(_('Hello Traveling Salesman'))
