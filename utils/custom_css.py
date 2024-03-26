@@ -45,3 +45,16 @@ def custom_tabs_css():
        """,
         unsafe_allow_html=True,
     )
+
+    # Custom style for sidebar buttons
+    st.markdown("""
+        <style >
+        div.stButton > button:first-child {
+            background-color: #578a00;
+            color:#ffffff;
+        }
+        div.stButton > button:hover {
+            background-color: #00128a;
+            color:#ffffff;
+            }
+        </style>""", unsafe_allow_html=True)
