@@ -13,12 +13,12 @@ genes = {
 
 def generate_random_genes():
     return {
-        'body_radius': random.randint(30, 70),
-        'head_radius': random.randint(20, 50),
-        'leg_count': random.randint(2, 6),
+        'body_radius': random.randint(40, 60),
+        'head_radius': random.randint(20, 40),
+        'leg_count': random.randint(4, 4),
         'leg_segments': random.randint(3, 5),
-        'leg_width': random.randint(2, 5),
-        'leg_width_variation': random.randint(1, 3),
+        'leg_width': random.randint(2, 15),
+        'leg_width_variation': random.randint(1, 2000),
         'color': random.choice(['red', 'green', 'blue']),
         'angle': random.randint(0, 6)
     }

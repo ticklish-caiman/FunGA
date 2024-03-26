@@ -74,26 +74,21 @@ def generate_head(head_radius, body, color):
     return head
 
 
-def generate_biomorph(genes, start_x=None, start_y=None, img_size=(300, 300), biomorph=None):
+def generate_biomorph(genes, start_x=None, start_y=None, img_size=(500, 500), biomorph=None):
     if biomorph is None:
         biomorph = Biomorph()
-        color = random.choice(['red', 'green', 'blue'])
-        width = random.randint(3, 5)
-    else:
-        color = biomorph.legs[0]['color']
-        width = biomorph.legs[0]['width']
 
     if start_x is None or start_y is None:
         # Start at the center if no start coordinates were given
         start_x, start_y = img_size[0] / 2, img_size[1] / 2
 
     if biomorph.body is None:
-        biomorph.body = generate_default_body(genes['body_radius'], start_x, start_y, biomorph, img_size, color)
+        biomorph.body = generate_default_body(genes['body_radius'], start_x, start_y, biomorph, img_size, genes['color'])
 
     if biomorph.head is None:
-        biomorph.head = generate_head(genes['head_radius'], biomorph.body, color)
+        biomorph.head = generate_head(genes['head_radius'], biomorph.body, genes['color'])
 
     for angle in range(genes['leg_count']):
-        generate_legs(biomorph, start_x, start_y, genes['leg_segments'], color, width, angle)
+        generate_legs(biomorph, start_x, start_y, genes['leg_segments'], genes['color'], genes['leg_width'], angle)
 
     return biomorph

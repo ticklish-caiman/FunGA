@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw
 from utils.genetic.biomorphs.population import generate_biomorph
 
 
-def draw_biomorph(biomorph=None, img_size=(300, 300)):
+def draw_biomorph(biomorph=None, img_size=(500, 500)):
     if biomorph is None:
         biomorph = generate_biomorph()
     img = Image.new('RGB', img_size, color='white')
