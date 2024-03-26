@@ -5,3 +5,7 @@ from utils.genetic.biomorphs.population import generate_biomorph
 
 def evolve_biomorphs():
     return draw_biomorph(generate_biomorph(generate_random_genes()))
+
+
+def test_pass_choice(best):
+    print(best)

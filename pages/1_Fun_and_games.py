@@ -1,18 +1,11 @@
-import base64
-from pathlib import Path
-from PIL import Image, ImageDraw
-
 import streamlit as st
-from streamlit.components.v1 import html
 
-from utils.genetic.biomorphs.evolve import evolve_biomorphs
-from utils.genetic.biomorphs.phenotype import draw_biomorph, get_base64_of_image
-from utils.genetic.shapevo.evolve import evolve
-from utils.genetic.shapevo.operators import calculate_fitness_return_all, rotation_mutation
+from utils.genetic.biomorphs.evolve import evolve_biomorphs, test_pass_choice
+from utils.genetic.biomorphs.phenotype import get_base64_of_image
+from utils.genetic.shapevo.operators import calculate_fitness_return_all
 from utils.genetic.shapevo.phenotype import draw_image_from_array
 from utils.genetic.shapevo.population import init_population
 from utils.navigation import show_main_menu, get_localizator
-from st_clickable_images import clickable_images
 
 # from database.database_helper import DatabaseHelper
 
@@ -51,21 +44,42 @@ with tabs[1]:
 
     if "clicked" not in st.session_state:
         st.session_state["clicked"] = ""
-    st.text(st.session_state["clicked"])
 
     biomorphs = []
     for i in range(12):
         biomorphs.append(get_base64_of_image(evolve_biomorphs()))
 
-    clicked = clickable_images(
-        biomorphs,
-        titles=[f"Creature #{str(i + 1)}" for i in range(len(biomorphs))],
-        div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
-        img_style={"margin": "10px", "height": "200px"},
-    )
-    if clicked:
-        st.session_state["clicked"] = clicked
-    st.markdown(f"Image #{clicked} clicked" if clicked > -1 else "No image clicked")
+
+    def on_click():
+        biomorphs = []
+        for i in range(12):
+            biomorphs.append(get_base64_of_image(evolve_biomorphs()))
+
+
+    col1, col2, col3 = st.columns(3)
+
+    for i in range(12):
+        if i < 4:
+            with col1:
+                with st.container(border=1):
+                    if st.button("⬇️ Choose me ⬇️", args=i, key=i, on_click=on_click(), use_container_width=True):
+                        st.session_state["clicked"] = i
+                        test_pass_choice(i)
+                    st.image(biomorphs[i], width=200)
+        elif i < 8:
+            with col2:
+                with st.container(border=1):
+                    if st.button("⬇️ Choose me ⬇️", args=i, key=i, on_click=on_click(), use_container_width=True):
+                        st.session_state["clicked"] = i
+                        test_pass_choice(i)
+                    st.image(biomorphs[i], width=200)
+        else:
+            with col3:
+                with st.container(border=1):
+                    if st.button("⬇️ Choose me ⬇️", args=i, key=i, on_click=on_click(), use_container_width=True):
+                        st.session_state["clicked"] = i
+                        test_pass_choice(i)
+                    st.image(biomorphs[i], width=200)
 
 with tabs[2]:
     st.header(_('Hello Traveling Salesman'))
