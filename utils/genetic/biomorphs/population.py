@@ -6,6 +6,8 @@ class Biomorph:
     def __init__(self):
         self.body = None
         self.head = None
+        self.left_eye = None
+        self.right_eye = None
         self.legs = []
 
 
@@ -59,10 +61,29 @@ def generate_legs(biomorph, start_x, start_y, num_legs, color, width, angle):
 
 
 def generate_head(head_radius, body, color):
-
-    # Improved logic for head position
     head_x = body['x1'] + (body['width'] / 2)  # Center of the head above body's center
     head_y = body['y1'] - head_radius  # Place head's bottom edge on top of the body
+
+    # Eye calculations
+    eye_radius = head_radius * 0.1  # Example: Eye radius is 10% of the head radius
+    eye_offset_x = head_radius * 0.3  # Eyes offset horizontally by 30% of head radius
+    eye_offset_y = head_radius * 0.3  # Eyes raised slightly from the center
+
+    # Eyes (two circles)
+    left_eye = {
+        'type': 'circle',
+        'x1': head_x - eye_offset_x,
+        'y1': head_y + eye_offset_y,
+        'radius': eye_radius,
+        'color': 'black'
+    }
+    right_eye = {
+        'type': 'circle',
+        'x1': head_x + eye_offset_x,
+        'y1': head_y + eye_offset_y,
+        'radius': eye_radius,
+        'color': 'black'
+    }
 
     head = {'type': 'ellipse',
             'x1': head_x - head_radius,
@@ -71,7 +92,7 @@ def generate_head(head_radius, body, color):
             'height': head_radius * 2,
             'color': color}
 
-    return head
+    return head, left_eye, right_eye
 
 
 def generate_biomorph(genes, start_x=None, start_y=None, img_size=(500, 500), biomorph=None):
@@ -83,10 +104,12 @@ def generate_biomorph(genes, start_x=None, start_y=None, img_size=(500, 500), bi
         start_x, start_y = img_size[0] / 2, img_size[1] / 2
 
     if biomorph.body is None:
-        biomorph.body = generate_default_body(genes['body_radius'], start_x, start_y, biomorph, img_size, genes['color'])
+        biomorph.body = generate_default_body(genes['body_radius'], start_x, start_y, biomorph, img_size,
+                                              genes['color'])
 
     if biomorph.head is None:
-        biomorph.head = generate_head(genes['head_radius'], biomorph.body, genes['color'])
+        biomorph.head, biomorph.left_eye, biomorph.right_eye = generate_head(genes['head_radius'], biomorph.body,
+                                                                             genes['color'])
 
     for angle in range(genes['leg_count']):
         generate_legs(biomorph, start_x, start_y, genes['leg_segments'], genes['color'], genes['leg_width'], angle)

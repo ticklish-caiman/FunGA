@@ -22,6 +22,18 @@ def draw_biomorph(biomorph=None, img_size=(500, 500)):
           biomorph.head['y1'] + biomorph.head['height'])
     draw.ellipse(xy, fill=biomorph.head['color'])
 
+    # Draw eyes
+    draw.ellipse((biomorph.left_eye['x1'] - biomorph.left_eye['radius'],
+                  biomorph.left_eye['y1'] - biomorph.left_eye['radius'],
+                  biomorph.left_eye['x1'] + biomorph.left_eye['radius'],
+                  biomorph.left_eye['y1'] + biomorph.left_eye['radius']),
+                 fill=biomorph.left_eye['color'])
+    draw.ellipse((biomorph.right_eye['x1'] - biomorph.right_eye['radius'],
+                  biomorph.right_eye['y1'] - biomorph.right_eye['radius'],
+                  biomorph.right_eye['x1'] + biomorph.right_eye['radius'],
+                  biomorph.right_eye['y1'] + biomorph.right_eye['radius']),
+                 fill=biomorph.right_eye['color'])
+
     for part in biomorph.legs:
         # adding legs
         if part['type'] == 'line':
