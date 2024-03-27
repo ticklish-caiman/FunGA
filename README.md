@@ -51,11 +51,11 @@ Won't-haves:
 ![25%](https://progress-bar.dev/25?title=progress&width=400)
 6. Pipelines:<br/>
    a) Biomorphs<br/>
-   ![1%](https://progress-bar.dev/1?title=progress&width=400) <br/>
+   ![5%](https://progress-bar.dev/5?title=progress&width=400) <br/>
    b) Shapevo<br/>
    ![2%](https://progress-bar.dev/2?title=progress&width=400) <br/>
    c) TSP <br/>
-   ![0%](https://progress-bar.dev/0?title=progress&width=400) <br/>
+   ![1%](https://progress-bar.dev/1?title=progress&width=400) <br/>
    d) ? <br/>
    e) ? <br/>
 
