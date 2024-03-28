@@ -20,5 +20,5 @@ def generate_random_genes():
         'leg_width': random.randint(2, 15),
         'leg_width_variation': random.randint(1, 2000),
         'color': random.choice(['red', 'green', 'blue']),
-        'offset_angle': random.randint(-20, 20)
+        'offset_angle': random.randint(-5, 5)
     }

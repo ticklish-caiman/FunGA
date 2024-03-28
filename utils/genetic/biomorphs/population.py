@@ -25,10 +25,10 @@ class Biomorph:
         self.head, self.left_eye, self.right_eye = self.generate_head(genes['head_radius'])
 
         for angle_index in range(genes['leg_count']):
-            self.generate_legs(self.body['x1'] + self.body['width'] / 2,
-                               self.body['y1'] + self.body['height'] / 2,
-                               genes['leg_count'], genes['leg_width'], angle_index,
-                               genes['offset_angle'])
+            self.generate_leg(self.body['x1'] + self.body['width'] / 2,
+                              self.body['y1'] + self.body['height'] / 2,
+                              genes['leg_count'], genes['leg_width'], angle_index,
+                              genes['offset_angle'])
 
     def generate_body(self, body_radius, start_x=None, start_y=None):
         """Generates the body of the Biomorph."""
@@ -43,7 +43,7 @@ class Biomorph:
                  'color': self.color})
         return body
 
-    def generate_legs(self, start_x, start_y, leg_segments, width, angle_index, offset_angle):
+    def generate_leg(self, start_x, start_y, leg_segments, leg_width, angle_index, offset_angle):
         if leg_segments == 0:
             # Generate foot
             foot_radius = 10
@@ -57,26 +57,26 @@ class Biomorph:
                 'color': self.color
             })
         else:
-            self.legs.append(self.generate_leg_segment(start_x, start_y, angle_index, offset_angle, leg_segments))
+            self.legs.append(self.generate_leg_segment(start_x, start_y, leg_width, angle_index, offset_angle))
             last_part = self.legs[-1]
-            self.generate_legs(last_part['x2'], last_part['y2'], leg_segments - 1, width, angle_index, offset_angle)
+            self.generate_leg(last_part['x2'], last_part['y2'], leg_segments - 1, leg_width, angle_index, offset_angle)
 
-    def generate_leg_segment(self, start_x=None, start_y=None, width=1, angle_index=0, segment_offset_angle=0):
+    def generate_leg_segment(self, start_x=None, start_y=None, leg_width=1, angle_index=0, segment_offset_angle=0):
         """Generates a single leg segment."""
         # Calculate angle in degrees directly
-        angle_degrees = angle_index / 180
+        angle_degrees = angle_index
         # Optionally offset all legs by some amount for different poses
-        angle_degrees += segment_offset_angle
+        angle_degrees += segment_offset_angle/10
 
         length = 40
         end_x = int(start_x + length * math.cos(angle_degrees))
         end_y = int(start_y + length * math.sin(angle_degrees))
-        leg = ({'type': 'line',
-                'x1': start_x, 'y1': start_y,
-                'x2': end_x, 'y2': end_y,
-                'width': width,
-                'color': self.color})
-        return leg
+        leg_segment = ({'type': 'line',
+                        'x1': start_x, 'y1': start_y,
+                        'x2': end_x, 'y2': end_y,
+                        'width': leg_width,
+                        'color': self.color})
+        return leg_segment
 
     def generate_head(self, head_radius):
         """Generates the head and eyes of the Biomorph."""
