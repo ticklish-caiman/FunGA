@@ -3,7 +3,7 @@ from utils.genetic.biomorphs.population import Biomorph
 
 
 def evolve_biomorphs():
-    biomorph = Biomorph()
+    biomorph = Biomorph(size=(500, 500))
     biomorph.generate_biomorph()
     return draw_biomorph(biomorph)
 

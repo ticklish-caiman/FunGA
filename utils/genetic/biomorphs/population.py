@@ -6,18 +6,18 @@ from utils.genetic.biomorphs.genes import generate_random_genes
 class Biomorph:
     """Represents a single biomorph creature."""
 
-    def __init__(self, leg_segments=3):
+    def __init__(self, size=None):
         """Initializes a Biomorph with default settings."""
         self.body = None
         self.head = None
         self.left_eye = None
         self.right_eye = None
         self.legs = []
-        self.leg_segments = leg_segments
+        # self.leg_segments = leg_segments
         self.color = None
         self.genes = None
         # TODO:
-        self.size = None
+        self.size = size
 
     def generate_biomorph(self):
         """Generates a complete Biomorph based on provided genes or random defaults."""
@@ -26,6 +26,9 @@ class Biomorph:
 
         if self.color is None:
             self.color = self.genes['color']
+
+        if self.size is None:
+            self.size = (500, 500)
 
         self.body = self.generate_body(self.genes['body_radius'])
         self.head, self.left_eye, self.right_eye = self.generate_head(self.genes['head_radius'])
@@ -39,7 +42,7 @@ class Biomorph:
     def generate_body(self, body_radius, start_x=None, start_y=None):
         """Generates the body of the Biomorph."""
         if start_x is None or start_y is None:
-            start_x, start_y = 250, 250  # Default to a center of a 500x500 canvas
+            start_x, start_y = self.size[0]/2, self.size[1]/2
 
         body = ({'type': 'ellipse',
                  'x1': start_x - body_radius,
