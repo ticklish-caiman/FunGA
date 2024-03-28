@@ -6,7 +6,7 @@ from utils.genetic.biomorphs.genes import generate_random_genes
 class Biomorph:
     """Represents a single biomorph creature."""
 
-    def __init__(self, leg_segments=3, color='gray'):
+    def __init__(self, leg_segments=3):
         """Initializes a Biomorph with default settings."""
         self.body = None
         self.head = None
@@ -14,7 +14,7 @@ class Biomorph:
         self.right_eye = None
         self.legs = []
         self.leg_segments = leg_segments
-        self.color = color
+        self.color = None
         self.genes = None
         # TODO:
         self.size = None
@@ -23,6 +23,9 @@ class Biomorph:
         """Generates a complete Biomorph based on provided genes or random defaults."""
         if self.genes is None:
             self.genes = generate_random_genes()
+
+        if self.color is None:
+            self.color = self.genes['color']
 
         self.body = self.generate_body(self.genes['body_radius'])
         self.head, self.left_eye, self.right_eye = self.generate_head(self.genes['head_radius'])
@@ -69,7 +72,7 @@ class Biomorph:
         # Calculate angle in degrees directly
         angle_degrees = angle_index
         # Optionally offset all legs by some amount for different poses
-        angle_degrees += segment_offset_angle/10
+        angle_degrees += segment_offset_angle / 10
 
         length = 40
         end_x = int(start_x + length * math.cos(angle_degrees))
