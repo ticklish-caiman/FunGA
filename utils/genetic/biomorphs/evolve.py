@@ -1,10 +1,11 @@
-from utils.genetic.biomorphs.genes import genes, generate_random_genes
 from utils.genetic.biomorphs.phenotype import draw_biomorph
-from utils.genetic.biomorphs.population import generate_biomorph
+from utils.genetic.biomorphs.population import Biomorph
 
 
 def evolve_biomorphs():
-    return draw_biomorph(generate_biomorph(generate_random_genes()))
+    biomorph = Biomorph()
+    biomorph.generate_biomorph()
+    return draw_biomorph(biomorph)
 
 
 def test_pass_choice(best):

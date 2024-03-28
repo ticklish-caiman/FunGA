@@ -3,12 +3,13 @@ from io import BytesIO
 
 from PIL import Image, ImageDraw
 
-from utils.genetic.biomorphs.population import generate_biomorph
+from utils.genetic.biomorphs.population import Biomorph
 
 
 def draw_biomorph(biomorph=None, img_size=(500, 500)):
     if biomorph is None:
-        biomorph = generate_biomorph()
+        bm = Biomorph()
+        biomorph = bm.generate_biomorph()
     img = Image.new('RGB', img_size, color='white')
     draw = ImageDraw.Draw(img)
 
