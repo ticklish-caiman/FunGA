@@ -15,20 +15,23 @@ class Biomorph:
         self.legs = []
         self.leg_segments = leg_segments
         self.color = color
+        self.genes = None
+        # TODO:
+        self.size = None
 
-    def generate_biomorph(self, genes=None):
+    def generate_biomorph(self):
         """Generates a complete Biomorph based on provided genes or random defaults."""
-        if genes is None:
-            genes = generate_random_genes()
+        if self.genes is None:
+            self.genes = generate_random_genes()
 
-        self.body = self.generate_body(genes['body_radius'])
-        self.head, self.left_eye, self.right_eye = self.generate_head(genes['head_radius'])
+        self.body = self.generate_body(self.genes['body_radius'])
+        self.head, self.left_eye, self.right_eye = self.generate_head(self.genes['head_radius'])
 
-        for angle_index in range(genes['leg_count']):
+        for angle_index in range(self.genes['leg_count']):
             self.generate_leg(self.body['x1'] + self.body['width'] / 2,
                               self.body['y1'] + self.body['height'] / 2,
-                              genes['leg_count'], genes['leg_width'], angle_index,
-                              genes['offset_angle'])
+                              self.genes['leg_count'], self.genes['leg_width'], angle_index,
+                              self.genes['offset_angle'])
 
     def generate_body(self, body_radius, start_x=None, start_y=None):
         """Generates the body of the Biomorph."""
