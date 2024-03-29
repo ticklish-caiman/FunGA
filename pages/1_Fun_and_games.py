@@ -1,7 +1,6 @@
 import streamlit as st
 
 from utils.custom_css import custom_buttons_style
-from utils.genetic.biomorphs.biomorphs_operators import calculate_population_fitness
 from utils.genetic.biomorphs.evolve import draw_biomorph, test_pass_choice
 from utils.genetic.biomorphs.phenotype import get_base64_of_image
 from utils.genetic.shapevo.evolve import evolve
@@ -27,7 +26,7 @@ with tabs[0]:
     col1, col2 = st.columns(2)
     with col1:
         st.header("Initial population")
-        population = init_population(10)
+        population = init_population(1)
         for individual in population:
             entropy, white_ratio, fitness = calculate_fitness_return_all(individual)
             st.image(draw_image_from_array(individual),
@@ -35,12 +34,12 @@ with tabs[0]:
             # st.image(draw_image_from_array(rotation_mutation(individual.copy())),
             #          caption=f"Mutant")
     with col2:
-        evolved_population = evolve(population)
+        # evolved_population = evolve(population)
         st.header('Evolved population')
-        for individual in evolved_population:
-            entropy, white_ratio, fitness = calculate_fitness_return_all(individual)
-            st.image(draw_image_from_array(individual),
-                     caption=f"Entropy: {entropy:.4f}, White Ratio: {white_ratio:4f}, Fitness: {fitness:.4f}")
+        # for individual in evolved_population:
+        #     entropy, white_ratio, fitness = calculate_fitness_return_all(individual)
+        #     st.image(draw_image_from_array(individual),
+        #              caption=f"Entropy: {entropy:.4f}, White Ratio: {white_ratio:4f}, Fitness: {fitness:.4f}")
 
 with tabs[1]:
     st.header(_('Biomorphs'))
