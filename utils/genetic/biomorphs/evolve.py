@@ -18,18 +18,18 @@ def init_biomorphs_population(pop_size=10):
     return biomorphs
 
 
-def evolve_biomrophs(population):
-    # assume that 0 was chosen
-    population[0].chosen_one = True
+def evolve_biomrophs(population, chosen_one_index=0):
+    print('chosen_one_index:', chosen_one_index)
+    population[chosen_one_index].chosen_one = True
     calculate_population_fitness(population)
-    for biomorph in population:
-        print(biomorph.fitness)
-    print("Winner:", tournament_selection(population).fitness)
+    new_population = []
+    for i in range(len(population)):
+        new_population.append(tournament_selection(population))
+    return new_population
 
 
 def test_pass_choice(best):
     print(best)
 
-
-pop = init_biomorphs_population()
-evolve_biomrophs(pop)
+# pop = init_biomorphs_population()
+# evolve_biomrophs(pop)

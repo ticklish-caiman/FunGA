@@ -36,7 +36,7 @@ def apply_elitism(population, num_elites=1):
     return new_population
 
 
-def tournament_selection(population, tournament_size=10):
+def tournament_selection(population, tournament_size=9):
     if population[0].fitness is None:
         population = calculate_population_fitness(population)
     # Sample indices of participants

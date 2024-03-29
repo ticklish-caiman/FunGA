@@ -1,7 +1,8 @@
 import streamlit as st
 
 from utils.custom_css import custom_buttons_style
-from utils.genetic.biomorphs.evolve import draw_biomorph_pil, test_pass_choice, draw_biomorph, init_biomorphs_population
+from utils.genetic.biomorphs.evolve import draw_biomorph_pil, test_pass_choice, draw_biomorph, \
+    init_biomorphs_population, evolve_biomrophs
 from utils.genetic.biomorphs.phenotype import get_base64_of_image
 from utils.genetic.shapevo.evolve import evolve
 from utils.genetic.shapevo.operators import calculate_fitness_return_all
@@ -46,29 +47,39 @@ with tabs[1]:
 
     custom_buttons_style()
 
-    if "clicked" not in st.session_state:
-        st.session_state["clicked"] = ""
-
     # User input for columns and rows
     # num_columns = st.sidebar.number_input("Number of columns", min_value=1, max_value=12, value=3)
     num_columns = 3  # only 3 columns look good
     num_rows = st.sidebar.number_input("Number of rows", min_value=1, max_value=12, value=3)
 
+    if "clicked" not in st.session_state:
+        st.session_state["clicked"] = None
 
-    def on_click():
-        pass
-        # biomorphs = []
-        # for i in range(num_columns * num_rows):
-        #     biomorphs.append(get_base64_of_image(draw_biomorph()))
-
+    if "biomorphs" not in st.session_state:
+        st.session_state["biomorphs"] = init_biomorphs_population(num_columns * num_rows)
 
     # Initialize biomorphs (you may want to move this into on_click
     # if they need to be generated on demand)
-    biomorphs = init_biomorphs_population(num_columns * num_rows)
+
     biomorphs_img = []
 
-    for biomorph in biomorphs:
+    for biomorph in st.session_state["biomorphs"]:
         biomorphs_img.append(get_base64_of_image(draw_biomorph_pil(biomorph)))
+
+
+    def on_click():
+        if st.session_state["clicked"] is not None:
+            biomorphs = evolve_biomrophs(st.session_state["biomorphs"], st.session_state["clicked"])
+            st.session_state["biomorphs"] = biomorphs
+            for biomorph in biomorphs:
+                biomorphs_img.append(get_base64_of_image(draw_biomorph_pil(biomorph)))
+            st.session_state["clicked"] = None
+            # forcing rerun so the page gets updated after the firs click
+            # I don't see much differance in performance, but it might be a good idea to
+            # implement a counter, so we force the rerun only the firs time
+            st.rerun()
+
+
 
     biomorph_id = 0
     # Dynamic grid creation
@@ -79,7 +90,6 @@ with tabs[1]:
 
         for i, biomorph_img in enumerate(biomorphs_img[start_index:end_index]):
             col_index = i % num_columns  # Get the column index within the current row
-            print(biomorph_img)
             with cols[col_index]:
                 with st.container(border=1):
                     if st.button("⬇️ Choose me ⬇️", args=i, key=biomorph_id, on_click=on_click()):
