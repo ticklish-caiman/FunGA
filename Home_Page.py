@@ -15,12 +15,28 @@ db_helper = DatabaseHelper('database/data/funga_data.db')
 if 'language' not in st.session_state:
     st.session_state['language'] = 'en'
 
+if 'language_selected' not in st.session_state:
+    st.session_state['language_selected'] = 'en'
+
 lang_menu = st.sidebar.popover(_('🌍 Language/Język'), use_container_width=True)
 language = st.session_state.get('language')
-# ISSUE: when using index=language_index (necessary to not go back to en when switching pages) in the second
-# language switch, it is necessary to click twice on the radio option
+
+
+# ISSUE: when using index=language_index (necessary to not go back to en when switching pages) in the second language
+# switch, it is necessary to click twice on the radio option FIX: on_change switch the language and force page rerun
+# - downside: after returning to Home_Page language returns to 'eng'
+def fix_double_click():
+    if st.session_state['language_selected'] != st.session_state['language']:
+        if st.session_state['language'] == 'pl':
+            st.session_state['language'] = 'en'
+        else:
+            st.session_state['language'] = 'pl'
+        st.rerun()
+
+
 st.session_state['language'] = lang_menu.radio('Language', ['en', 'pl'], label_visibility='collapsed',
-                                               index=0 if language == 'en' else 1, captions=['💂 English', '🥟 Polski'])
+                                               index=0 if language == 'en' else 1, captions=['💂 English', '🥟 Polski'],
+                                               on_change=fix_double_click())
 
 # Apply translation only if needed
 if st.session_state['language'] != 'en':
