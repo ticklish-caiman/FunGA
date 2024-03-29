@@ -77,15 +77,15 @@ with tabs[1]:
         start_index = row * num_columns
         end_index = start_index + num_columns
 
-        for i, biomorphs_img in enumerate(biomorphs_img[start_index:end_index]):
+        for i, biomorph_img in enumerate(biomorphs_img[start_index:end_index]):
             col_index = i % num_columns  # Get the column index within the current row
-            print(biomorphs_img)
+            print(biomorph_img)
             with cols[col_index]:
                 with st.container(border=1):
                     if st.button("⬇️ Choose me ⬇️", args=i, key=biomorph_id, on_click=on_click()):
                         st.session_state["clicked"] = biomorph_id
                         test_pass_choice(biomorph_id)
-                    st.image(biomorphs_img, width=200)
+                    st.image(biomorph_img, width=200)
                 biomorph_id += 1
 
 with tabs[2]:
