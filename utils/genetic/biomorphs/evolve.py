@@ -1,15 +1,15 @@
 from utils.genetic.biomorphs.biomorphs_operators import calculate_population_fitness, tournament_selection
-from utils.genetic.biomorphs.phenotype import draw_biomorph
+from utils.genetic.biomorphs.phenotype import draw_biomorph_pil
 from utils.genetic.biomorphs.population import Biomorph
 
 
 def draw_biomorph():
     biomorph = Biomorph(size=(500, 500))
     biomorph.generate_biomorph()
-    return draw_biomorph(biomorph)
+    return draw_biomorph_pil(biomorph)
 
 
-def init_population(pop_size=10):
+def init_biomorphs_population(pop_size=10):
     biomorphs = []
     for i in range(pop_size):
         biomorph = Biomorph(size=(500, 500))
@@ -31,5 +31,5 @@ def test_pass_choice(best):
     print(best)
 
 
-pop = init_population()
+pop = init_biomorphs_population()
 evolve_biomrophs(pop)

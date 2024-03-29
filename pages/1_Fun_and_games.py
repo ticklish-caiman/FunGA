@@ -1,7 +1,7 @@
 import streamlit as st
 
 from utils.custom_css import custom_buttons_style
-from utils.genetic.biomorphs.evolve import draw_biomorph, test_pass_choice
+from utils.genetic.biomorphs.evolve import draw_biomorph_pil, test_pass_choice, draw_biomorph, init_biomorphs_population
 from utils.genetic.biomorphs.phenotype import get_base64_of_image
 from utils.genetic.shapevo.evolve import evolve
 from utils.genetic.shapevo.operators import calculate_fitness_return_all
@@ -56,16 +56,19 @@ with tabs[1]:
 
 
     def on_click():
-        biomorphs = []
-        for i in range(num_columns * num_rows):
-            biomorphs.append(get_base64_of_image(draw_biomorph()))
+        pass
+        # biomorphs = []
+        # for i in range(num_columns * num_rows):
+        #     biomorphs.append(get_base64_of_image(draw_biomorph()))
 
 
     # Initialize biomorphs (you may want to move this into on_click
     # if they need to be generated on demand)
-    biomorphs = []
-    for i in range(num_columns * num_rows):
-        biomorphs.append(get_base64_of_image(draw_biomorph()))
+    biomorphs = init_biomorphs_population(num_columns * num_rows)
+    biomorphs_img = []
+
+    for biomorph in biomorphs:
+        biomorphs_img.append(get_base64_of_image(draw_biomorph_pil(biomorph)))
 
     biomorph_id = 0
     # Dynamic grid creation
@@ -74,15 +77,15 @@ with tabs[1]:
         start_index = row * num_columns
         end_index = start_index + num_columns
 
-        for i, biomorph in enumerate(biomorphs[start_index:end_index]):
+        for i, biomorphs_img in enumerate(biomorphs_img[start_index:end_index]):
             col_index = i % num_columns  # Get the column index within the current row
-
+            print(biomorphs_img)
             with cols[col_index]:
                 with st.container(border=1):
                     if st.button("⬇️ Choose me ⬇️", args=i, key=biomorph_id, on_click=on_click()):
                         st.session_state["clicked"] = biomorph_id
                         test_pass_choice(biomorph_id)
-                    st.image(biomorph, width=200)
+                    st.image(biomorphs_img, width=200)
                 biomorph_id += 1
 
 with tabs[2]:

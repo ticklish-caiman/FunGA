@@ -19,6 +19,7 @@ class Biomorph:
         self.size = size
         self.fitness = None
         self.chosen_one = False
+        # TODO: maybe store the PIL img data inside the object?
 
     def generate_biomorph(self):
         """Generates a complete Biomorph based on provided genes or random defaults."""
