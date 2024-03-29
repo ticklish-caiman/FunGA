@@ -46,7 +46,7 @@ def tournament_selection(population, tournament_size=10):
     fitness_scores = [population[i].fitness for i in participant_indices]
     print('fitness scores: ', fitness_scores)
     # Index of the winner (the highest fitness)
-    winner_index = np.argmax(fitness_scores)
+    winner_index = participant_indices[np.argmax(fitness_scores)]
     print('winner_index: ', winner_index)
     return population[winner_index]
 

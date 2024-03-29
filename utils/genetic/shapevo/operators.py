@@ -65,12 +65,10 @@ def apply_elitism(population, num_elites=1):
 def tournament_selection(population, tournament_size=4):
     # Sample indices of participants
     participant_indices = random.sample(range(len(population)), tournament_size)
-
     # Get fitness scores of participants
     fitness_scores = [calculate_fitness(population[i]) for i in participant_indices]
-
     # Index of the winner (the highest fitness)
-    winner_index = np.argmax(fitness_scores)
+    winner_index = participant_indices[np.argmax(fitness_scores)]
     return population[winner_index]
 
 
