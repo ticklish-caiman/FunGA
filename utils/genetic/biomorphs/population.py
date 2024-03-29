@@ -16,8 +16,9 @@ class Biomorph:
         # self.leg_segments = leg_segments
         self.color = None
         self.genes = None
-        # TODO:
         self.size = size
+        self.fitness = None
+        self.chosen_one = False
 
     def generate_biomorph(self):
         """Generates a complete Biomorph based on provided genes or random defaults."""

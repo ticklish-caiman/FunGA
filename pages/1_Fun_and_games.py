@@ -1,7 +1,8 @@
 import streamlit as st
 
 from utils.custom_css import custom_buttons_style
-from utils.genetic.biomorphs.evolve import evolve_biomorphs, test_pass_choice
+from utils.genetic.biomorphs.biomorphs_operators import calculate_population_fitness
+from utils.genetic.biomorphs.evolve import draw_biomorph, test_pass_choice
 from utils.genetic.biomorphs.phenotype import get_base64_of_image
 from utils.genetic.shapevo.operators import calculate_fitness_return_all
 from utils.genetic.shapevo.phenotype import draw_image_from_array
@@ -57,14 +58,14 @@ with tabs[1]:
     def on_click():
         biomorphs = []
         for i in range(num_columns * num_rows):
-            biomorphs.append(get_base64_of_image(evolve_biomorphs()))
+            biomorphs.append(get_base64_of_image(draw_biomorph()))
 
 
     # Initialize biomorphs (you may want to move this into on_click
     # if they need to be generated on demand)
     biomorphs = []
     for i in range(num_columns * num_rows):
-        biomorphs.append(get_base64_of_image(evolve_biomorphs()))
+        biomorphs.append(get_base64_of_image(draw_biomorph()))
 
     biomorph_id = 0
     # Dynamic grid creation
