@@ -56,6 +56,7 @@ with tabs[1]:
         st.session_state["clicked"] = None
 
     if "biomorphs" not in st.session_state:
+        print("Initializing biomorphs")
         st.session_state["biomorphs"] = init_biomorphs_population(num_columns * num_rows)
 
     # Initialize biomorphs (you may want to move this into on_click
@@ -63,8 +64,8 @@ with tabs[1]:
 
     biomorphs_img = []
 
-    for biomorph in st.session_state["biomorphs"]:
-        biomorphs_img.append(get_base64_of_image(draw_biomorph_pil(biomorph)))
+    for bm in st.session_state["biomorphs"]:
+        biomorphs_img.append(get_base64_of_image(draw_biomorph_pil(bm)))
 
 
     def on_click():
@@ -74,13 +75,13 @@ with tabs[1]:
             for biomorph in biomorphs:
                 biomorphs_img.append(get_base64_of_image(draw_biomorph_pil(biomorph)))
             st.session_state["clicked"] = None
-            # forcing rerun so the page gets updated after the firs click
+            # forcing rerun so the page gets updated after the firs click (BUT DOESN'T SHOW EVOLVED POPULATION!)
             # I don't see much differance in performance, but it might be a good idea to
-            # implement a counter, so we force the rerun only the firs time
+            # implement a counter, so we force the rerun only the first time
             st.rerun()
 
 
-
+    print(st.session_state["biomorphs"][0].genes)
     biomorph_id = 0
     # Dynamic grid creation
     for row in range(num_rows):

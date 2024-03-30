@@ -1,4 +1,4 @@
-streamlit~=1.32.1
+streamlit~=1.32.2
 streamlit-elements~=0.1.0
 pandas~=2.2.1
 numpy~=1.26.4
