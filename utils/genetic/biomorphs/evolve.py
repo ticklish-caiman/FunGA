@@ -1,4 +1,5 @@
-from utils.genetic.biomorphs.biomorphs_operators import calculate_population_fitness, tournament_selection
+from utils.genetic.biomorphs.biomorphs_operators import calculate_population_fitness, tournament_selection, \
+    arithmetic_crossover
 from utils.genetic.biomorphs.phenotype import draw_biomorph_pil
 from utils.genetic.biomorphs.population import Biomorph
 
@@ -19,12 +20,11 @@ def init_biomorphs_population(pop_size=10):
 
 
 def evolve_biomrophs(population, chosen_one_index=0):
-    print('chosen_one_index:', chosen_one_index)
     population[chosen_one_index].chosen_one = True
     calculate_population_fitness(population)
     new_population = []
     for i in range(len(population)):
-        new_population.append(tournament_selection(population))
+        new_population.append(arithmetic_crossover(tournament_selection(population), tournament_selection(population)))
     return new_population
 
 

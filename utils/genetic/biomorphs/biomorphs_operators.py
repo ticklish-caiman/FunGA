@@ -2,6 +2,23 @@ import random
 
 import numpy as np
 
+from utils.genetic.biomorphs.population import Biomorph
+
+
+def arithmetic_crossover(biomorph1, biomorph2):
+    """Performs arithmetic crossover between two biomorphs, generating a new gene dictionary."""
+
+    offspring_genes = {}  # Create a dictionary for the offspring's genes
+
+    for gene_name in biomorph1.genes:
+        if type(biomorph1.genes[gene_name]) is int:
+            average_gene = (biomorph1.genes[gene_name] + biomorph2.genes[gene_name]) // 2
+            offspring_genes[gene_name] = average_gene
+    offspring = Biomorph(size=biomorph1.size, genes=offspring_genes)
+    offspring.color = random.choice([biomorph1.color, biomorph2.color])
+    offspring.generate_biomorph()
+    return offspring
+
 
 def calculate_population_fitness(population):
     for i, biomorph in enumerate(population):
@@ -13,7 +30,6 @@ def calculate_population_fitness(population):
             total_difference = 0
             for gene_name, gene_value in biomorph.genes.items():
                 if type(gene_value) is int:
-                    # print('gene_name:', gene_name, 'gene_value:', gene_value)
                     total_difference += abs(gene_value - population[chosen_one_index].genes[gene_name])
                     try:
                         fitness_scores.append(1 / total_difference)  # Lower difference -> higher fitness
@@ -36,18 +52,15 @@ def apply_elitism(population, num_elites=1):
     return new_population
 
 
-def tournament_selection(population, tournament_size=9):
+def tournament_selection(population, tournament_size=2):
     if population[0].fitness is None:
         population = calculate_population_fitness(population)
     # Sample indices of participants
     participant_indices = random.sample(range(len(population)), tournament_size)
-    print('participant_indices', participant_indices)
     # Get fitness scores of participants
     fitness_scores = [population[i].fitness for i in participant_indices]
-    print('fitness scores: ', fitness_scores)
     # Index of the winner (the highest fitness)
     winner_index = participant_indices[np.argmax(fitness_scores)]
-    print('winner_index: ', winner_index)
     return population[winner_index]
 
 

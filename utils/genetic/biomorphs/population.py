@@ -6,7 +6,7 @@ from utils.genetic.biomorphs.genes import generate_random_genes
 class Biomorph:
     """Represents a single biomorph creature."""
 
-    def __init__(self, size=None):
+    def __init__(self, size=None, genes=None):
         """Initializes a Biomorph with default settings."""
         self.body = None
         self.head = None
@@ -15,7 +15,7 @@ class Biomorph:
         self.legs = []
         # self.leg_segments = leg_segments
         self.color = None
-        self.genes = None
+        self.genes = genes
         self.size = size
         self.fitness = None
         self.chosen_one = False
