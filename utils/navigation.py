@@ -1,6 +1,5 @@
 import streamlit as st
 import gettext
-
 from utils.streamlit_demos import sliders, chart, selectbox, multiselect, checkbox, file_uploader, progress, form, \
     session_demo
 
@@ -12,8 +11,11 @@ tabs_options = ["Tab 1 ", "Tab 2 ", "Tab 3 ", "Tab 4 ", "Tab 5"]
 
 def show_main_menu(_):
     st.sidebar.page_link("Home_Page.py", label=_("Home"), icon="🏠")
-    st.sidebar.page_link("pages/1_Fun_and_games.py", label=_("Fun and games"), icon="🕹️")
-    st.sidebar.page_link("pages/2_Theory.py", label=_("Theory"), icon="📚")
+    with st.sidebar.expander("Fun and games 🕹️", expanded=True):
+        st.page_link("pages/1_Biomorphs.py", label=_("Biomorphs"), icon="😶️")
+        st.page_link("pages/2_Shapevo.py", label=_("Shapevo"), icon="💠️")
+        st.page_link("pages/3_TSP.py", label=_("TSP"), icon="🗺️️")
+    st.sidebar.page_link("pages/4_Theory.py", label=_("Theory"), icon="📚")
     st.sidebar.page_link("pages/About.py", label=_("About"), icon="❓")
 
 
