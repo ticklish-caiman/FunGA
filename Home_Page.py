@@ -25,18 +25,18 @@ language = st.session_state.get('language')
 # ISSUE: when using index=language_index (necessary to not go back to en when switching pages) in the second language
 # switch, it is necessary to click twice on the radio option FIX: on_change switch the language and force page rerun
 # - downside: after returning to Home_Page language returns to 'eng'
-def fix_double_click():
-    if st.session_state['language_selected'] != st.session_state['language']:
-        if st.session_state['language'] == 'pl':
-            st.session_state['language'] = 'en'
-        else:
-            st.session_state['language'] = 'pl'
-        st.rerun()
+# - bigger downside: it breaks login form
+# def fix_double_click():
+#     if st.session_state['language_selected'] != st.session_state['language']:
+#         if st.session_state['language_selected'] == 'pl':
+#             st.session_state['language'] = 'pl'
+#         else:
+#             st.session_state['language'] = 'en'
+#         st.rerun()
 
 
 st.session_state['language'] = lang_menu.radio('Language', ['en', 'pl'], label_visibility='collapsed',
-                                               index=0 if language == 'en' else 1, captions=['💂 English', '🥟 Polski'],
-                                               on_change=fix_double_click())
+                                               index=0 if language == 'en' else 1, captions=['💂 English', '🥟 Polski'])
 
 # Apply translation only if needed
 if st.session_state['language'] != 'en':
