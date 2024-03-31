@@ -26,6 +26,13 @@ if "biomorphs" not in st.session_state:
 if "first_run" not in st.session_state:
     st.session_state["first_run"] = True
 
+if not st.session_state["first_run"]:
+    if st.button("🔄 START  AGAIN 🔄", type='primary'):
+        del st.session_state["biomorphs"]
+        del st.session_state["first_run"]
+        del st.session_state["clicked"]
+        st.rerun()
+
 biomorphs_img = []
 
 for bm in st.session_state["biomorphs"]:
@@ -44,7 +51,6 @@ def on_click():
         st.rerun()
 
 
-print(st.session_state["biomorphs"][0].genes)
 biomorph_id = 0
 # Dynamic grid creation
 for row in range(num_rows):
