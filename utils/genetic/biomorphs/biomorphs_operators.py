@@ -9,9 +9,7 @@ def mutation(biomorph, mutation_rate=0.9):
     if random.random() < mutation_rate:
         for gene_name in biomorph.genes:
             if type(biomorph.genes[gene_name]) is int:
-                print('Before mutation:', biomorph.genes[gene_name])
                 biomorph.genes[gene_name] = biomorph.genes[gene_name] * 2
-                print('After mutation:', biomorph.genes[gene_name])
     return biomorph
 
 

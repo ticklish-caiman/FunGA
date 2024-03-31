@@ -14,20 +14,17 @@ st.header(_('Biomorphs'))
 
 custom_buttons_style()
 
-# User input for columns and rows
-# num_columns = st.sidebar.number_input("Number of columns", min_value=1, max_value=12, value=3)
-num_columns = 3  # only 3 columns look good
-num_rows = st.sidebar.number_input("Number of rows", min_value=1, max_value=12, value=3)
+num_columns = 3
+num_rows = 4
 
 if "clicked" not in st.session_state:
     st.session_state["clicked"] = None
 
 if "biomorphs" not in st.session_state:
-    print("Initializing biomorphs")
     st.session_state["biomorphs"] = init_biomorphs_population(num_columns * num_rows)
 
-# Initialize biomorphs (you may want to move this into on_click
-# if they need to be generated on demand)
+if "first_run" not in st.session_state:
+    st.session_state["first_run"] = True
 
 biomorphs_img = []
 
@@ -42,9 +39,8 @@ def on_click():
         for biomorph in biomorphs:
             biomorphs_img.append(get_base64_of_image(draw_biomorph_pil(biomorph)))
         st.session_state["clicked"] = None
-        # forcing rerun so the page gets updated after the firs click (BUT DOESN'T SHOW EVOLVED POPULATION!)
-        # I don't see much differance in performance, but it might be a good idea to
-        # implement a counter, so we force the rerun only the first time
+        # Forcing rerun so the page gets updated after the first click (BUT DOESN'T SHOW EVOLVED POPULATION!)
+        # The workaround: make the user click once to initiate and only then display biomorphs
         st.rerun()
 
 
@@ -60,8 +56,15 @@ for row in range(num_rows):
         col_index = i % num_columns  # Get the column index within the current row
         with cols[col_index]:
             with st.container(border=1):
-                if st.button("⬇️ Choose me ⬇️", args=i, key=biomorph_id, on_click=on_click()):
-                    st.session_state["clicked"] = biomorph_id
-                    test_pass_choice(biomorph_id)
-                st.image(biomorph_img, width=200)
+                if not st.session_state["first_run"]:
+                    if st.button("⬇️ Choose me ⬇️", key=biomorph_id, on_click=on_click()):
+                        st.session_state["clicked"] = biomorph_id
+                        test_pass_choice(biomorph_id)
+                    st.image(biomorph_img, width=200)
+                else:
+                    # To bypass "the double click bug" we make the user click on a blank array first
+                    if st.button("START GENERATING", key=biomorph_id, on_click=on_click()):
+                        st.session_state["clicked"] = biomorph_id
+                        test_pass_choice(biomorph_id)
+                        st.session_state["first_run"] = False
             biomorph_id += 1
