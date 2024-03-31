@@ -1,6 +1,6 @@
 import math
 
-from utils.genetic.biomorphs.genes import generate_random_genes
+from utils.genetic.biomorphs.biomorphs_genes import generate_random_genes
 
 
 class Biomorph:

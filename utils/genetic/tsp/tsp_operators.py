@@ -1,6 +1,6 @@
 import math
 import random
-from utils.genetic.tsp.genes import cities
+from utils.genetic.tsp.tsp_genes import cities
 
 
 # Fitness function: total distance

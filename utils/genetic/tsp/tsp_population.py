@@ -1,7 +1,7 @@
 import random
-from utils.genetic.tsp.genes import cities
-from utils.genetic.tsp.operators import tournament_selection, order_crossover, swap_mutation, route_distance
-from utils.genetic.tsp.phenotype import plot_route
+from utils.genetic.tsp.tsp_genes import cities
+from utils.genetic.tsp.tsp_operators import tournament_selection, order_crossover, swap_mutation, route_distance
+from utils.genetic.tsp.tsp_phenotype import plot_route
 
 
 # Initialize population

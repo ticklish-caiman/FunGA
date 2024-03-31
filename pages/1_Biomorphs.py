@@ -1,9 +1,9 @@
 import streamlit as st
 
 from utils.custom_css import custom_buttons_style
-from utils.genetic.biomorphs.evolve import draw_biomorph_pil, test_pass_choice, init_biomorphs_population, \
+from utils.genetic.biomorphs.biomorphs_evolve import draw_biomorph_pil, test_pass_choice, init_biomorphs_population, \
     evolve_biomrophs
-from utils.genetic.biomorphs.phenotype import get_base64_of_image
+from utils.genetic.biomorphs.biomorphs_phenotype import get_base64_of_image
 from utils.navigation import show_main_menu, get_localizator
 
 _ = get_localizator()

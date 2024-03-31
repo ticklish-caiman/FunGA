@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-from utils.genetic.tsp.operators import route_distance
+from utils.genetic.tsp.tsp_operators import route_distance
 
 
 # Visualization function

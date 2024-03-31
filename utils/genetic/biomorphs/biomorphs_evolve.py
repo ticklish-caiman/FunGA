@@ -1,7 +1,7 @@
 from utils.genetic.biomorphs.biomorphs_operators import calculate_population_fitness, tournament_selection, \
     arithmetic_crossover, mutation
-from utils.genetic.biomorphs.phenotype import draw_biomorph_pil
-from utils.genetic.biomorphs.population import Biomorph
+from utils.genetic.biomorphs.biomorphs_phenotype import draw_biomorph_pil
+from utils.genetic.biomorphs.biomorphs_population import Biomorph
 
 
 def draw_biomorph():

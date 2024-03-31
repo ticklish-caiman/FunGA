@@ -2,7 +2,7 @@ import random
 
 import numpy as np
 
-from utils.genetic.biomorphs.population import Biomorph
+from utils.genetic.biomorphs.biomorphs_population import Biomorph
 
 
 def mutation(biomorph, mutation_rate=0.9):

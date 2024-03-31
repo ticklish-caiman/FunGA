@@ -1,6 +1,6 @@
 import random
 
-from utils.genetic.shapevo.genes import get_binary_array_circle_cutout, get_binary_array_circle, get_binary_biased_array_random, \
+from utils.genetic.shapevo.shapevo_genes import get_binary_array_circle_cutout, get_binary_array_circle, get_binary_biased_array_random, \
     get_binary_array_alternating_squares, get_array_and_not_array
 
 

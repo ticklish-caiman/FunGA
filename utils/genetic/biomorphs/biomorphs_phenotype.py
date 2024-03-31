@@ -3,7 +3,7 @@ from io import BytesIO
 
 from PIL import Image, ImageDraw
 
-from utils.genetic.biomorphs.population import Biomorph
+from utils.genetic.biomorphs.biomorphs_population import Biomorph
 
 
 def draw_biomorph_pil(biomorph=None):
