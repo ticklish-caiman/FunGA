@@ -9,7 +9,10 @@ def mutation(biomorph, mutation_rate=0.9):
     if random.random() < mutation_rate:
         for gene_name in biomorph.genes:
             if type(biomorph.genes[gene_name]) is int:
-                biomorph.genes[gene_name] = biomorph.genes[gene_name] * 2
+                if random.random() < 0.5:
+                    biomorph.genes[gene_name] = biomorph.genes[gene_name] + int(0.3 * biomorph.genes[gene_name])
+                else:
+                    biomorph.genes[gene_name] = biomorph.genes[gene_name] - int(0.3 * biomorph.genes[gene_name])
     return biomorph
 
 
@@ -22,6 +25,11 @@ def arithmetic_crossover(biomorph1, biomorph2):
         if type(biomorph1.genes[gene_name]) is int:
             average_gene = (biomorph1.genes[gene_name] + biomorph2.genes[gene_name]) // 2
             offspring_genes[gene_name] = average_gene
+        if type(biomorph2.genes[gene_name]) is str:
+            if random.random() < 0.5:
+                offspring_genes[gene_name] = biomorph1.genes[gene_name]
+            else:
+                offspring_genes[gene_name] = biomorph2.genes[gene_name]
     offspring = Biomorph(size=biomorph1.size, genes=offspring_genes)
     offspring.color = random.choice([biomorph1.color, biomorph2.color])
     offspring.generate_biomorph()
@@ -38,7 +46,7 @@ def calculate_population_fitness(population):
             total_difference = 0
             for gene_name, gene_value in biomorph.genes.items():
                 if type(gene_value) is int:
-                    total_difference += abs(gene_value - population[chosen_one_index].genes[gene_name])
+                    total_difference += abs(gene_value - population[chosen_one_index].genes[gene_name]) ** 3
                     try:
                         fitness_scores.append(1 / total_difference)  # Lower difference -> higher fitness
                     except ZeroDivisionError:
@@ -60,7 +68,7 @@ def apply_elitism(population, num_elites=1):
     return new_population
 
 
-def tournament_selection(population, tournament_size=2):
+def tournament_selection(population, tournament_size=3):
     if population[0].fitness is None:
         population = calculate_population_fitness(population)
     # Sample indices of participants
