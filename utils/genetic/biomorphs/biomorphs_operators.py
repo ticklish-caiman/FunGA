@@ -1,11 +1,12 @@
 import random
+from typing import List
 
 import numpy as np
 
 from utils.genetic.biomorphs.biomorphs_population import Biomorph
 
 
-def mutation(biomorph, mutation_rate=0.9):
+def mutation(biomorph: Biomorph, mutation_rate: float = 0.9) -> Biomorph:
     if random.random() < mutation_rate:
         for gene_name in biomorph.genes:
             if type(biomorph.genes[gene_name]) is int:
@@ -16,7 +17,7 @@ def mutation(biomorph, mutation_rate=0.9):
     return biomorph
 
 
-def arithmetic_crossover(biomorph1, biomorph2):
+def arithmetic_crossover(biomorph1: Biomorph, biomorph2: Biomorph) -> Biomorph:
     """Performs arithmetic crossover between two biomorphs, generating a new gene dictionary."""
 
     offspring_genes = {}  # Create a dictionary for the offspring's genes
@@ -36,7 +37,7 @@ def arithmetic_crossover(biomorph1, biomorph2):
     return offspring
 
 
-def calculate_population_fitness(population):
+def calculate_population_fitness(population: List[Biomorph]) -> List[Biomorph]:
     for i, biomorph in enumerate(population):
         if biomorph.chosen_one:
             chosen_one_index = i
@@ -57,7 +58,7 @@ def calculate_population_fitness(population):
     return population
 
 
-def apply_elitism(population, num_elites=1):
+def apply_elitism(population: List[Biomorph], num_elites=1) -> List[Biomorph]:
     # Evaluate fitness and find elites
     fitness_scores = [calculate_population_fitness(x) for x in population]
     elite_indices = np.argsort(fitness_scores)[-num_elites:]
@@ -68,7 +69,7 @@ def apply_elitism(population, num_elites=1):
     return new_population
 
 
-def tournament_selection(population, tournament_size=3):
+def tournament_selection(population: List[Biomorph], tournament_size: int = 3) -> List[Biomorph]:
     if population[0].fitness is None:
         population = calculate_population_fitness(population)
     # Sample indices of participants
