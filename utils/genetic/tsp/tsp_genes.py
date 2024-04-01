@@ -96,7 +96,8 @@ def get_cities(number_of_cities: int = 10):
                 (43, 53), (70, 16), (2, 46), (90, 49), (78, 84), (47, 78), (92, 40), (75, 33)]
 
 
-cities = generate_random_cities()
+# cities = generate_random_cities()
+cities = get_cities(50)
 print(cities)
 
 if cities is None:
