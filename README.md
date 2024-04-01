@@ -55,7 +55,7 @@ Won't-haves:
    b) Shapevo<br/>
    ![2%](https://progress-bar.dev/2?title=progress&width=400) <br/>
    c) TSP <br/>
-   ![1%](https://progress-bar.dev/1?title=progress&width=400) <br/>
+   ![20%](https://progress-bar.dev/20?title=progress&width=400) <br/>
    d) ? <br/>
    e) ? <br/>
 
