@@ -5,6 +5,8 @@ import numpy as np
 
 from utils.genetic.biomorphs.biomorphs_population import Biomorph
 
+rng = np.random.default_rng(seed=42)
+
 
 def mutation(biomorph: Biomorph, mutation_rate: float = 0.9) -> Biomorph:
     if random.random() < mutation_rate:
@@ -85,7 +87,7 @@ def roulette_selection(population):
     fitness_scores = [calculate_population_fitness(x) for x in population]
     score_sum = np.sum(fitness_scores)  # Use NumPy's sum for efficiency
     wheel_sum = 0.0
-    choice = np.random.uniform(0.0, 1.0)
+    choice = rng.uniform(0.0, 1.0)
 
     for i, individual in enumerate(population):
         wheel_sum += (fitness_scores[i] / score_sum)
