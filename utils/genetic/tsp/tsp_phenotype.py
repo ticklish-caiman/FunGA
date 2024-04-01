@@ -15,8 +15,10 @@ def plot_route(route, generation, cities, generations):
     plt.plot(x_coords, y_coords, 'bo-')
 
     plt.scatter([city[0] for city in cities], [city[1] for city in cities], s=100, c='red')
+    plot_title = f'Generation: {generation + 1}/{generations} ({((generation + 1) / generations) * 100:.0f}%)\nDistance: {route_distance(route, cities):.2f}\nCities: {len(cities)}'
+    font1 = {'family': 'serif', 'color': 'blue', 'size': 12}
     plt.title(
-        f'Generation: {generation + 1}/{generations} ({((generation + 1) / generations) * 100:.0f}%)\nDistance: {route_distance(route, cities):.2f}\nCities:{len(cities)}')
+        plot_title, loc='left', fontdict=font1)
     # plt.show()
     # Store the plot as an image in memory
     buffer = io.BytesIO()
