@@ -2,7 +2,6 @@ import streamlit as st
 
 from utils.genetic.tsp.tsp_evolve import create_population, evolve
 from utils.genetic.tsp.tsp_genes import generate_cities
-from utils.genetic.tsp.tsp_operators import route_distance
 from utils.navigation import show_main_menu, get_localizator
 
 _ = get_localizator()
