@@ -1,3 +1,5 @@
+from _ast import withitem
+
 import streamlit as st
 
 from utils.genetic.tsp.tsp_evolve import create_population, evolve
@@ -11,22 +13,33 @@ show_main_menu(_)
 if 'tsp_plot' not in st.session_state:
     st.session_state['tsp_plot'] = None
 
+if 'simple_mode' not in st.session_state:
+    st.session_state['simple_mode'] = True
+if 'generations_choice' not in st.session_state:
+    st.session_state['generations_choice'] = 500
+
 st.header(_('Traveling Salesman Problem'))
 
-# Input parameters from the user
-cities_count = st.number_input("How many cities:", min_value=5, value=50, max_value=300)
-random_cities = st.checkbox('⬅️ Random cities')
-pop_size = st.number_input("Population Size", min_value=10, value=50)
-generations = st.number_input("Generations", min_value=50, value=500)
-tournament_size = st.number_input("Tournament size:", min_value=2, value=int(pop_size / 10), max_value=pop_size)
-mutation_rate = st.number_input("Mutation rate:", min_value=0.01, value=0.5, step=0.01)
+generations = st.number_input("Generations", min_value=50, value=st.session_state['generations_choice'])
+
+
+with st.popover("Show Advanced options"):
+    col1, col2 = st.columns(2)
+    with col1:
+        pop_size = st.number_input("Population Size", min_value=10, value=50)
+        cities_count = st.number_input("How many cities:", min_value=5, value=50, max_value=300)
+        random_cities = st.checkbox('⬅️ Random cities')
+    with col2:
+        tournament_size = st.number_input("Tournament size:", min_value=2, value=int(pop_size / 10), max_value=pop_size)
+        mutation_rate = st.number_input("Mutation rate:", min_value=0.01, value=0.5, step=0.01)
 
 if st.button("Start Optimization"):
     with st.spinner("Running Genetic Algorithm..."):
         cities = generate_cities(cities_count, random_cities)
         population = create_population(pop_size, len(cities))
         progress_plot_img = []
-        generator = evolve(population, cities, generations, tournament_size, mutation_rate)  # Get generator object
+        generator = evolve(population, cities, generations, tournament_size,
+                           mutation_rate)  # Get generator object
         image_placeholder = st.empty()  # Create a placeholder
 
         for i, (population, last_image) in enumerate(generator):
