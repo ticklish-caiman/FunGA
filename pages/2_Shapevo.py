@@ -14,7 +14,7 @@ st.header(_('Hello Evolving Shapes'))
 col1, col2 = st.columns(2)
 with col1:
     st.header("Initial population")
-    population = init_population(5)
+    population = init_population(20)
     for individual in population:
         entropy, white_ratio, fitness = calculate_fitness_return_all(individual)
         st.image(draw_image_from_array(individual),

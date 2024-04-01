@@ -1,6 +1,6 @@
 from utils.genetic.shapevo.shapevo_operators import tournament_selection, calculate_fitness_stats, apply_elitism, \
     multi_point_crossover, burst_mutation, \
-    rotation_mutation, row_based_crossover, row_column_swap_mutation, diagonal_reflection_mutation
+    rotation_mutation, row_based_crossover, row_column_swap_mutation, diagonal_reflection_mutation, crossover
 
 
 def evolve(population, generations=200, elitism_rate=0.1):
@@ -15,7 +15,7 @@ def evolve(population, generations=200, elitism_rate=0.1):
             parent2 = tournament_selection(population)
             # parent1 = roulette_selection(population)
             # parent2 = roulette_selection(population)
-            offspring = multi_point_crossover(parent1, parent2)
+            offspring = crossover(parent1, parent2)
             new_population.append(
                 diagonal_reflection_mutation(row_column_swap_mutation(rotation_mutation(burst_mutation(offspring)))))
             # new_population.append(offspring)

@@ -9,24 +9,33 @@ from scipy.ndimage import label
 #     fitness = 1 / (entropy + 1)  # Lower entropy -> higher fitness
 #     return fitness
 
-def calculate_fitness(array):
-    entropy = scipy.stats.entropy(array.flatten()) * 0.1
+def calculate_symmetry(array):
+    mid_column = array.shape[1] // 2
+    left_side = array[:, :mid_column]
+    right_side = np.fliplr(array[:, mid_column:])  # Flip the right side
+    matches = left_side == right_side
+    symmetry_score = np.sum(matches) / (array.shape[0] * mid_column)
+    return symmetry_score
 
+
+def calculate_fitness(array):
+    entropy = 1 / scipy.stats.entropy(array.flatten())
     # Calculate a white pixel ratio (assuming white is 0 and black is 1)
     white_ratio = np.mean(array == 0)
+    symetry_score = calculate_symmetry(array)
     # Combine with a weighting factor (play around with this value)
-    fitness = 0.7 * entropy + 0.3 * white_ratio
+    fitness = 0.5 * entropy + 0.2 * white_ratio + 0.3 * symetry_score
 
     return fitness
 
 
 def calculate_fitness_return_all(array):
-    entropy = scipy.stats.entropy(array.flatten()) * 0.1
+    entropy = 1 / scipy.stats.entropy(array.flatten())
 
     # Calculate a white pixel ratio (assuming white is 0 and black is 1)
     white_ratio = np.mean(array == 0)
     # Combine with a weighting factor (play around with this value)
-    fitness = 0.7 * entropy + 0.3 * white_ratio
+    fitness = 0.9 * entropy + 0.1 * white_ratio
 
     return entropy, white_ratio, fitness
 
@@ -94,7 +103,7 @@ def mutation(array, mutation_rate=0.001):
     return array
 
 
-def burst_mutation(array, mutation_rate=0.1, burst_size=8):
+def burst_mutation(array, mutation_rate=0.1, burst_size=16):
     mutation_center_y = random.randint(0, array.shape[0] - 1)
     mutation_center_x = random.randint(0, array.shape[1] - 1)
 
@@ -120,7 +129,7 @@ def row_column_flip_mutation(array):
     return array
 
 
-def row_column_swap_mutation(array, mutation_rate=0.9):
+def row_column_swap_mutation(array, mutation_rate=0.1):
     if random.random() < mutation_rate:
         # Select random indices for row and column
         row_index = random.randint(0, array.shape[0] - 1)
@@ -134,7 +143,7 @@ def row_column_swap_mutation(array, mutation_rate=0.9):
     return array
 
 
-def diagonal_reflection_mutation(array, mutation_chance=0.9):
+def diagonal_reflection_mutation(array, mutation_chance=0.1):
     if random.random() < mutation_chance:
         start_row = random.randint(0, array.shape[0] - 1)
         start_col = random.randint(0, array.shape[1] - 1)
@@ -155,7 +164,7 @@ def diagonal_reflection_mutation(array, mutation_chance=0.9):
     return array
 
 
-def rotation_mutation(array, mutation_chance=0.5):
+def rotation_mutation(array, mutation_chance=0.1):
     if random.random() < mutation_chance:
         start_row = random.randint(0, array.shape[0] - 1)
         start_col = random.randint(0, array.shape[1] - 1)
