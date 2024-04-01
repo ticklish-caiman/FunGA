@@ -1,13 +1,13 @@
 import random
 
 
-def generate_random_cities(num_cities=50, x_range=(0, 100), y_range=(0, 100), max_depth=5):
+def generate_random_cities(cities_count=50, x_range=(0, 100), y_range=(0, 100), max_depth=5):
     """
     Generates a list of the desired number of random city coordinates with a recursive
     solution and a depth limit, ensuring that all the coordinates are unique.
 
     Args:
-        num_cities: The number of cities to generate.
+        cities_count: The number of cities to generate.
         x_range: A tuple representing the minimum and maximum x-coordinates (min_x, max_x).
         y_range: A tuple representing the minimum and maximum y-coordinates (min_y, max_y).
         max_depth: The maximum recursion depth to prevent infinite loops.
@@ -18,13 +18,13 @@ def generate_random_cities(num_cities=50, x_range=(0, 100), y_range=(0, 100), ma
     """
 
     generated_cities = set()
-    while len(generated_cities) < num_cities:
+    while len(generated_cities) < cities_count:
         x = random.uniform(x_range[0], x_range[1])
         y = random.uniform(y_range[0], y_range[1])
         generated_cities.add((x, y))
 
-    if len(generated_cities) < num_cities and max_depth > 0:
-        extra_needed = num_cities - len(generated_cities)
+    if len(generated_cities) < cities_count and max_depth > 0:
+        extra_needed = cities_count - len(generated_cities)
         x_diff, y_diff = x_range[1] - x_range[0], y_range[1] - y_range[0]
         new_cities = generate_random_cities(extra_needed,
                                             (x_range[0] - x_diff, x_range[1] + x_diff),
@@ -34,7 +34,7 @@ def generate_random_cities(num_cities=50, x_range=(0, 100), y_range=(0, 100), ma
             generated_cities.update(new_cities)
         else:
             return None  # Failed to generate enough cities
-    return list(generated_cities)[:num_cities]
+    return list(generated_cities)[:cities_count]
 
 
 def get_cities(number_of_cities: int = 10):
@@ -94,12 +94,21 @@ def get_cities(number_of_cities: int = 10):
                 (49, 83), (75, 47), (31, 77), (60, 67), (93, 0), (36, 67), (39, 29), (26, 99), (33, 59), (36, 76),
                 (19, 14), (27, 82), (73, 58), (76, 20), (76, 84), (26, 10), (29, 9), (15, 10), (50, 50), (98, 99),
                 (43, 53), (70, 16), (2, 46), (90, 49), (78, 84), (47, 78), (92, 40), (75, 33)]
+    else:
+        return None
 
 
-# cities = generate_random_cities()
-cities = get_cities(50)
-print(cities)
+def generate_cities(cities_count: int = 50, random_cities: bool = True):
+    if random_cities:
+        cities = generate_random_cities(cities_count=cities_count)
+        if cities is None:
+            print("Failed to generate enough unique cities, using default list")
+            cities = get_cities(50)
+        return cities
+    else:
+        cities = get_cities(cities_count)
+        if cities is None:
+            cities = get_cities()
+    return cities
 
-if cities is None:
-    print("Failed to generate enough unique cities, using default list")
-    cities = get_cities()
+

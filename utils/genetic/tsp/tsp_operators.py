@@ -1,10 +1,9 @@
 import math
 import random
-from utils.genetic.tsp.tsp_genes import cities
 
 
 # Fitness function: total distance
-def route_distance(route):
+def route_distance(route, cities):
     distance = 0
     for i in range(len(route)):
         c1 = cities[route[i]]
@@ -14,11 +13,11 @@ def route_distance(route):
 
 
 # Selection (tournament)
-def tournament_selection(population, tournament_size):
+def tournament_selection(population, tournament_size, cities):
     parents = []
     for _ in range(2):  # Select two parents
         tournament = random.sample(population, tournament_size)
-        parents.append(min(tournament, key=route_distance))
+        parents.append(min(tournament, key=lambda route: route_distance(route, cities)))
     return parents
 
 
