@@ -12,7 +12,7 @@ show_main_menu(_)
 if 'tsp_plot' not in st.session_state:
     st.session_state['tsp_plot'] = None
 
-st.header(_('Hello Traveling Salesman'))
+st.header(_('Traveling Salesman Problem'))
 
 # Input parameters from the user
 pop_size = st.number_input("Population Size", min_value=10, value=50)
@@ -27,9 +27,12 @@ if st.button("Start Optimization"):
         generator = evolve(population, cities, generations)  # Get generator object
         image_placeholder = st.empty()  # Create a placeholder
 
-        for i, (population, new_images) in enumerate(generator):
-            image_placeholder.image(new_images)  # Display only the new images
-    st.text("Evolution complete!")
+        for i, (population, last_image) in enumerate(generator):
+            image_placeholder.image(last_image)  # Display only the new images
+            progress_plot_img.append(last_image)
 
-    # Area to display the plot:
-    # st.image(progress_plot_img)
+        st.text("Evolution complete!")
+
+        with st.popover("Show Evolution Process"):
+            for plot_img in progress_plot_img:
+                st.image(plot_img)

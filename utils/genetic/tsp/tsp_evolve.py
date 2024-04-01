@@ -17,7 +17,7 @@ def evolve(population: list, cities: list = None, generations: int = 1000, tourn
            mutation_rate: float = 0.5) -> tuple[list, list]:
     best_distance = float('inf')
     population_size = len(population)
-    progress_plot_img = []
+    last_plot_img = None
     for i in range(generations):
         new_population = []
         for _ in range(int(population_size / 2)):  # Create offspring
@@ -34,21 +34,21 @@ def evolve(population: list, cities: list = None, generations: int = 1000, tourn
         # Plot at the end
         if i == generations - 1:
             best_route = min(population, key=lambda route: route_distance(route, cities))
-            progress_plot_img.append(plot_route(best_route, i, cities))
+            last_plot_img = plot_route(best_route, i, cities, generations)
             print("Plotting progress at iteration:", i, " (", round(i / generations * 100, 1),
                   "% )")  # Show progress percentage
-            yield population, progress_plot_img
+            yield population, last_plot_img
 
-            # Plot and update if there's an improvement, but not more often than 10% of total progress
-        if (i % (generations // 10) == 0) and (current_distance < best_distance):
+            # Plot and update if there's an improvement, but not more often than 5% of total progress
+        if (i % (generations // 20) == 0) and (current_distance < best_distance):
             best_distance = current_distance
-            progress_plot_img.append(plot_route(best_route, i, cities))
+            last_plot_img = plot_route(best_route, i, cities, generations)
             print("Plotting progress at iteration:", i, " (", round(i / generations * 100, 1),
                   "% )")  # Show progress percentage
-            yield population, progress_plot_img
+            yield population, last_plot_img
 
     best_route = min(population, key=lambda route: route_distance(route, cities))
     print(f"Best route: {best_route}")
     print(f"Distance: {route_distance(best_route, cities)}")
 
-    return population, progress_plot_img
+    return population, last_plot_img
