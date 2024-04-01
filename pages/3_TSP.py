@@ -14,9 +14,6 @@ if 'tsp_plot' not in st.session_state:
 
 st.header(_('Hello Traveling Salesman'))
 
-# ****** Streamlit App Structure ******
-st.title("Traveling Salesperson Problem (TSP) with Genetic Algorithm")
-
 # Input parameters from the user
 pop_size = st.number_input("Population Size", min_value=10, value=50)
 generations = st.number_input("Generations", min_value=50, value=500)
@@ -26,10 +23,13 @@ if st.button("Start Optimization"):
     with st.spinner("Running Genetic Algorithm..."):
         cities = generate_cities()
         population = create_population(pop_size, len(cities))
-        last_pop, progress_plot_img = evolve(population, cities, generations)
-        best_route = min(population, key=lambda route: route_distance(route, cities))
+        progress_plot_img = []
+        generator = evolve(population, cities, generations)  # Get generator object
+        image_placeholder = st.empty()  # Create a placeholder
 
-    st.success("Optimization Complete!")
+        for i, (population, new_images) in enumerate(generator):
+            image_placeholder.image(new_images)  # Display only the new images
+    st.text("Evolution complete!")
 
     # Area to display the plot:
-    st.image(progress_plot_img)
+    # st.image(progress_plot_img)
