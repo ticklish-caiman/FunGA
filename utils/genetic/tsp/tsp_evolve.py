@@ -14,7 +14,7 @@ def create_population(pop_size: int, city_count: int) -> list:
 
 
 def evolve(population: list, cities: list = None, generations: int = 1000, tournament_size: int = 5,
-           mutation_rate: float = 0.5) -> tuple[list, list]:
+           mutation_rate: float = 0.5) -> tuple[list, str]:
     best_distance = float('inf')
     population_size = len(population)
     last_plot_img = None
