@@ -20,20 +20,23 @@ if 'generations_choice' not in st.session_state:
 
 st.header(_('Traveling Salesman Problem'))
 
-generations = st.number_input("Generations", min_value=50, value=st.session_state['generations_choice'])
+with st.sidebar.expander("⚙️ TSP OPTIONS️ ⚙️", expanded=True):
+    generations = st.number_input("Generations", min_value=50, value=st.session_state['generations_choice'])
 
+    with st.popover("🔧 Show Advanced options"):
+        col1, col2 = st.columns(2)
+        with col1:
+            pop_size = st.number_input("Population Size", min_value=10, value=50)
+            cities_count = st.number_input("How many cities:", min_value=5, value=50, max_value=300)
+            random_cities = st.checkbox('⬅️ Random cities')
+        with col2:
+            tournament_size = st.number_input("Tournament size:", min_value=2, value=int(pop_size / 10),
+                                              max_value=pop_size)
+            mutation_rate = st.number_input("Mutation rate:", min_value=0.01, value=0.5, step=0.01)
 
-with st.popover("Show Advanced options"):
-    col1, col2 = st.columns(2)
-    with col1:
-        pop_size = st.number_input("Population Size", min_value=10, value=50)
-        cities_count = st.number_input("How many cities:", min_value=5, value=50, max_value=300)
-        random_cities = st.checkbox('⬅️ Random cities')
-    with col2:
-        tournament_size = st.number_input("Tournament size:", min_value=2, value=int(pop_size / 10), max_value=pop_size)
-        mutation_rate = st.number_input("Mutation rate:", min_value=0.01, value=0.5, step=0.01)
-
-if st.button("Start Optimization"):
+st.text("Choose parameters from ⚙️TSP OPTIONS️⚙️ in the sidebar. \nThen click on the ⏱Start Evolution⏱ button.")
+if st.button("⏱Start Evolution⏱"):
+    complete_message = st.empty()
     with st.spinner("Running Genetic Algorithm..."):
         cities = generate_cities(cities_count, random_cities)
         population = create_population(pop_size, len(cities))
@@ -46,8 +49,8 @@ if st.button("Start Optimization"):
             image_placeholder.image(last_image)  # Display only the new images
             progress_plot_img.append(last_image)
 
-        st.text("Evolution complete!")
+    complete_message.text("Evolution complete! ✅")
 
-        with st.popover("Show Evolution Process"):
-            for plot_img in progress_plot_img:
-                st.image(plot_img)
+    with st.popover("Show Evolution Process"):
+        for plot_img in progress_plot_img:
+            st.image(plot_img)
