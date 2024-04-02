@@ -1,4 +1,7 @@
 import random
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 
 def generate_random_cities(cities_count=50, x_range=(0, 100), y_range=(0, 100), max_depth=5):
@@ -77,10 +80,11 @@ def get_cities(number_of_cities: int = 10):
 
 
 def generate_cities(cities_count: int = 50, random_cities: bool = True):
+    logging.info("Generating {} cities".format(cities_count))
     if random_cities:
         cities = generate_random_cities(cities_count=cities_count)
         if cities is None:
-            print("Failed to generate enough unique cities, using default list")
+            logging.warning("Failed to generate enough unique cities, using default list")
             cities = get_cities(cities_count)
         return cities
     else:
