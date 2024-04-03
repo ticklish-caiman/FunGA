@@ -9,7 +9,6 @@ from utils.genetic.shapevo_alternative.alt_shapevo_genes import Shape
 logging.basicConfig(level=logging.INFO)
 
 
-
 def tournament_selection(population, fitness_scores, tournament_size=3):
     # Select `tournament_size` random participants
     logging.info("Tournament selection")
@@ -61,7 +60,9 @@ def mutate(shape):
             shape_to_mutate['center_x'] += random.randint(-10, 10)  # Adjust center
             shape_to_mutate['center_y'] += random.randint(-10, 10)
             shape_to_mutate['radius'] += random.randint(-5, 5)  # Adjust radius
-            # ... (make sure the shape stays within the image bounds)
+            # make sure the shape stays within the image bounds
+            if shape_to_mutate['radius'] < 0:
+                shape_to_mutate['radius'] = random.randint(1, 10)
         else:  # 'rectangle'
             # ... mutations for rectangle parameters
             pass
