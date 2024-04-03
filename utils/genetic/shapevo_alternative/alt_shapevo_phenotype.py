@@ -1,30 +1,22 @@
+import numpy as np
 from PIL import ImageDraw, Image
+import cv2
 
 
-def draw_circle(image, center_x, center_y, radius, color=0):
-    draw = ImageDraw.Draw(image)
-    bbox = (center_x - radius, center_y - radius, center_x + radius, center_y + radius)
-    draw.ellipse(bbox, fill=color)
-
-
-def draw_rectangle(image, center_x, center_y, width, height, color=0):
-    draw = ImageDraw.Draw(image)
-    bbox = [(center_x - width // 2, center_y - height // 2),
-            (center_x + width // 2, center_y + height // 2)]
-    draw.rectangle(bbox, fill=color)
-
-
-def generate_image(genome):
-    image = Image.new("L", (500, 500), color=255)  # White (255) background, "L" mode for grayscale
-
+def generate_image_opencv(genome, image_width, image_height):
+    image = np.zeros((image_height, image_width), dtype=np.uint8)  # Black background
+    color = (255, 255, 255)
     for shape_params in genome:
         if shape_params['type'] == 'circle':
-            draw_circle(image,
-                        shape_params['center_x'], shape_params['center_y'],
-                        shape_params['radius'])
-        elif shape_params['type'] == 'rectangle':
-            draw_rectangle(image,
-                           shape_params['center_x'], shape_params['center_y'],
-                           shape_params['width'], shape_params['height'])
+            cv2.circle(image, (int(shape_params['center_x']), int(shape_params['center_y'])),
+                       int(shape_params['radius']), color, thickness=-1)
 
+        elif shape_params['type'] == 'rectangle':
+            cv2.rectangle(image,
+                          (shape_params['center_x'] - shape_params['width'] // 2,
+                           shape_params['center_y'] - shape_params['height'] // 2),
+                          (shape_params['center_x'] + shape_params['width'] // 2,
+                           shape_params['center_y'] + shape_params['height'] // 2),
+                          color=color,
+                          thickness=-1)  # Filled rectangle
     return image
