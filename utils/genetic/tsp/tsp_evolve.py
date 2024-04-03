@@ -34,7 +34,7 @@ def evolve(population: list, cities: list = None, generations: int = 1000, tourn
         # Plot at the end
         if i == generations - 1:
             best_route = min(population, key=lambda route: route_distance(route, cities))
-            last_plot_img = plot_route(best_route, i, cities, generations)
+            last_plot_img = plot_route(best_route, i, cities, generations, len(population), tournament_size, mutation_rate)
             print("Plotting progress at iteration:", i, " (", round(i / generations * 100, 1),
                   "% )")  # Show progress percentage
             yield population, last_plot_img
@@ -42,7 +42,7 @@ def evolve(population: list, cities: list = None, generations: int = 1000, tourn
             # Plot and update if there's an improvement, but not more often than 5% of total progress
         if (i % (generations // 20) == 0) and (current_distance < best_distance):
             best_distance = current_distance
-            last_plot_img = plot_route(best_route, i, cities, generations)
+            last_plot_img = plot_route(best_route, i, cities, generations, len(population), tournament_size, mutation_rate)
             print("Plotting progress at iteration:", i, " (", round(i / generations * 100, 1),
                   "% )")  # Show progress percentage
             yield population, last_plot_img
