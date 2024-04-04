@@ -4,7 +4,8 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 
-def generate_random_cities(cities_count=50, x_range=(0, 100), y_range=(0, 100), max_depth=5):
+def generate_random_cities(cities_count: int = 50, x_range: tuple = (0, 100), y_range: tuple = (0, 100),
+                           max_depth=5) -> list:
     """
     Generates a list of the desired number of random city coordinates with a recursive
     solution and a depth limit, ensuring that all the coordinates are unique.
@@ -37,10 +38,11 @@ def generate_random_cities(cities_count=50, x_range=(0, 100), y_range=(0, 100), 
             generated_cities.update(new_cities)
         else:
             return None  # Failed to generate enough cities
+
     return list(generated_cities)[:cities_count]
 
 
-def get_cities(number_of_cities: int = 10):
+def get_cities(number_of_cities: int = 10) -> list:
     """
     Returns a predefined list of city coordinates.
     Coordinates limits:
@@ -79,7 +81,7 @@ def get_cities(number_of_cities: int = 10):
     return cities[:number_of_cities]
 
 
-def generate_cities(cities_count: int = 50, random_cities: bool = True):
+def generate_cities(cities_count: int = 50, random_cities: bool = True) -> list:
     logging.info("Generating {} cities".format(cities_count))
     if random_cities:
         cities = generate_random_cities(cities_count=cities_count)
