@@ -1,5 +1,4 @@
-from datetime import datetime
-
+import pandas as pd
 import streamlit as st
 
 from database.model.activity import Activity
@@ -9,6 +8,10 @@ from utils.genetic.tsp.tsp_genes import generate_cities
 from utils.navigation import show_main_menu, get_localizator
 
 from database.database_helper import DatabaseHelper
+
+import plotly.graph_objects as go
+import plotly.express as px
+from streamlit_plotly_events import plotly_events
 
 _ = get_localizator()
 st.set_page_config(page_title=_("FunGA - About"), page_icon='🕹️')
@@ -88,3 +91,39 @@ if st.button("⏱Start Evolution⏱", on_click=disable, disabled=st.session_stat
     with st.popover("Show Evolution Process"):
         for plot_img in progress_plot_img:
             st.image(plot_img)
+
+if 'cities' not in st.session_state:
+    st.session_state['cities'] = generate_cities()
+
+if 'road_clicks' not in st.session_state:
+    st.session_state['road_clicks'] = []
+if 'user_roads' not in st.session_state:
+    st.session_state['user_roads'] = []
+
+# Generate city data and create the Plotly figure (outside draw_map)
+df = pd.DataFrame(st.session_state['cities'], columns=['x', 'y'])
+fig = px.scatter(df, x='x', y='y')
+
+
+def draw_map():
+    # Draw all existing roads
+    for start, end in st.session_state['user_roads']:
+        fig.add_trace(
+            go.Scatter(x=[start[0], end[0]], y=[start[1], end[1]], mode='lines', line=dict(color='red'))
+        )
+
+
+# Event Handling
+selected_points = plotly_events(fig)  # Pass the existing figure
+if selected_points:
+    x, y = selected_points[0]['x'], selected_points[0]['y']
+    st.session_state['road_clicks'].extend([x, y])
+
+    if len(st.session_state['road_clicks']) >= 4:
+        start_x, start_y, end_x, end_y = st.session_state['road_clicks'][-4:]
+        st.session_state['user_roads'].append([(start_x, start_y), (end_x, end_y)])
+        st.session_state['road_clicks'] = []
+        draw_map()  # Update the figure with the new road
+
+# Display the plot (only once)
+st.plotly_chart(fig)

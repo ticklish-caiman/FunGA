@@ -81,7 +81,7 @@ def get_cities(number_of_cities: int = 10) -> list:
     return cities[:number_of_cities]
 
 
-def generate_cities(cities_count: int = 50, random_cities: bool = True) -> list:
+def generate_cities(cities_count: int = 50, random_cities: bool = False) -> list:
     logging.info("Generating {} cities".format(cities_count))
     if random_cities:
         cities = generate_random_cities(cities_count=cities_count)
