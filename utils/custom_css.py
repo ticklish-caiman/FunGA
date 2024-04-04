@@ -80,3 +80,13 @@ def custom_buttons_style():
 
     </style>
     """, unsafe_allow_html=True)
+
+
+def custom_write_style():
+    st.markdown("""
+    <style>
+    p {
+      text-align: justify;
+    }
+    </style>
+    """, unsafe_allow_html=True)

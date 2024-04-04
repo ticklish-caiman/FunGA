@@ -2,6 +2,7 @@ from _ast import withitem
 
 import streamlit as st
 
+from utils.custom_css import custom_write_style
 from utils.genetic.tsp.tsp_evolve import create_population, evolve
 from utils.genetic.tsp.tsp_genes import generate_cities
 from utils.navigation import show_main_menu, get_localizator
@@ -23,7 +24,7 @@ st.header(_('Traveling Salesman Problem'))
 with st.sidebar.expander("⚙️ TSP OPTIONS️ ⚙️", expanded=True):
     generations = st.number_input("Generations", min_value=50, value=st.session_state['generations_choice'])
 
-    with st.popover("🔧 Show Advanced options"):
+    with st.popover("🔧 Advanced options"):
         col1, col2 = st.columns(2)
         with col1:
             pop_size = st.number_input("Population Size", min_value=10, value=50)
@@ -34,7 +35,16 @@ with st.sidebar.expander("⚙️ TSP OPTIONS️ ⚙️", expanded=True):
                                               max_value=pop_size)
             mutation_rate = st.number_input("Mutation rate:", min_value=0.01, value=0.5, step=0.01)
 
-st.text("Choose parameters from ⚙️TSP OPTIONS️⚙️ in the sidebar. \nThen click on the ⏱Start Evolution⏱ button.")
+with st.expander("What is TSP? (click to expand)", expanded=False):
+    custom_write_style()
+    st.write(
+        """The Traveling Salesman Problem is like finding the shortest way to visit a bunch of cities, going to each 
+        city only once, and ending back where you started.""")
+    st.write('Want to know why it is so hard?')
+    st.page_link('pages/4_Theory.py', label="Click here to see detailed explanation")
+
+st.write("Adjust parameters from ⚙️TSP OPTIONS️⚙️ in the sidebar.")
+st.markdown("⤸")
 if st.button("⏱Start Evolution⏱"):
     complete_message = st.empty()
     with st.spinner("Running Genetic Algorithm..."):
