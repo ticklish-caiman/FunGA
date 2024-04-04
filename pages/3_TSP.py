@@ -105,6 +105,21 @@ df = pd.DataFrame(st.session_state['cities'], columns=['x', 'y'])
 fig = px.scatter(df, x='x', y='y', title='Select a city (click once), create road to another (click twice)',
                  range_x=(-10, 110), range_y=(-10, 110))
 
+fig.layout.xaxis.visible = False
+fig.layout.yaxis.visible = False
+fig.layout.margin.t = 50
+fig.layout.margin.l = 10
+fig.layout.margin.r = 104
+fig.layout.margin.b = 10
+fig.layout.xaxis.fixedrange = True
+fig.layout.yaxis.fixedrange = True
+
+# worth investigating
+fig.layout.clickmode = 'event+select'
+
+# probably better way to sett fig properties
+fig.layout.update(dragmode=False)
+
 
 def draw_map():
     # Draw all existing roads
