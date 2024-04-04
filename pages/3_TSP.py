@@ -11,13 +11,9 @@ _ = get_localizator()
 st.set_page_config(page_title=_("FunGA - About"), page_icon='🕹️')
 show_main_menu(_)
 
-if 'tsp_plot' not in st.session_state:
-    st.session_state['tsp_plot'] = None
-
-if 'simple_mode' not in st.session_state:
-    st.session_state['simple_mode'] = True
 if 'generations_choice' not in st.session_state:
     st.session_state['generations_choice'] = 500
+
 
 st.header(_('Traveling Salesman Problem'))
 
