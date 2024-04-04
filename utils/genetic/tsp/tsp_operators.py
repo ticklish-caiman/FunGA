@@ -3,7 +3,7 @@ import random
 
 
 # Fitness function: total distance
-def route_distance(route, cities):
+def route_distance(route: list, cities: list) -> float:
     distance = 0
     for i in range(len(route)):
         c1 = cities[route[i]]
@@ -13,7 +13,7 @@ def route_distance(route, cities):
 
 
 # Selection (tournament)
-def tournament_selection(population, tournament_size, cities):
+def tournament_selection(population: list, tournament_size: int, cities: list) -> list:
     parents = []
     for _ in range(2):  # Select two parents
         tournament = random.sample(population, tournament_size)
@@ -22,7 +22,7 @@ def tournament_selection(population, tournament_size, cities):
 
 
 # Crossover (Order Crossover)
-def order_crossover(parent1, parent2):
+def order_crossover(parent1: list, parent2: list) -> list:
     p1_slice = random.sample(range(len(parent1)), 2)
     start, end = min(p1_slice), max(p1_slice)
 
@@ -33,7 +33,7 @@ def order_crossover(parent1, parent2):
 
 
 # Mutation (swap)
-def swap_mutation(route, mutation_rate):
+def swap_mutation(route: list, mutation_rate: float):
     if random.random() < mutation_rate:
         i, j = random.sample(range(len(route)), 2)
         route[i], route[j] = route[j], route[i]
