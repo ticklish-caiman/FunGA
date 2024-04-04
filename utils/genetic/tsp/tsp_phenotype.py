@@ -6,7 +6,8 @@ from utils.genetic.tsp.tsp_operators import route_distance
 
 
 # Visualization function
-def plot_route(route, generation, cities, generations, pop_size, tournament_size, mutation_rate):
+def plot_route(route: list, generation: int, cities: list, generations: int, pop_size: int, tournament_size: int,
+               mutation_rate: float) -> bytes:
     plt.figure(figsize=(8, 6))
     x_coords = [cities[i][0] for i in route]
     y_coords = [cities[i][1] for i in route]
