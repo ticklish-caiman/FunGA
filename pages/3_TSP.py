@@ -1,5 +1,3 @@
-from _ast import withitem
-
 import streamlit as st
 
 from utils.custom_css import custom_write_style
@@ -14,13 +12,25 @@ show_main_menu(_)
 if 'generations_choice' not in st.session_state:
     st.session_state['generations_choice'] = 500
 
+if "disabled" not in st.session_state:
+    st.session_state["disabled"] = False
+
+
+def disable():
+    st.session_state["disabled"] = True
+
+
+def enable():
+    st.session_state["disabled"] = False
+
 
 st.header(_('Traveling Salesman Problem'))
 
 with st.sidebar.expander("⚙️ TSP OPTIONS️ ⚙️", expanded=True):
-    generations = st.number_input("Generations", min_value=50, value=st.session_state['generations_choice'])
+    generations = st.number_input("Generations", min_value=50, value=st.session_state['generations_choice'],
+                                  disabled=st.session_state.disabled)
 
-    with st.popover("🔧 Advanced options"):
+    with st.popover("🔧 Advanced options", disabled=st.session_state.disabled):
         col1, col2 = st.columns(2)
         with col1:
             pop_size = st.number_input("Population Size", min_value=10, value=50)
@@ -41,7 +51,12 @@ with st.expander("What is TSP? (click to expand)", expanded=False):
 
 st.write("Adjust parameters from ⚙️TSP OPTIONS️⚙️ in the sidebar.")
 st.markdown("⤸")
-if st.button("⏱Start Evolution⏱"):
+
+if st.session_state["disabled"]:
+    st.button("Start again", on_click=enable)
+    st.sidebar.button("Start again", on_click=enable, key='sidebar_reset')
+
+if st.button("⏱Start Evolution⏱", on_click=disable, disabled=st.session_state.disabled):
     complete_message = st.empty()
     with st.spinner("Running Genetic Algorithm..."):
         cities = generate_cities(cities_count, random_cities)
@@ -54,7 +69,6 @@ if st.button("⏱Start Evolution⏱"):
         for i, (population, last_image) in enumerate(generator):
             image_placeholder.image(last_image)  # Display only the new images
             progress_plot_img.append(last_image)
-
     complete_message.text("Evolution complete! ✅")
 
     with st.popover("Show Evolution Process"):
