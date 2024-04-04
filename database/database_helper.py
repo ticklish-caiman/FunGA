@@ -6,11 +6,13 @@ from database.model.user import User
 class DatabaseHelper:
     def __init__(self, db_path):
         self.db_path = db_path
-        self.create_table('activities', 'activity_id INTEGER PRIMARY KEY, login TEXT, game TEXT, data TEXT')
         self.create_table('users',
                           'user_id INTEGER PRIMARY KEY, login TEXT UNIQUE, name TEXT, email TEXT, password TEXT, '
                           'logged_in INT')
         self.create_table('cookies', 'expiry_days TEXT, cookie_key TEXT, name TEXT')
+        self.create_table('activities',
+                          'activity_id INTEGER PRIMARY KEY, login TEXT, game TEXT, data TEXT, user_id INTEGER, '
+                          'FOREIGN KEY(user_id) REFERENCES users(user_id)')
         # If the config is empty -> insert default values
         if not (self.execute_query('SELECT count(*) FROM (select 0 from cookies limit 1)').fetchall()[0][0]):
             query = "INSERT INTO cookies (expiry_days, cookie_key, name) VALUES (?, ?, ?)"
@@ -25,6 +27,7 @@ class DatabaseHelper:
             table_schema (str): The SQL schema for the table (columns and data types).
         """
         query = f"CREATE TABLE IF NOT EXISTS {table_name} ({table_schema})"
+
         self.execute_query(query)
 
     def connect(self):
@@ -105,6 +108,14 @@ class DatabaseHelper:
                 email = user_data['email']
                 password = user_data['password']
                 self.update_user(User(login, name, email, password))
+
+    def add_activity(self, activity):
+        query = """
+            INSERT INTO activities (login, game, data, user_id) 
+            VALUES (?, ?, ?, ?)
+        """
+        params = (activity.login, activity.game, activity.data, activity.user_id)
+        self.execute_query(query, params)
 
     def execute_query(self, query, params=None):
         """Executes a query against the database, optionally using parameters.
