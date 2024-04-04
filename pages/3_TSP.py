@@ -102,7 +102,8 @@ if 'user_roads' not in st.session_state:
 
 # Generate city data and create the Plotly figure (outside draw_map)
 df = pd.DataFrame(st.session_state['cities'], columns=['x', 'y'])
-fig = px.scatter(df, x='x', y='y')
+fig = px.scatter(df, x='x', y='y', title='Select a city (click once), create road to another (click twice)',
+                 range_x=(-10, 110), range_y=(-10, 110))
 
 
 def draw_map():
@@ -111,19 +112,28 @@ def draw_map():
         fig.add_trace(
             go.Scatter(x=[start[0], end[0]], y=[start[1], end[1]], mode='lines', line=dict(color='red'))
         )
+    return fig
 
 
-# Event Handling
-selected_points = plotly_events(fig)  # Pass the existing figure
+selected_points = plotly_events(draw_map())
+
 if selected_points:
+    print('selected points')
     x, y = selected_points[0]['x'], selected_points[0]['y']
     st.session_state['road_clicks'].extend([x, y])
 
     if len(st.session_state['road_clicks']) >= 4:
         start_x, start_y, end_x, end_y = st.session_state['road_clicks'][-4:]
+
+        # Clear the temporary line (if it exists)
+        if 'temp_road' in st.session_state:
+            st.session_state['user_roads'].remove(st.session_state['temp_road'])
+
+        # Draw the temporary line
+        st.session_state['temp_road'] = [(start_x, start_y), (end_x, end_y)]
+
+    if len(st.session_state['road_clicks']) >= 4:
+        start_x, start_y, end_x, end_y = st.session_state['road_clicks'][-4:]
         st.session_state['user_roads'].append([(start_x, start_y), (end_x, end_y)])
         st.session_state['road_clicks'] = []
-    draw_map()  # Update the figure with the new road
-
-# Display the plot (only once)
-st.plotly_chart(fig)
+        st.session_state.pop('temp_road', None)  # Remove the temporary road
