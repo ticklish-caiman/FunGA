@@ -123,7 +123,7 @@ if selected_points:
         start_x, start_y, end_x, end_y = st.session_state['road_clicks'][-4:]
         st.session_state['user_roads'].append([(start_x, start_y), (end_x, end_y)])
         st.session_state['road_clicks'] = []
-        draw_map()  # Update the figure with the new road
+    draw_map()  # Update the figure with the new road
 
 # Display the plot (only once)
 st.plotly_chart(fig)
