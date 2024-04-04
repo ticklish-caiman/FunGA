@@ -56,8 +56,7 @@ with st.expander("What is TSP? (click to expand)", expanded=False):
     st.write('Want to know why it is so hard?')
     st.page_link('pages/4_Theory.py', label="Click here to see detailed explanation")
 
-st.write("Adjust parameters from ⚙️TSP OPTIONS️⚙️ in the sidebar.")
-st.markdown("⤸")
+st.write("⤸ Adjust parameters from ⚙️TSP OPTIONS️⚙️ in the sidebar.")
 
 if st.session_state["disabled"]:
     st.button("Start again", on_click=enable)
@@ -83,7 +82,7 @@ if st.button("⏱Start Evolution⏱", on_click=disable, disabled=st.session_stat
         print('Saving guest result...')
         activity = Activity('test_login', 'TSP', 'TSP_result', user_id=1)
         db_helper.add_activity(activity)
-        
+
     complete_message.text("Evolution complete! ✅")
 
     with st.popover("Show Evolution Process"):
