@@ -107,17 +107,19 @@ fig = px.scatter(df, x='x', y='y', title='Select a city (click once), create roa
 
 fig.layout.xaxis.visible = False
 fig.layout.yaxis.visible = False
-fig.layout.margin.t = 50
-fig.layout.margin.l = 10
-fig.layout.margin.r = 104
-fig.layout.margin.b = 10
 fig.layout.xaxis.fixedrange = True
 fig.layout.yaxis.fixedrange = True
+fig.layout.margin.t = 80
+fig.layout.margin.l = 5
+fig.layout.margin.r = 5
+fig.layout.margin.b = 5
+fig.layout.showlegend = False
+fig.layout.boxmode = 'group'
 
 # worth investigating
 fig.layout.clickmode = 'event+select'
 
-# probably better way to sett fig properties
+# probably a better way to sett fig properties
 fig.layout.update(dragmode=False)
 
 
@@ -140,15 +142,7 @@ if selected_points:
     if len(st.session_state['road_clicks']) >= 4:
         start_x, start_y, end_x, end_y = st.session_state['road_clicks'][-4:]
 
-        # Clear the temporary line (if it exists)
-        if 'temp_road' in st.session_state:
-            st.session_state['user_roads'].remove(st.session_state['temp_road'])
-
-        # Draw the temporary line
-        st.session_state['temp_road'] = [(start_x, start_y), (end_x, end_y)]
-
     if len(st.session_state['road_clicks']) >= 4:
         start_x, start_y, end_x, end_y = st.session_state['road_clicks'][-4:]
         st.session_state['user_roads'].append([(start_x, start_y), (end_x, end_y)])
         st.session_state['road_clicks'] = []
-        st.session_state.pop('temp_road', None)  # Remove the temporary road
