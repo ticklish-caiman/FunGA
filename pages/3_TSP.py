@@ -1,13 +1,20 @@
+from datetime import datetime
+
 import streamlit as st
 
+from database.model.activity import Activity
 from utils.custom_css import custom_write_style
 from utils.genetic.tsp.tsp_evolve import create_population, evolve
 from utils.genetic.tsp.tsp_genes import generate_cities
 from utils.navigation import show_main_menu, get_localizator
 
+from database.database_helper import DatabaseHelper
+
 _ = get_localizator()
 st.set_page_config(page_title=_("FunGA - About"), page_icon='🕹️')
 show_main_menu(_)
+
+db_helper = DatabaseHelper('database/data/funga_data.db')
 
 if 'generations_choice' not in st.session_state:
     st.session_state['generations_choice'] = 500
@@ -69,6 +76,14 @@ if st.button("⏱Start Evolution⏱", on_click=disable, disabled=st.session_stat
         for i, (population, last_image) in enumerate(generator):
             image_placeholder.image(last_image)  # Display only the new images
             progress_plot_img.append(last_image)
+
+    if st.session_state["authentication_status"]:
+        print('Saving logged user results...')
+    else:
+        print('Saving guest result...')
+        activity = Activity('test_login', 'TSP', 'TSP_result', user_id=1)
+        db_helper.add_activity(activity)
+        
     complete_message.text("Evolution complete! ✅")
 
     with st.popover("Show Evolution Process"):
