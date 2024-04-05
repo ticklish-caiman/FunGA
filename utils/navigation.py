@@ -9,7 +9,6 @@ sidebar_options = ["Hello", "Button", "Sliders demo", "Chart demo", "Select box 
 tabs_options = ["Tab 1 ", "Tab 2 ", "Tab 3 ", "Tab 4 ", "Tab 5"]
 
 
-@st.cache_resource
 def show_main_menu(_):
     st.sidebar.page_link("Home_Page.py", label=_("Home"), icon="🏠")
     with st.sidebar.expander("Fun and games 🕹️", expanded=True):
