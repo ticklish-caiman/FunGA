@@ -40,22 +40,22 @@ Won't-haves:
 
 # Roadmap
 1. GUI template<br/>
-![16%](https://progress-bar.dev/16?title=progress&width=400)
+![19%](https://progress-bar.dev/19?title=progress&width=400)
 2. Theory<br/>
-![0%](https://progress-bar.dev/0?title=progress&width=400)
+![2%](https://progress-bar.dev/2?title=progress&width=400)
 3. Tests<br/>
 ![0%](https://progress-bar.dev/0?title=progress&width=400)
 4. Translation<br/>
 ![1%](https://progress-bar.dev/1?title=progress&width=400)
 5. Database<br/>
-![25%](https://progress-bar.dev/25?title=progress&width=400)
+![30%](https://progress-bar.dev/30?title=progress&width=400)
 6. Pipelines:<br/>
    a) Biomorphs<br/>
    ![9%](https://progress-bar.dev/9?title=progress&width=400) <br/>
    b) Shapevo<br/>
    ![2%](https://progress-bar.dev/2?title=progress&width=400) <br/>
    c) TSP <br/>
-   ![20%](https://progress-bar.dev/20?title=progress&width=400) <br/>
+   ![25%](https://progress-bar.dev/25?title=progress&width=400) <br/>
    d) ? <br/>
    e) ? <br/>
 
