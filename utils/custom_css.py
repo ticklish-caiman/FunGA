@@ -32,32 +32,24 @@ def custom_tabs_css():
 .stTabs [data-baseweb="tab"]:hover {
     background-color: #d1d8e0; /* Slightly darker on hover */
 } 
+
+// Custom style for sidebar buttons
+div.stButton > button:first-child {
+    background-color: #578a00;
+    color:#ffffff;
+}
+div.stButton > button:hover {
+    background-color: #00128a;
+    color:#ffffff;
+    }
+    
+// Setting custom width spectrum for sidebar 
+[data-testid="stSidebar"][aria-expanded="true"]{
+   min-width: 350px;
+   max-width: 800px;
+       }   
+}
     </style>""", unsafe_allow_html=True)
-
-    # Setting custom width spectrum for sidebar
-    st.markdown(
-        """
-       <style>
-       [data-testid="stSidebar"][aria-expanded="true"]{
-           min-width: 350px;
-           max-width: 800px;
-       }
-       """,
-        unsafe_allow_html=True,
-    )
-
-    # Custom style for sidebar buttons
-    st.markdown("""
-        <style >
-        div.stButton > button:first-child {
-            background-color: #578a00;
-            color:#ffffff;
-        }
-        div.stButton > button:hover {
-            background-color: #00128a;
-            color:#ffffff;
-            }
-        </style>""", unsafe_allow_html=True)
 
 
 def custom_buttons_style():
@@ -76,10 +68,8 @@ def custom_buttons_style():
             background-color: #00FF00; 
             color: #ffffff;
         }
-
-
     </style>
-    """, unsafe_allow_html=True)
+    """, unsafe_allow_html=True, help='unwanted element')
 
 
 def custom_write_style():
@@ -89,4 +79,4 @@ def custom_write_style():
       text-align: justify;
     }
     </style>
-    """, unsafe_allow_html=True)
+    """, unsafe_allow_html=True, help='unwanted element')
