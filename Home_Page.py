@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import streamlit_authenticator as stauth
 
 import gettext
@@ -9,6 +10,7 @@ from utils.custom_css import custom_tabs_css
 
 _ = gettext.gettext
 st.set_page_config(page_title="FunGA", page_icon='🍄')
+
 custom_tabs_css()
 db_helper = DatabaseHelper('database/data/funga_data.db')
 
@@ -143,12 +145,29 @@ def show_login_form():
 
 
 show_login_form()
+
+# Setting custom CSS creates unwanted spacing, below hack fixes it
+#   See: https://github.com/streamlit/streamlit/issues/6605
+height_hack = '''
+<script>
+    var hide_me_list = window.parent.document.querySelectorAll('iframe');
+    for (let i = 0; i < hide_me_list.length; i++) { 
+        if (hide_me_list[i].height == 0) {
+            hide_me_list[i].parentNode.style.height = 0;
+            hide_me_list[i].parentNode.style.marginBottom = '-4rem'; // adjust accordingly 
+        };
+    };
+</script>
+'''
+components.html(height_hack, height=0)
+
+st.title("Welcome to FunGA! ")
 if st.session_state["authentication_status"]:
     # show_sidebar()
     # show_tabs()
     st.write('Now you are logged in. You can save your results and create your own experiments!')
 else:
-    st.write('Welcome to FunGA! You are not logged in, but you can still use the app.')
+    st.write('You are not logged in, but you can still use the app.')
     st.write('Account allows you to save your results and create your own experiments!')
     st.write('👈 Log in or create an account. It\'s free and always will be! 😁')
 st.image('img/funGA_logo1.jpg')
