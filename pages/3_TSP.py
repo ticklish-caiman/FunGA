@@ -103,7 +103,7 @@ if 'user_roads' not in st.session_state:
 # Generate city data and create the Plotly figure (outside draw_map)
 df = pd.DataFrame(st.session_state['cities'], columns=['x', 'y'])
 fig = px.scatter(df, x='x', y='y', title='Select a city (click once), create road to another (click twice)',
-                 range_x=(-10, 110), range_y=(-10, 110))
+                 range_x=(-10, 110), range_y=(-10, 110), color_discrete_sequence=['blue'])
 
 fig.layout.xaxis.visible = False
 fig.layout.yaxis.visible = False
@@ -146,3 +146,4 @@ if selected_points:
         start_x, start_y, end_x, end_y = st.session_state['road_clicks'][-4:]
         st.session_state['user_roads'].append([(start_x, start_y), (end_x, end_y)])
         st.session_state['road_clicks'] = []
+    print(st.session_state['user_roads'])
