@@ -94,17 +94,17 @@ if st.button("⏱Start Evolution⏱", on_click=disable, disabled=st.session_stat
         for plot_img in progress_plot_img:
             st.image(plot_img)
 
+if 'cities' not in st.session_state:
+    st.session_state['cities'] = generate_cities()
+
+if 'road_clicks' not in st.session_state:
+    st.session_state['road_clicks'] = []
+if 'user_roads' not in st.session_state:
+    st.session_state['user_roads'] = []
+
 
 @st.cache_data
 def init_user_input_plot():
-    if 'cities' not in st.session_state:
-        st.session_state['cities'] = generate_cities()
-
-    if 'road_clicks' not in st.session_state:
-        st.session_state['road_clicks'] = []
-    if 'user_roads' not in st.session_state:
-        st.session_state['user_roads'] = []
-
     # Generate city data and create the Plotly figure (outside draw_map)
     df = pd.DataFrame(st.session_state['cities'], columns=['x', 'y'])
     fig = px.scatter(df, x='x', y='y', title='Select a city (click once), create road to another (click twice)',
