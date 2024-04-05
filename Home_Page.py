@@ -21,7 +21,6 @@ if 'language_selected' not in st.session_state:
 lang_menu = st.sidebar.popover(_('🌍 Language/Język'), use_container_width=True)
 language = st.session_state.get('language')
 
-
 # ISSUE: when using index=language_index (necessary to not go back to en when switching pages) in the second language
 # switch, it is necessary to click twice on the radio option FIX: on_change switch the language and force page rerun
 # - downside: after returning to Home_Page language returns to 'eng'
@@ -49,6 +48,8 @@ if st.session_state['language'] != 'en':
         st.error(e)
 
 show_main_menu(_)
+st.sidebar.markdown("""<hr style="height:2px;border:none;background-color:#996;margin-top:1px;margin-bottom:1px" /> """,
+                    unsafe_allow_html=True)
 
 
 def show_logged_user_menu(authenticator: stauth):
