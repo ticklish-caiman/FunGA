@@ -1,3 +1,5 @@
+import time
+
 import pandas as pd
 import streamlit as st
 
@@ -122,7 +124,10 @@ fig.layout.clickmode = 'event+select'
 # probably a better way to sett fig properties
 fig.layout.update(dragmode=False)
 
+now = time.time()
 
+
+@st.experimental_fragment
 def draw_map():
     # Draw all existing roads
     for start, end in st.session_state['user_roads']:
@@ -135,7 +140,7 @@ def draw_map():
 selected_points = plotly_events(draw_map())
 
 if selected_points:
-    print('selected points')
+    # print('selected points')
     x, y = selected_points[0]['x'], selected_points[0]['y']
     st.session_state['road_clicks'].extend([x, y])
 
@@ -146,4 +151,6 @@ if selected_points:
         start_x, start_y, end_x, end_y = st.session_state['road_clicks'][-4:]
         st.session_state['user_roads'].append([(start_x, start_y), (end_x, end_y)])
         st.session_state['road_clicks'] = []
-    print(st.session_state['user_roads'])
+    # print(st.session_state['user_roads'])
+
+print('took:', time.time() - now)
