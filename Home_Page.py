@@ -148,13 +148,15 @@ show_login_form()
 
 # Setting custom CSS creates unwanted spacing, below hack fixes it
 #   See: https://github.com/streamlit/streamlit/issues/6605
+# TODO: that won't do - after logging in text gets too high, it's ok after page refresh
+#       easy fix may be impossible as it behaves differently in different conditions.
 height_hack = '''
 <script>
     var hide_me_list = window.parent.document.querySelectorAll('iframe');
-    for (let i = 0; i < hide_me_list.length; i++) { 
+    for (let i = 0; i < hide_me_list.length; i++) {
         if (hide_me_list[i].height == 0) {
             hide_me_list[i].parentNode.style.height = 0;
-            hide_me_list[i].parentNode.style.marginBottom = '-4rem'; // adjust accordingly 
+            hide_me_list[i].parentNode.style.marginBottom = '-4rem'; // adjust accordingly
         };
     };
 </script>
