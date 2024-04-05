@@ -143,9 +143,13 @@ def show_login_form():
 
 
 show_login_form()
-st.image('img/funGA_logo1.jpg')
 if st.session_state["authentication_status"]:
-    show_sidebar()
-    show_tabs()
-
+    # show_sidebar()
+    # show_tabs()
+    st.write('Now you are logged in. You can save your results and create your own experiments!')
+else:
+    st.write('Welcome to FunGA! You are not logged in, but you can still use the app.')
+    st.write('Account allows you to save your results and create your own experiments!')
+    st.write('👈 Log in or create an account. It\'s free and always will be! 😁')
+st.image('img/funGA_logo1.jpg')
 # Thing to consider: sidebar-less layout: https://discuss.streamlit.io/t/version-1-32-0/64158/2
