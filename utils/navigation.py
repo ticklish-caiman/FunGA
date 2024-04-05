@@ -20,7 +20,6 @@ def show_main_menu(_):
     st.sidebar.page_link("pages/About.py", label=_("About"), icon="❓")
 
 
-@st.cache_resource
 def show_sidebar():
     sidebar = st.sidebar.selectbox('Select your', sidebar_options)
     if sidebar == "Hello":
