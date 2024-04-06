@@ -78,7 +78,8 @@ def show_tabs():
 
         def show_logged_user_menu(authenticator: stauth):
             # use .sidebar only in the top container, same goes for location='sidebar' (use 'main')
-            col1, col2 = st.columns(2)
+            col1, col2 = st.sidebar.columns(2)
+            st.info(f'Logged in as 💻 {st.session_state["name"]}')
             with col1:
                 # logout error (KeyError: 'cookie_name') is possibly caused by add-blockers
                 # it's a known issue https://github.com/mkhorasani/Streamlit-Authenticator/issues/134
@@ -89,35 +90,41 @@ def show_tabs():
                 except KeyError:
                     st.session_state["authentication_status"] = None
             with col2:
-                st.markdown(f'💻 {st.session_state["name"]}')
+                st.info(f'💻 {st.session_state["name"]}')
 
             # Update account details
             # For authenticator.update_user_details to properly display within expander in sidebar - use location='main'
-            with st.expander("🛠️ Change name/email"):
-                if st.session_state["authentication_status"]:
-                    try:
-                        if authenticator.update_user_details(st.session_state["username"]):
-                            db_helper.update_credentials_in_database(authenticator.credentials,
-                                                                     st.session_state["username"])
-                            # TODO success message should be visible after the refresh
-                            st.success('Change saved successfully ✔️')
+            with col4:
+                try:
+                    authenticator.logout(button_name='Logout 🚀', location='main', key='logout_button1')  # Logout button
+                except KeyError:
+                    st.session_state["authentication_status"] = None
+                with st.expander("🛠️ Change name/email"):
+                    if st.session_state["authentication_status"]:
+                        try:
+                            if authenticator.update_user_details(st.session_state["username"]):
+                                db_helper.update_credentials_in_database(authenticator.credentials,
+                                                                         st.session_state["username"])
+                                # TODO success message should be visible after the refresh
+                                st.success('Change saved successfully ✔️')
 
-                    except Exception as e:
-                        st.error(e)
+                        except Exception as e:
+                            st.error(e)
 
-            # Password change
-            # For authenticator.reset_password to properly display within expander in sidebar - use location='main'
-            with st.expander("🔒 Change password"):
-                if st.session_state["authentication_status"]:
-                    try:
-                        if authenticator.reset_password(st.session_state["username"], location='main',
-                                                        fields={'Form name': '', 'Reset': 'Change'}):
-                            db_helper.update_credentials_in_database(authenticator.credentials,
-                                                                     st.session_state["username"])
-                            st.success('Password modified successfully ✔️')
+                # Password change
+                # For authenticator.reset_password to properly display within expander in sidebar - use location='main'
+                st.empty()
+                with st.expander("🔒 Change password"):
+                    if st.session_state["authentication_status"]:
+                        try:
+                            if authenticator.reset_password(st.session_state["username"], location='main',
+                                                            fields={'Form name': '', 'Reset': 'Change'}):
+                                db_helper.update_credentials_in_database(authenticator.credentials,
+                                                                         st.session_state["username"])
+                                st.success('Password modified successfully ✔️')
 
-                    except Exception as e:
-                        st.error(e)
+                        except Exception as e:
+                            st.error(e)
 
         def show_register_form(authenticator: stauth):
             st.warning('Don\'t have an account? Register below.')
@@ -158,6 +165,9 @@ def show_tabs():
             # }
             #     </style>
             # """, unsafe_allow_html=True)
+
+            st.title("")
+            st.write("")
 
             # Load cookie config from the database
             config = db_helper.get_cookie_config()

@@ -15,8 +15,6 @@ if 'language' not in st.session_state:
 if 'language_selected' not in st.session_state:
     st.session_state['language_selected'] = 'en'
 
-if 'authentication_status' not in st.session_state:
-    st.session_state['authentication_status'] = None
 
 lang_menu = st.sidebar.popover(_('🌍 Language/Język'), use_container_width=True)
 language = st.session_state.get('language')
