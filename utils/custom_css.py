@@ -53,7 +53,7 @@ div.stButton > button:hover {
 
 
 def custom_buttons_style():
-    st.markdown("""
+    st.sidebar.markdown("""
     <style>
         div.element-container div.row-widget.stButton { 
             display: flex;
@@ -73,7 +73,7 @@ def custom_buttons_style():
 
 
 def custom_write_style():
-    st.markdown("""
+    st.sidebar.markdown("""
     <style>
     p {
       text-align: justify;
