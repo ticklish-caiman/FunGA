@@ -1,11 +1,8 @@
 import streamlit as st
 
 
-# TODO: decide on light/dark theme - or use both (with will require conditional custom CSS)
-#  - update: it's no possible to check the current theme in the runtime
-
 # Setting custom style for tabs
-def custom_tabs_css():
+def custom_css():
     st.markdown("""
     <style>
 .stTabs [data-baseweb="tab-list"] {
@@ -42,14 +39,17 @@ div.stButton > button:hover {
     background-color: #00128a;
     color:#ffffff;
     }
-    
-// Setting custom width spectrum for sidebar 
-[data-testid="stSidebar"][aria-expanded="true"]{
-   min-width: 350px;
-   max-width: 800px;
-       }   
-}
     </style>""", unsafe_allow_html=True)
+
+    # Setting custom width spectrum for sidebar
+    st.sidebar.markdown("""
+        <style>
+        [data-testid="stSidebar"][aria-expanded="true"]{
+       min-width: 350px;
+       max-width: 800px;
+           }   
+    }
+     </style>""", unsafe_allow_html=True)
 
 
 def custom_buttons_style():

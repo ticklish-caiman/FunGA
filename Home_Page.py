@@ -6,12 +6,11 @@ import gettext
 from database.database_helper import DatabaseHelper
 
 from utils.navigation import show_sidebar, show_tabs, show_main_menu
-from utils.custom_css import custom_tabs_css
+from utils.custom_css import custom_css
 
 _ = gettext.gettext
 st.set_page_config(page_title="FunGA", page_icon='🍄')
 
-custom_tabs_css()
 db_helper = DatabaseHelper('database/data/funga_data.db')
 
 if 'language' not in st.session_state:
@@ -162,11 +161,14 @@ show_login_form()
 # </script>
 # '''
 # components.html(height_hack, height=0)
+st.markdown("""<hr style="height:2px;border:none;background-color:#996;margin-top:-21px;margin-bottom:1px" /> """,
+            unsafe_allow_html=True)
+st.title("Welcome to FunGA!")
 
-st.title("Welcome to FunGA! ")
 if st.session_state["authentication_status"]:
     # show_sidebar()
-    # show_tabs()
+    custom_css()
+    show_tabs()
     st.write('Now you are logged in. You can save your results and create your own experiments!')
 else:
     st.write('You are not logged in, but you can still use the app.')
