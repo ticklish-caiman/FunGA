@@ -129,12 +129,12 @@ def show_tab0():
         st.warning('Don\'t have an account? Register below.')
         try:
             email_of_registered_user, _, _ = authenticator.register_user(
-                pre_authorization=False, fields={'Form name': 'Register User 📝',
-                                                'Email': 'Email',
-                                                'Username': 'Username',
-                                                'Password': 'Password',
-                                                'Repeat password': 'Repeat password',
-                                                'Register': 'Register'})
+                preauthorization=False, fields={'Form name': 'Register User 📝',
+                                                 'Email': 'Email',
+                                                 'Username': 'Username',
+                                                 'Password': 'Password',
+                                                 'Repeat password': 'Repeat password',
+                                                 'Register': 'Register'})
             db_helper.safe_credentials_to_database(authenticator.credentials)
             if email_of_registered_user:
                 st.success('User registered successfully')
@@ -155,9 +155,8 @@ def show_tab0():
                 show_register_form(authenticator)
 
     def show_login_form():
-        if "authentication_status" not in st.session_state:
-            st.success(
-                'Account allows you to save your results and create your own experiments! It\'s free and always will be! 😁')
+        st.success(
+            'Account allows you to save your results and create your own experiments! 😁')
 
         # Load cookie config from the database
         config = db_helper.get_cookie_config()
