@@ -130,11 +130,11 @@ def show_tab0():
         try:
             email_of_registered_user, _, _ = authenticator.register_user(
                 preauthorization=False, fields={'Form name': 'Register User 📝',
-                                                 'Email': 'Email',
-                                                 'Username': 'Username',
-                                                 'Password': 'Password',
-                                                 'Repeat password': 'Repeat password',
-                                                 'Register': 'Register'})
+                                                'Email': 'Email',
+                                                'Username': 'Username',
+                                                'Password': 'Password',
+                                                'Repeat password': 'Repeat password',
+                                                'Register': 'Register'})
             db_helper.safe_credentials_to_database(authenticator.credentials)
             if email_of_registered_user:
                 st.success('User registered successfully')
