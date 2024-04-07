@@ -86,18 +86,17 @@ def show_tab0():
                 st.session_state["authentication_status"] = None
         with col2:
             st.info(f'💻 {st.session_state["name"]}')
-
         # Update account details
         # For authenticator.update_user_details to properly display within expander in sidebar - use location='main'
         with col4:
-            try:
-                authenticator.logout(button_name='Logout 🚀', location='main', key='logout_button1')  # Logout button
-            except KeyError:
-                st.session_state["authentication_status"] = None
             with st.expander("🛠️ Change name/email"):
                 if st.session_state["authentication_status"]:
                     try:
-                        if authenticator.update_user_details(st.session_state["username"]):
+                        if authenticator.update_user_details(st.session_state["username"],
+                                                             fields={'Form name': '',
+                                                                     'Field': _('Change:'), 'Name': 'Name',
+                                                                     'Email': 'Email', 'New value:': _('New value'),
+                                                                     'Update': 'Update'}):
                             db_helper.update_credentials_in_database(authenticator.credentials,
                                                                      st.session_state["username"])
                             # TODO success message should be visible after the refresh
@@ -120,6 +119,11 @@ def show_tab0():
 
                     except Exception as e:
                         st.error(e)
+
+            try:
+                authenticator.logout(button_name='Logout 🚀', location='main', key='logout_button1')  # Logout button
+            except KeyError:
+                st.session_state["authentication_status"] = None
 
     def show_register_form(authenticator: stauth):
         st.warning('Don\'t have an account? Register below.')
@@ -151,8 +155,9 @@ def show_tab0():
                 show_register_form(authenticator)
 
     def show_login_form():
-        st.success(
-            'Account allows you to save your results and create your own experiments! It\'s free and always will be! 😁')
+        if "authentication_status" not in st.session_state:
+            st.success(
+                'Account allows you to save your results and create your own experiments! It\'s free and always will be! 😁')
 
         # Load cookie config from the database
         config = db_helper.get_cookie_config()
