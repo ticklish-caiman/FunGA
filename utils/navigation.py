@@ -12,7 +12,7 @@ _ = gettext.gettext
 sidebar_options = ["Hello", "Button", "Sliders demo", "Chart demo", "Select box demo", "Multiselect demo",
                    "Checkbox demo", "File uploader demo", "Progress demo", "Form demo", "Session demo"]
 
-tabs_options = ["Account ", "Tab 2 ", "Tab 3 ", "Tab 4 ", "Tab 5"]
+tabs_options = ["Account ", "Activities ", "Notes "]
 
 
 def show_main_menu(_):
@@ -69,7 +69,6 @@ def show_sidebar():
 
 
 def show_tab0():
-
     col3, col4 = st.columns(2)
 
     def show_logged_user_menu(authenticator: stauth):
@@ -152,26 +151,8 @@ def show_tab0():
                 show_register_form(authenticator)
 
     def show_login_form():
-        # st.markdown("""
-        #     <style>
-        #         .my-success-message {
-        #             margin-bottom: -25px;
-        #         }
-        #     </style>
-        # """, unsafe_allow_html=True)
-
-        #st.markdown("<div id='my-success-message'>", unsafe_allow_html=True)
         st.success(
             'Account allows you to save your results and create your own experiments! It\'s free and always will be! 😁')
-        #st.markdown("</div>", unsafe_allow_html=True)
-        # This eliminates the gap above the login form, but also makes info/error messages disappear
-        # st.markdown("""
-        #     <style>
-        # .st-emotion-cache-pchmfb{
-        # display: none
-        # }
-        #     </style>
-        # """, unsafe_allow_html=True)
 
         # Load cookie config from the database
         config = db_helper.get_cookie_config()
@@ -183,7 +164,6 @@ def show_tab0():
             int(config['expiry_days']),
             None
         )
-
         # Login widget
         authenticator.login(fields={'Form name': 'Login 🔑',
                                     'Username': _('Username'),
@@ -195,17 +175,32 @@ def show_tab0():
         show_login_form()
 
 
+def show_tab1():
+    if st.session_state["authentication_status"]:
+        st.header('Hello')
+        st.write('You are logged in!')
+        st.write("st.session_state object:", st.session_state)
+    else:
+        st.header('Logg in to your account to see your activities. ')
+
+
+def show_tab2():
+    if st.session_state["authentication_status"]:
+        st.header('Hello')
+        st.write('You are logged in!')
+    else:
+        st.header('Logg in to your account to see your notes. ')
+
+
 def show_tabs():
     custom_css()
     tabs = st.tabs(tabs_options)
     with tabs[0]:
         show_tab0()
     with tabs[1]:
-        st.header('Hello')
-        st.write('Hello funga world!')
-        st.write("st.session_state object:", st.session_state)
-
-        # show_change_password_form(gv.authenticator, gv.config)
+        show_tab1()
+    with tabs[2]:
+        show_tab2()
 
 
 def get_localizator():

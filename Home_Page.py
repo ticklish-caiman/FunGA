@@ -49,9 +49,9 @@ st.sidebar.markdown("""<hr style="height:2px;border:none;background-color:#996;m
                     unsafe_allow_html=True)
 
 st.title("")  # empty title makes the view jump below it at initial render
+st.image('img/fung_line.png')
 st.title("Welcome to FunGA!")
 
 show_tabs()
 
-st.image('img/funGA_logo1.jpg')
 # Thing to consider: sidebar-less layout: https://discuss.streamlit.io/t/version-1-32-0/64158/2
