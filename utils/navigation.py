@@ -129,7 +129,7 @@ def show_tab0():
         st.warning('Don\'t have an account? Register below.')
         try:
             email_of_registered_user, _, _ = authenticator.register_user(
-                preauthorization=False, fields={'Form name': 'Register User 📝',
+                pre_authorization=False, fields={'Form name': 'Register User 📝',
                                                 'Email': 'Email',
                                                 'Username': 'Username',
                                                 'Password': 'Password',
