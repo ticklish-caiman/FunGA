@@ -15,7 +15,6 @@ if 'language' not in st.session_state:
 if 'language_selected' not in st.session_state:
     st.session_state['language_selected'] = 'en'
 
-
 lang_menu = st.sidebar.popover(_('🌍 Language/Język'), use_container_width=True)
 language = st.session_state.get('language')
 
@@ -49,7 +48,9 @@ show_main_menu(_)
 st.sidebar.markdown("""<hr style="height:2px;border:none;background-color:#996;margin-top:1px;margin-bottom:1px" /> """,
                     unsafe_allow_html=True)
 
+st.title("")  # empty title makes the view jump below it at initial render
 st.title("Welcome to FunGA!")
+
 show_tabs()
 
 st.image('img/funGA_logo1.jpg')

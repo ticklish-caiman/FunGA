@@ -69,8 +69,7 @@ def show_sidebar():
 
 
 def show_tab0():
-    st.success(
-        'Account allows you to save your results and create your own experiments! It\'s free and always will be! 😁')
+
     col3, col4 = st.columns(2)
 
     def show_logged_user_menu(authenticator: stauth):
@@ -153,7 +152,18 @@ def show_tab0():
                 show_register_form(authenticator)
 
     def show_login_form():
+        # st.markdown("""
+        #     <style>
+        #         .my-success-message {
+        #             margin-bottom: -25px;
+        #         }
+        #     </style>
+        # """, unsafe_allow_html=True)
 
+        #st.markdown("<div id='my-success-message'>", unsafe_allow_html=True)
+        st.success(
+            'Account allows you to save your results and create your own experiments! It\'s free and always will be! 😁')
+        #st.markdown("</div>", unsafe_allow_html=True)
         # This eliminates the gap above the login form, but also makes info/error messages disappear
         # st.markdown("""
         #     <style>
@@ -162,9 +172,6 @@ def show_tab0():
         # }
         #     </style>
         # """, unsafe_allow_html=True)
-
-        st.title("")
-        st.write("")
 
         # Load cookie config from the database
         config = db_helper.get_cookie_config()
