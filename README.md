@@ -40,7 +40,7 @@ Won't-haves:
 
 # Roadmap
 1. GUI template<br/>
-![19%](https://progress-bar.dev/19?title=progress&width=400)
+![24%](https://progress-bar.dev/24?title=progress&width=400)
 2. Theory<br/>
 ![2%](https://progress-bar.dev/2?title=progress&width=400)
 3. Tests<br/>
