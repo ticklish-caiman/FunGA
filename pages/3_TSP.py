@@ -168,7 +168,17 @@ with tabs[1]:
             start_x, start_y, end_x, end_y = st.session_state['road_clicks'][-4:]
 
             if (start_x, start_y) != (end_x, end_y):  # check if the start/end cities are different
-                st.session_state['user_roads'].append([(start_x, start_y), (end_x, end_y)])
+
+                start_city_occurrences = sum(road.count((start_x, start_y))
+                                             for road in st.session_state['user_roads'])
+                end_city_occurrences = sum(road.count((end_x, end_y))
+                                           for road in st.session_state['user_roads'])
+
+                if start_city_occurrences >= 2 or end_city_occurrences >= 2:  # prevent connecting city more than twice
+                    print("City already has maximum connections!")
+                    st.error("City already has maximum connections!")  # TODO
+                else:
+                    st.session_state['user_roads'].append([(start_x, start_y), (end_x, end_y)])
             else:
                 print('double click!')
                 st.error('double click!')  # TODO
