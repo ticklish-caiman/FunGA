@@ -7,6 +7,7 @@ from database.model.activity import Activity
 from utils.custom_css import custom_write_style
 from utils.genetic.tsp.tsp_evolve import create_population, evolve
 from utils.genetic.tsp.tsp_genes import generate_cities
+from utils.genetic.tsp.tsp_operators import coordinates_to_permutation
 from utils.navigation import show_main_menu, get_localizator
 
 from database.database_helper import DatabaseHelper
@@ -171,6 +172,8 @@ with tabs[1]:
     st.write("Road so far:")
     custom_write_style()
     st.write(f"{(st.session_state['user_roads'])}")
+    st.write("Permutation:")
+    st.write(f"{coordinates_to_permutation(st.session_state['user_roads'], st.session_state['cities'])}")
 
     if rerun:
         st.rerun()

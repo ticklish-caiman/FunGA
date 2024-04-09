@@ -37,3 +37,18 @@ def swap_mutation(route: list, mutation_rate: float):
     if random.random() < mutation_rate:
         i, j = random.sample(range(len(route)), 2)
         route[i], route[j] = route[j], route[i]
+
+
+def coordinates_to_permutation(user_roads, cities):
+    permutation = []
+    for segment in user_roads:
+        start_city_index = cities.index(segment[0])  # Find index directly
+        end_city_index = cities.index(segment[1])
+
+        # Check if a city appears twice
+        if start_city_index not in permutation:
+            permutation.append(start_city_index)
+        if end_city_index not in permutation:
+            permutation.append(end_city_index)
+
+    return permutation
