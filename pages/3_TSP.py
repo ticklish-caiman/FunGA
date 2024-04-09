@@ -111,7 +111,7 @@ with tabs[1]:
     def init_user_input_plot():
         # Generate city data and create the Plotly figure (outside draw_map)
         df = pd.DataFrame(st.session_state['cities'], columns=['x', 'y'])
-        fig = px.scatter(df, x='x', y='y', title='Select a city (click once), create road to another (click twice)',
+        fig = px.scatter(df, x='x', y='y', title='Click on a city, then on another one to create a road',
                          range_x=(-10, 110), range_y=(-10, 110), color_discrete_sequence=['blue'])
 
         fig.layout.xaxis.visible = False
@@ -146,15 +146,16 @@ with tabs[1]:
             )
         return fig
 
+
     if st.button("Undo (remove last road)"):
         if len(st.session_state.user_roads) > 0:
             st.session_state.user_roads.pop()
 
+    rerun = False
+
     selected_points = plotly_events(draw_map(), click_event=True, select_event=False, hover_event=False)
-    # st.plotly_chart(draw_map())
 
     if selected_points:
-        # print('selected points')
         x, y = selected_points[0]['x'], selected_points[0]['y']
         st.session_state['road_clicks'].extend([x, y])
 
@@ -162,5 +163,10 @@ with tabs[1]:
             start_x, start_y, end_x, end_y = st.session_state['road_clicks'][-4:]
             st.session_state['user_roads'].append([(start_x, start_y), (end_x, end_y)])
             st.session_state['road_clicks'] = []
-            draw_map()
-        # print(st.session_state['user_roads'])
+            rerun = True
+    st.write("Road so far:")
+    custom_write_style()
+    st.write(f"{(st.session_state['user_roads'])}")
+
+    if rerun:
+        st.rerun()
