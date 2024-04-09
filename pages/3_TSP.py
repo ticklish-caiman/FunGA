@@ -39,6 +39,10 @@ def enable():
 tabs_options = ['Genetic algorithm', 'Create you own road']
 tabs = st.tabs(tabs_options)
 
+# TODO: human vs machine, human and machine cooperation
+#       1. give use the ability to find a better solution than GA (vs mode)
+#       2. Give the the ability to help the algorithm (coop mode) - user will be able to add initial solutions
+
 with tabs[0]:
     st.header(_('Traveling Salesman Problem'))
 
