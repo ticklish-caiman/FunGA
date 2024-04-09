@@ -166,7 +166,16 @@ with tabs[1]:
 
         if len(st.session_state['road_clicks']) >= 4:
             start_x, start_y, end_x, end_y = st.session_state['road_clicks'][-4:]
-            st.session_state['user_roads'].append([(start_x, start_y), (end_x, end_y)])
+
+            if (start_x, start_y) != (end_x, end_y):  # check if the start/end cities are different
+                st.session_state['user_roads'].append([(start_x, start_y), (end_x, end_y)])
+            else:
+                print('double click!')
+                st.error('double click!')  # TODO
+
+            # Writing functions to prevent duplicates/reverse roads might be unnecessary,
+            # as the "coordinates_to_permutation" function handles them
+
             st.session_state['road_clicks'] = []
             rerun = True
     st.write("Road so far:")
