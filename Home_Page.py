@@ -1,10 +1,8 @@
 import streamlit as st
-import streamlit.components.v1 as components
 
 import gettext
 
-from utils.navigation import show_sidebar, show_tabs, show_main_menu
-from utils.custom_css import custom_css
+from utils.navigation import show_tabs, show_main_menu
 
 _ = gettext.gettext
 st.set_page_config(page_title="FunGA", page_icon='🍄')
