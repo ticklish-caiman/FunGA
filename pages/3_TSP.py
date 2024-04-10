@@ -112,6 +112,9 @@ with tabs[0]:
         st.session_state['user_roads'] = []
 
 with tabs[1]:
+    if 'auto_connect_roads' not in st.session_state:
+        st.session_state['auto_connect_roads'] = False
+
     if 'last_error' not in st.session_state:
         st.session_state['last_error'] = None
 
@@ -121,13 +124,17 @@ with tabs[1]:
     if st.session_state["last_error"]:
         st.error(st.session_state["last_error"])
         st.session_state["last_error"] = None
+    # TODO
+    if st.session_state["last_instruction"]:
+        st.error(st.session_state["last_instruction"])
+        st.session_state["last_instruction"] = None
 
 
     @st.cache_data
     def init_user_input_plot():
         # Generate city data and create the Plotly figure (outside draw_map)
         df = pd.DataFrame(st.session_state['cities'], columns=['x', 'y'])
-        fig = px.scatter(df, x='x', y='y', title='Click on a city, then on another one to create a road',
+        fig = px.scatter(df, x='x', y='y', title='',
                          range_x=(-10, 110), range_y=(-10, 110), color_discrete_sequence=['blue'])
 
         fig.layout.xaxis.visible = False
@@ -187,7 +194,15 @@ with tabs[1]:
 
     if selected_points:
         x, y = selected_points[0]['x'], selected_points[0]['y']
-        st.session_state['road_clicks'].extend([x, y])
+
+        if st.session_state['auto_connect_roads']:
+            # Automatically connect to the last city
+            if st.session_state['user_roads']:
+                last_road = st.session_state['user_roads'][-1]
+                start_x, start_y = last_road[1]  # End of the last road becomes the start
+                st.session_state['road_clicks'].extend([start_x, start_y, x, y])
+        else:
+            st.session_state['road_clicks'].extend([x, y])
 
         if len(st.session_state['road_clicks']) >= 4:
             start_x, start_y, end_x, end_y = st.session_state['road_clicks'][-4:]
@@ -225,8 +240,6 @@ with tabs[1]:
                         st.session_state.user_roads.pop()
                         st.session_state["last_error"] = "Can't create separate routes!"
 
-
-
             else:
                 st.session_state["last_error"] = "Double click! You clicked twice on the same city."
 
@@ -234,6 +247,7 @@ with tabs[1]:
             # as the "coordinates_to_permutation" function handles them
 
             st.session_state['road_clicks'] = []
+            st.session_state['auto_connect_roads'] = True
             rerun = True
     st.write("Road so far:")
     custom_write_style()
