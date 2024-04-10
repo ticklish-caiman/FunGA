@@ -132,7 +132,6 @@ with tabs[1]:
         st.info(st.session_state["last_instruction"])
 
 
-
     @st.cache_data
     def init_user_input_plot():
         # Generate city data and create the Plotly figure (outside draw_map)
@@ -254,15 +253,15 @@ with tabs[1]:
 
             st.session_state['road_clicks'] = []
             st.session_state['auto_connect_roads'] = True
-            rerun = True
+            if not st.session_state["last_error"]:
+                rerun = True
     st.write("Road so far:")
     custom_write_style()
     st.write(f"{(st.session_state['user_roads'])}")
-    permutation = coordinates_to_permutation(st.session_state['user_roads'], st.session_state['cities'])
     st.write("Permutation:")
-    st.write(f"{permutation}")
+    st.write(f"{st.session_state['user_permutation']}")
     st.write("Distance:")
-    st.write(route_distance(permutation, st.session_state['cities']))
+    st.write(route_distance(st.session_state['user_permutation'], st.session_state['cities']))
 
     if rerun:
         st.rerun()
