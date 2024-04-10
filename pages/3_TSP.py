@@ -37,7 +37,7 @@ def enable():
     st.session_state["disabled"] = False
 
 
-tabs_options = ['Genetic algorithm', 'Create you own road']
+tabs_options = ['Genetic algorithm', 'Create you own route']
 tabs = st.tabs(tabs_options)
 
 # TODO: human vs machine, human and machine cooperation
