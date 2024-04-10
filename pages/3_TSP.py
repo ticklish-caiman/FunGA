@@ -118,16 +118,19 @@ with tabs[1]:
     if 'last_error' not in st.session_state:
         st.session_state['last_error'] = None
 
+    if 'last_instruction' not in st.session_state:
+        st.session_state['last_instruction'] = "Click on the first city!"
+
     if 'user_permutation' not in st.session_state:
         st.session_state["user_permutation"] = []
 
     if st.session_state["last_error"]:
         st.error(st.session_state["last_error"])
         st.session_state["last_error"] = None
-    # TODO
+
     if st.session_state["last_instruction"]:
-        st.error(st.session_state["last_instruction"])
-        st.session_state["last_instruction"] = None
+        st.info(st.session_state["last_instruction"])
+
 
 
     @st.cache_data
@@ -190,9 +193,12 @@ with tabs[1]:
 
     rerun = False
 
+    st.session_state['last_instruction'] = "Click on the second city to create a road!"
+
     selected_points = plotly_events(draw_map(), click_event=True, select_event=False, hover_event=False)
 
     if selected_points:
+        st.session_state['last_instruction'] = "Click on the next city to create another road!"
         x, y = selected_points[0]['x'], selected_points[0]['y']
 
         if st.session_state['auto_connect_roads']:
