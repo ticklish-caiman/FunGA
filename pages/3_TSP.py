@@ -170,6 +170,7 @@ with tabs[1]:
         if st.button("Undo (remove last road)"):
             if len(st.session_state.user_roads) > 0:
                 st.session_state.user_roads.pop()
+                st.session_state.user_permutation.pop()
                 st.session_state['road_clicks'] = []
 
     with button_col2:
@@ -178,6 +179,7 @@ with tabs[1]:
             if len(st.session_state.user_roads) > 0:
                 st.session_state['user_roads'] = []
                 st.session_state['road_clicks'] = []
+                st.session_state['user_permutation'] = []
 
     rerun = False
 
@@ -206,6 +208,7 @@ with tabs[1]:
                     start_city_index = st.session_state['cities'].index((start_x, start_y))
                     end_city_index = st.session_state['cities'].index((end_x, end_y))
 
+                    # prevent creating sub-routes
                     if start_city_index not in old_permutation or end_city_index not in old_permutation:
                         st.session_state['user_roads'].append([(start_x, start_y), (end_x, end_y)])
                         st.session_state["user_permutation"] = coordinates_to_permutation(
@@ -213,6 +216,16 @@ with tabs[1]:
                             st.session_state['cities'])
                     else:
                         st.session_state["last_error"] = "Changes would create sub-routes!"
+
+                    # prevent creating separate routes
+                    if len(old_permutation) + 2 == len(st.session_state['user_permutation']) and len(
+                            old_permutation) > 1:
+                        st.session_state.user_permutation.pop()
+                        st.session_state.user_permutation.pop()
+                        st.session_state.user_roads.pop()
+                        st.session_state["last_error"] = "Can't create separate routes!"
+
+
 
             else:
                 st.session_state["last_error"] = "Double click! You clicked twice on the same city."
