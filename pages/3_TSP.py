@@ -112,6 +112,14 @@ with tabs[0]:
         st.session_state['user_roads'] = []
 
 with tabs[1]:
+    if 'last_error' not in st.session_state:
+        st.session_state['last_error'] = None
+
+    if st.session_state["last_error"]:
+        st.error(st.session_state["last_error"])
+        st.session_state["last_error"] = None
+
+
     @st.cache_data
     def init_user_input_plot():
         # Generate city data and create the Plotly figure (outside draw_map)
@@ -187,13 +195,12 @@ with tabs[1]:
                                            for road in st.session_state['user_roads'])
 
                 if start_city_occurrences >= 2 or end_city_occurrences >= 2:  # prevent connecting city more than twice
-                    print("City already has maximum connections!")
-                    st.error("City already has maximum connections!")  # TODO
+                    st.session_state["last_error"] = "City already has maximum connections!"
                 else:
                     st.session_state['user_roads'].append([(start_x, start_y), (end_x, end_y)])
             else:
                 print('double click!')
-                st.error('double click!')  # TODO
+                st.session_state["last_error"] = "Double click! You clicked twice on the same city."
 
             # Writing functions to prevent duplicates/reverse roads might be unnecessary,
             # as the "coordinates_to_permutation" function handles them
