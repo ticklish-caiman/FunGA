@@ -115,6 +115,9 @@ with tabs[1]:
     if 'last_error' not in st.session_state:
         st.session_state['last_error'] = None
 
+    if 'user_permutation' not in st.session_state:
+        st.session_state["user_permutation"] = []
+
     if st.session_state["last_error"]:
         st.error(st.session_state["last_error"])
         st.session_state["last_error"] = None
@@ -197,9 +200,21 @@ with tabs[1]:
                 if start_city_occurrences >= 2 or end_city_occurrences >= 2:  # prevent connecting city more than twice
                     st.session_state["last_error"] = "City already has maximum connections!"
                 else:
-                    st.session_state['user_roads'].append([(start_x, start_y), (end_x, end_y)])
+                    old_permutation = st.session_state["user_permutation"]
+
+                    # Convert coordinates to indices before the check
+                    start_city_index = st.session_state['cities'].index((start_x, start_y))
+                    end_city_index = st.session_state['cities'].index((end_x, end_y))
+
+                    if start_city_index not in old_permutation or end_city_index not in old_permutation:
+                        st.session_state['user_roads'].append([(start_x, start_y), (end_x, end_y)])
+                        st.session_state["user_permutation"] = coordinates_to_permutation(
+                            st.session_state['user_roads'],
+                            st.session_state['cities'])
+                    else:
+                        st.session_state["last_error"] = "Changes would create sub-routes!"
+
             else:
-                print('double click!')
                 st.session_state["last_error"] = "Double click! You clicked twice on the same city."
 
             # Writing functions to prevent duplicates/reverse roads might be unnecessary,
