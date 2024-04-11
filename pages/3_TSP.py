@@ -26,7 +26,6 @@ if 'generations_choice' not in st.session_state:
 if 'cities_count' not in st.session_state:
     st.session_state['cities_count'] = 50
 
-
 if "disabled" not in st.session_state:
     st.session_state["disabled"] = False
 
@@ -50,6 +49,11 @@ def custom_city_generator():
     update_cities(custom_cities_count)
 
 
+# that took a while... but I'm not satisfied with the results,
+# even after fixing remaining bugs we will have the responsiveness problem,
+# and it will only get worse after deploying the app on server
+# idea: use canvas: https://github.com/andfanilo/streamlit-drawable-canvas
+# problem: how to generate route based on user drawing
 def custom_city_creator():
     if 'auto_connect_roads' not in st.session_state:
         st.session_state['auto_connect_roads'] = False
