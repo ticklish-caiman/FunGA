@@ -195,8 +195,14 @@ with tabs[1]:
     selected_points = plotly_events(draw_map(), click_event=True, select_event=False, hover_event=False)
 
     if selected_points:
-        st.session_state['last_instruction'] = "Click on the next city to create another road!"
+
+        final_connection = len(st.session_state["user_permutation"]) == len(st.session_state['cities'])
         x, y = selected_points[0]['x'], selected_points[0]['y']
+
+        if final_connection:
+            st.session_state['last_instruction'] = "Congratulations! Your route has been successfully created!"
+        else:
+            st.session_state['last_instruction'] = "Click on the next city to create another road!"
 
         if st.session_state['auto_connect_roads']:
             # Automatically connect to the last city
@@ -226,13 +232,15 @@ with tabs[1]:
                     start_city_index = st.session_state['cities'].index((start_x, start_y))
                     end_city_index = st.session_state['cities'].index((end_x, end_y))
 
-                    # prevent creating sub-routes
-                    if start_city_index not in old_permutation or end_city_index not in old_permutation:
+                    # prevent creating sub-routes / Handle final connection
+                    if start_city_index not in old_permutation or end_city_index not in old_permutation or final_connection:
                         st.session_state['user_roads'].append([(start_x, start_y), (end_x, end_y)])
                         st.session_state["user_permutation"] = coordinates_to_permutation(
                             st.session_state['user_roads'],
                             st.session_state['cities'])
                     else:
+
+
                         st.session_state["last_error"] = "Changes would create sub-routes!"
 
                     # prevent creating separate routes
