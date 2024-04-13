@@ -111,5 +111,7 @@ with tabs[0]:
         st.session_state['user_roads'] = []
 
 with tabs[1]:
+    print('TAB 1')
     custom_city_generator()
     custom_city_creator()
+    print('TAB 1 rendered')
