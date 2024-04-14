@@ -81,6 +81,10 @@ def custom_city_creator():
             )
         return fig
 
+    st.session_state['last_instruction'] = "Click on the second city to create a road!"
+
+    rerun = False
+
     button_col1, button_col2 = st.columns(2)
 
     with button_col1:
@@ -94,15 +98,13 @@ def custom_city_creator():
     with button_col2:
 
         if st.button("Clear roads (start again)"):
-            # TODO: fix bug
             if len(st.session_state.user_roads) > 0:
                 st.session_state['user_roads'] = []
                 st.session_state['road_clicks'] = []
                 st.session_state['user_permutation'] = []
-
-    rerun = False
-
-    st.session_state['last_instruction'] = "Click on the second city to create a road!"
+                st.session_state['auto_connect_roads'] = False
+                st.session_state['last_instruction'] = "Click on the first city!"
+                rerun = True
 
     selected_points = plotly_events(draw_map(), click_event=True, select_event=False, hover_event=False)
 
