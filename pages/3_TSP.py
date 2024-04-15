@@ -1,6 +1,6 @@
 import streamlit as st
 
-from database.model.activity import Activity
+from database.model.tspactivity import TspActivity
 from utils.custom_css import custom_write_style
 from utils.genetic.tsp.tsp_creator import custom_city_generator, custom_city_creator
 from utils.genetic.tsp.tsp_evolve import create_population, evolve
@@ -95,8 +95,8 @@ if task_type == ":blue[**Computer**]":
 
         if st.session_state["authentication_status"]:
             print('Saving logged user results...')
-            activity = Activity(st.session_state["username"], 'TSP', str(best_route))
-            db_helper.add_activity(activity)
+            activity = TspActivity(st.session_state["username"], route_distance(best_route, cities), str(best_route))
+            db_helper.add_tsp_activity(activity)
         else:
             print('Saving guest result... (TODO)')
 

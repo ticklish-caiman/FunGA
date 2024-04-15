@@ -10,8 +10,8 @@ class DatabaseHelper:
                           'user_id INTEGER PRIMARY KEY, login TEXT UNIQUE, name TEXT, email TEXT, password TEXT, '
                           'logged_in INT')
         self.create_table('cookies', 'expiry_days TEXT, cookie_key TEXT, name TEXT')
-        self.create_table('activities',
-                          'activity_id INTEGER PRIMARY KEY, login TEXT, game TEXT, data TEXT, '
+        self.create_table('tsp_activities',
+                          'activity_id INTEGER PRIMARY KEY, login TEXT, distance TEXT, permutation TEXT, '
                           'FOREIGN KEY(login) REFERENCES users(login)')
         # If the config is empty -> insert default values
         if not (self.execute_query('SELECT count(*) FROM (select 0 from cookies limit 1)').fetchall()[0][0]):
@@ -109,12 +109,12 @@ class DatabaseHelper:
                 password = user_data['password']
                 self.update_user(User(login, name, email, password))
 
-    def add_activity(self, activity):
+    def add_tsp_activity(self, activity):
         query = """
-            INSERT INTO activities (login, game, data) 
+            INSERT INTO tsp_activities (login, distance, permutation) 
             VALUES (?, ?, ?)
         """
-        params = (activity.login, activity.game, activity.data)
+        params = (activity.login, activity.distance, activity.permutation)
         self.execute_query(query, params)
 
     def execute_query(self, query, params=None):
