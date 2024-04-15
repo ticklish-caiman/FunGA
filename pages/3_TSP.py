@@ -34,11 +34,6 @@ def enable():
     st.session_state["disabled"] = False
 
 
-# TODO: human vs machine, human and machine cooperation
-#       1. give use the ability to find a better solution than GA (vs mode)
-#       2. Give the the ability to help the algorithm (coop mode) - user will be able to add initial solutions
-
-
 st.header(_(':rainbow[Traveling Salesman Problem]'))
 
 task_type = st.radio(
@@ -115,10 +110,8 @@ if task_type == ":blue[**Computer**]":
         st.session_state['user_roads'] = []
 
 if task_type == ":orange[**Human**]":
-    print('TAB 1')
     custom_city_generator()
     custom_city_creator()
-    print('TAB 1 rendered')
 
 if task_type == ":green[**Cooperation**]":
     st.write("Work in progress...")
