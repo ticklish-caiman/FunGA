@@ -5,6 +5,7 @@ from utils.custom_css import custom_write_style
 from utils.genetic.tsp.tsp_creator import custom_city_generator, custom_city_creator
 from utils.genetic.tsp.tsp_evolve import create_population, evolve
 from utils.genetic.tsp.tsp_genes import generate_cities
+from utils.genetic.tsp.tsp_operators import route_distance
 
 from utils.navigation import show_main_menu, get_localizator
 
@@ -88,18 +89,24 @@ if task_type == ":blue[**Computer**]":
                 image_placeholder.image(last_image)  # Display only the new images
                 progress_plot_img.append(last_image)
 
+            best_route = min(population, key=lambda route: route_distance(route, cities))
+            print(f"Best route: {best_route}")
+            print(f"Distance: {route_distance(best_route, cities)}")
+
         if st.session_state["authentication_status"]:
             print('Saving logged user results...')
-        else:
-            print('Saving guest result...')
-            activity = Activity('test_login', 'TSP', 'TSP_result', user_id=1)
+            activity = Activity(st.session_state["username"], 'TSP', str(best_route))
             db_helper.add_activity(activity)
+        else:
+            print('Saving guest result... (TODO)')
 
         complete_message.text("Evolution complete! ✅")
 
         with st.popover("Show Evolution Process"):
             for plot_img in progress_plot_img:
                 st.image(plot_img)
+
+if task_type == ":orange[**Human**]":
 
     if 'cities' not in st.session_state:
         st.session_state['cities'] = generate_cities()
@@ -109,7 +116,6 @@ if task_type == ":blue[**Computer**]":
     if 'user_roads' not in st.session_state:
         st.session_state['user_roads'] = []
 
-if task_type == ":orange[**Human**]":
     custom_city_generator()
     custom_city_creator()
 

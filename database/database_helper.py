@@ -11,8 +11,8 @@ class DatabaseHelper:
                           'logged_in INT')
         self.create_table('cookies', 'expiry_days TEXT, cookie_key TEXT, name TEXT')
         self.create_table('activities',
-                          'activity_id INTEGER PRIMARY KEY, login TEXT, game TEXT, data TEXT, user_id INTEGER, '
-                          'FOREIGN KEY(user_id) REFERENCES users(user_id)')
+                          'activity_id INTEGER PRIMARY KEY, login TEXT, game TEXT, data TEXT, '
+                          'FOREIGN KEY(login) REFERENCES users(login)')
         # If the config is empty -> insert default values
         if not (self.execute_query('SELECT count(*) FROM (select 0 from cookies limit 1)').fetchall()[0][0]):
             query = "INSERT INTO cookies (expiry_days, cookie_key, name) VALUES (?, ?, ?)"
@@ -111,10 +111,10 @@ class DatabaseHelper:
 
     def add_activity(self, activity):
         query = """
-            INSERT INTO activities (login, game, data, user_id) 
-            VALUES (?, ?, ?, ?)
+            INSERT INTO activities (login, game, data) 
+            VALUES (?, ?, ?)
         """
-        params = (activity.login, activity.game, activity.data, activity.user_id)
+        params = (activity.login, activity.game, activity.data)
         self.execute_query(query, params)
 
     def execute_query(self, query, params=None):
