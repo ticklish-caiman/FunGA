@@ -34,15 +34,19 @@ def enable():
     st.session_state["disabled"] = False
 
 
-tabs_options = ['Genetic algorithm', 'Create you own route']
-tabs = st.tabs(tabs_options)
-
 # TODO: human vs machine, human and machine cooperation
 #       1. give use the ability to find a better solution than GA (vs mode)
 #       2. Give the the ability to help the algorithm (coop mode) - user will be able to add initial solutions
 
-with tabs[0]:
-    st.header(_('Traveling Salesman Problem'))
+
+st.header(_(':rainbow[Traveling Salesman Problem]'))
+
+task_type = st.radio(
+    _("**Choose type of the game**"),
+    [":blue[**Computer**]", ":orange[**Human**]", ":green[**Cooperation**]"],
+    captions=["Let the algorithm work for you.", "Do it yourself.", "Help the computer."], horizontal=True)
+
+if task_type == ":blue[**Computer**]":
 
     with st.sidebar.expander("⚙️ TSP OPTIONS️ ⚙️", expanded=True):
         generations = st.number_input("Generations", min_value=50, value=st.session_state['generations_choice'],
@@ -110,8 +114,11 @@ with tabs[0]:
     if 'user_roads' not in st.session_state:
         st.session_state['user_roads'] = []
 
-with tabs[1]:
+if task_type == ":orange[**Human**]":
     print('TAB 1')
     custom_city_generator()
     custom_city_creator()
     print('TAB 1 rendered')
+
+if task_type == ":green[**Cooperation**]":
+    st.write("Work in progress...")
