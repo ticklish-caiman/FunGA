@@ -5,11 +5,11 @@ from utils.custom_css import custom_css
 from utils.streamlit_demos import sliders, chart, selectbox, multiselect, checkbox, file_uploader, progress, form, \
     session_demo
 
-
 from utils.authorization import authorization_check
-
+from database.database_helper import DatabaseHelper
 
 _ = gettext.gettext
+db_helper = DatabaseHelper('database/data/funga_data.db')
 sidebar_options = ["Hello", "Button", "Sliders demo", "Chart demo", "Select box demo", "Multiselect demo",
                    "Checkbox demo", "File uploader demo", "Progress demo", "Form demo", "Session demo"]
 
@@ -80,6 +80,7 @@ def show_tab1():
         st.write("st.session_state object:", st.session_state)
     else:
         st.header('Logg in to your account to see your activities. ')
+        st.dataframe(db_helper.get_all_tsp_activities())
 
 
 def show_tab2():

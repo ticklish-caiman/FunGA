@@ -117,6 +117,10 @@ class DatabaseHelper:
         params = (activity.login, activity.distance, activity.permutation)
         self.execute_query(query, params)
 
+    def get_all_tsp_activities(self):
+        query = "SELECT login, distance, permutation FROM tsp_activities"
+        return self.fetchall(query)
+
     def execute_query(self, query, params=None):
         """Executes a query against the database, optionally using parameters.
 
