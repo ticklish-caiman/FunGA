@@ -95,7 +95,8 @@ if task_type == ":blue[**Computer**]":
 
         if st.session_state["authentication_status"]:
             print('Saving logged user results...')
-            activity = TspActivity(st.session_state["username"], route_distance(best_route, cities), str(best_route))
+            activity = TspActivity(st.session_state["username"], st.session_state["name"],
+                                   route_distance(best_route, cities), str(best_route))
             db_helper.add_tsp_activity(activity)
         else:
             print('Saving guest result... (TODO)')

@@ -80,7 +80,9 @@ def show_tab1():
         st.write("st.session_state object:", st.session_state)
     else:
         st.header('Logg in to your account to see your activities. ')
-        st.dataframe(db_helper.get_all_tsp_activities())
+        st.write("Best TSP results:")
+        print(db_helper.get_best_tsp_activities(3))
+        st.dataframe(db_helper.get_best_tsp_activities(3))
 
 
 def show_tab2():
