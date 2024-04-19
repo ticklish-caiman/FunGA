@@ -89,8 +89,13 @@ def show_tab2():
     if st.session_state["authentication_status"]:
         st.header('Hello')
         st.write('You are logged in!')
+        note = st.text_input('Add a note:', 'note text')
+        if note != 'note text':
+            db_helper.add_note(st.session_state['username'], note)
+        st.title("NOTES:")
+        st.dataframe(db_helper.get_user_notes())
     else:
-        st.header('Logg in to your account to see your notes. ')
+        st.header('Logg in to your account to add or see your notes. ')
 
 
 def show_tabs():

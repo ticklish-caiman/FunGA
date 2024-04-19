@@ -1,3 +1,4 @@
+import datetime
 import sqlite3
 
 from database.model.user import User
@@ -10,6 +11,9 @@ class DatabaseHelper:
                           'user_id INTEGER PRIMARY KEY, login TEXT UNIQUE, name TEXT, email TEXT, password TEXT, '
                           'logged_in INT')
         self.create_table('cookies', 'expiry_days TEXT, cookie_key TEXT, name TEXT')
+        self.create_table('notes',
+                          'note_id INTEGER PRIMARY KEY, login TEXT, date TEXT, note TEXT, FOREIGN KEY(login) '
+                          'REFERENCES users(login)')
         self.create_table('tsp_activities',
                           'activity_id INTEGER PRIMARY KEY, login TEXT, mode TEXT, username TEXT, distance FLOAT, '
                           'permutation TEXT,'
@@ -125,6 +129,18 @@ class DatabaseHelper:
     def get_best_tsp_activities(self, num_tsp_activities):
         query = "SELECT login, mode, username, distance, permutation FROM tsp_activities ORDER BY distance ASC LIMIT ?"
         return self.fetchall(query, (num_tsp_activities,))
+
+    def add_note(self, active_username, note):
+        query = """
+            INSERT INTO notes (login, date, note) 
+            VALUES (?, ?, ?)
+        """
+        params = (active_username, datetime.datetime.now().strftime('%d.%m.%Y %H:%M:%S'), note)
+        self.execute_query(query, params)
+
+    def get_user_notes(self):
+        query = "SELECT date, note FROM notes"
+        return self.fetchall(query)
 
     def execute_query(self, query, params=None):
         """Executes a query against the database, optionally using parameters.
