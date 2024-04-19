@@ -89,11 +89,12 @@ def show_tab2():
     if st.session_state["authentication_status"]:
         st.header('Hello')
         st.write('You are logged in!')
+        # problem with this approach: "press enter to apply" can't be translated, can be disabled at best
         note = st.text_input('Add a note:', 'note text')
         if note != 'note text':
             db_helper.add_note(st.session_state['username'], note)
         st.title("NOTES:")
-        st.dataframe(db_helper.get_user_notes())
+        st.dataframe(db_helper.get_user_notes(), use_container_width=True)
     else:
         st.header('Logg in to your account to add or see your notes. ')
 
