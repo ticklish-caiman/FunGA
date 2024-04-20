@@ -94,7 +94,7 @@ def show_tab2():
         if note != 'note text':
             db_helper.add_note(st.session_state['username'], note)
         st.title("NOTES:")
-        st.table(db_helper.get_user_notes(), )
+        st.table(db_helper.get_user_notes())
     else:
         st.header('Logg in to your account to add or see your notes. ')
 
