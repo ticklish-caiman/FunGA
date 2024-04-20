@@ -1,3 +1,5 @@
+import numpy as np
+import pandas as pd
 import streamlit as st
 import gettext
 
@@ -94,7 +96,15 @@ def show_tab2():
         if note != 'note text':
             db_helper.add_note(st.session_state['username'], note)
         st.title("NOTES:")
-        st.table(db_helper.get_user_notes())
+
+        df = pd.DataFrame(db_helper.get_user_notes(), columns=("Date", "Note"))
+        st.table(df)
+        selected_indices = st.multiselect('Select notes to delete:', df.index)
+        selected_rows = df.loc[selected_indices]
+        st.table(selected_rows)
+        if st.button('Delete note'):
+            db_helper.delete_notes(st.session_state['username'], selected_rows['Note'])
+            st.rerun()
     else:
         st.header('Logg in to your account to add or see your notes. ')
 

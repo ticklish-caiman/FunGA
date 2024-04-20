@@ -138,6 +138,14 @@ class DatabaseHelper:
         params = (active_username, datetime.datetime.now().strftime('%d.%m.%Y %H:%M:%S'), note)
         self.execute_query(query, params)
 
+    def delete_notes(self, active_username, notes):
+        for note in notes.values:
+            query = """
+                    DELETE FROM notes WHERE login=? and note=?
+                """
+            params = (active_username, note)
+            self.execute_query(query, params)
+
     def get_user_notes(self):
         query = "SELECT date, note FROM notes"
         return self.fetchall(query)
