@@ -139,6 +139,15 @@ class DatabaseHelper:
         self.execute_query(query, params)
 
     def delete_notes(self, active_username, notes):
+        """Deletes notes based on active username and a list of notes.
+
+            Args:
+            active_username (str): active username.
+            notes (list[str]): A list of notes to delete.
+
+            Warning:
+                This function will delete noted based on their content (will also delete duplicated notes).
+        """
         for note in notes.values:
             query = """
                     DELETE FROM notes WHERE login=? and note=?
