@@ -15,8 +15,6 @@ db_helper = DatabaseHelper('database/data/funga_data.db')
 sidebar_options = ["Hello", "Button", "Sliders demo", "Chart demo", "Select box demo", "Multiselect demo",
                    "Checkbox demo", "File uploader demo", "Progress demo", "Form demo", "Session demo"]
 
-tabs_options = ["Account ", "Activities ", "Notes "]
-
 
 def show_main_menu(_):
     st.sidebar.page_link("Home_Page.py", label=_("Home"), icon="🏠")
@@ -89,34 +87,48 @@ def show_tab1():
 
 def show_tab2():
     if st.session_state["authentication_status"]:
-        st.header('Hello')
-        st.write('You are logged in!')
-        # problem with this approach: "press enter to apply" can't be translated, can be disabled at best
-        note = st.text_input('Add a note:', 'note text')
-        if note != 'note text':
-            db_helper.add_note(st.session_state['username'], note)
-        st.title("NOTES:")
 
-        df = pd.DataFrame(db_helper.get_user_notes(), columns=("Date", "Note"))
-        st.table(df)
-        selected_indices = st.multiselect('Select notes to delete:', df.index)
-        selected_rows = df.loc[selected_indices]
-        st.table(selected_rows)
-        if st.button('Delete note'):
-            db_helper.delete_notes(st.session_state['username'], selected_rows['Note'])
-            st.rerun()
+        note_task_type = st.radio(
+            " ",
+            [":green[**Add a note**]", ":red[**Remove notes**]"])
+
+        if note_task_type == ":green[**Add a note**]":
+
+            # problem with text_input: "press enter to apply" can't be translated, can be disabled at best
+            note = st.text_input('Write below and press ENTER to add:', '')
+            if note != '':
+                db_helper.add_note(st.session_state['username'], note)
+
+            st.title("NOTES:")
+            df = pd.DataFrame(db_helper.get_user_notes(), columns=("Date", "Note"))
+            st.table(df)
+
+        if note_task_type == ":red[**Remove notes**]":
+
+            df = pd.DataFrame(db_helper.get_user_notes(), columns=("Date", "Note"))
+            st.table(df)
+
+            selected_indices = st.multiselect('Select notes to delete:', df.index)
+            selected_rows = df.loc[selected_indices]
+            st.table(selected_rows)
+            if st.button('Delete note'):
+                db_helper.delete_notes(st.session_state['username'], selected_rows['Note'])
+                st.rerun()
     else:
         st.header('Logg in to your account to add or see your notes. ')
 
 
 def show_tabs():
-    custom_css()
-    tabs = st.tabs(tabs_options)
-    with tabs[0]:
+    task_type = st.radio(
+        " ",
+        [":blue[**Account**]", ":orange[**Activities**]", ":green[**Notes**]"],
+        captions=["Manage your account.", "Check your activity.", "Manage your notes."], horizontal=True)
+
+    if task_type == ":blue[**Account**]":
         show_tab0()
-    with tabs[1]:
+    if task_type == ":orange[**Activities**]":
         show_tab1()
-    with tabs[2]:
+    if task_type == ":green[**Notes**]":
         show_tab2()
 
 
