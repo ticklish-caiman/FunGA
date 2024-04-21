@@ -101,17 +101,19 @@ def show_tab2():
 
             st.title("NOTES:")
             df = pd.DataFrame(db_helper.get_user_notes(), columns=("Date", "Note"))
+            df.index = np.arange(1, len(df) + 1)  # index from 1
             st.table(df)
 
         if note_task_type == ":red[**Remove notes**]":
 
             df = pd.DataFrame(db_helper.get_user_notes(), columns=("Date", "Note"))
+            df.index = np.arange(1, len(df) + 1)  # index from 1
             st.table(df)
 
-            selected_indices = st.multiselect('Select notes to delete:', df.index)
+            selected_indices = st.multiselect('Select notes to delete:', df.index, placeholder='Select notes to delete')
             selected_rows = df.loc[selected_indices]
             st.table(selected_rows)
-            if st.button('Delete note'):
+            if st.button('Delete selected notes'):
                 db_helper.delete_notes(st.session_state['username'], selected_rows['Note'])
                 st.rerun()
     else:
