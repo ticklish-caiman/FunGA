@@ -7,8 +7,8 @@ class Item:
         self.width = width
         self.height = height
         self.value = self.value = self.calculate_value()
-        self.start_row = None  # Row position on the grid
-        self.start_col = None  # Column position on the grid
+        self.start_row = 0  # Row position on the grid
+        self.start_col = 0  # Column position on the grid
 
     # value is the surface area
     def calculate_value(self):
@@ -51,11 +51,8 @@ def fitness(chromosome, items, knapsack):
             placed = False
             for row in range(knapsack.max_height):
                 for col in range(knapsack.max_width):
-                    items[i].start_row = row
-                    items[i].start_col = col
                     if can_place_item(items[i], knapsack_grid):
                         # Place the item
-
                         for r in range(items[i].height):
                             for c in range(items[i].width):
                                 knapsack_grid[r + row][c + col] = 1  # Mark as occupied
@@ -153,7 +150,7 @@ items = [
     Item(4, 1)
 ]
 
-knapsack = Knapsack(10, 12)  # Only width and height constraints
+knapsack = Knapsack(20, 12)  # Only width and height constraints
 
 # Genetic algorithm parameters
 population_size = 50
