@@ -40,7 +40,7 @@ Won't-haves:
 
 # Roadmap
 1. GUI template<br/>
-![33%](https://progress-bar.dev/33?title=progress&width=400)
+![44%](https://progress-bar.dev/44?title=progress&width=400)
 2. Theory<br/>
 ![2%](https://progress-bar.dev/2?title=progress&width=400)
 3. Tests<br/>
@@ -52,12 +52,14 @@ Won't-haves:
 6. Pipelines:<br/>
    a) Biomorphs<br/>
    ![9%](https://progress-bar.dev/9?title=progress&width=400) <br/>
-   b) Shapevo<br/>
+   b) Shapevo (probably to be thrown out)<br/>
    ![2%](https://progress-bar.dev/2?title=progress&width=400) <br/>
    c) TSP <br/>
-   ![35%](https://progress-bar.dev/35?title=progress&width=400) <br/>
-   d) ? <br/>
-   e) ? <br/>
+   ![45%](https://progress-bar.dev/45?title=progress&width=400) <br/>
+   d) 2D Knapsack problem <br/>
+   ![1%](https://progress-bar.dev/1?title=progress&width=400) <br/>
+   e) Ice-cream tycoon <br/>
+   ![1%](https://progress-bar.dev/1?title=progress&width=400) <br/>
 
 # 100COMMITÓW:
 This repository takes part in:
