@@ -1,4 +1,5 @@
 import streamlit as st
+import logging
 
 from database.model.tspactivity import TspActivity
 from utils.custom_css import custom_write_style
@@ -16,6 +17,8 @@ st.set_page_config(page_title=_("FunGA - About"), page_icon='🕹️')
 show_main_menu(_)
 
 db_helper = DatabaseHelper('database/data/funga_data.db')
+
+logging.basicConfig(level=logging.INFO)
 
 if 'generations_choice' not in st.session_state:
     st.session_state['generations_choice'] = 500
@@ -90,16 +93,16 @@ if task_type == ":blue[**Computer**]":
                 progress_plot_img.append(last_image)
 
             best_route = min(population, key=lambda route: route_distance(route, cities))
-            print(f"Best route: {best_route}")
-            print(f"Distance: {route_distance(best_route, cities)}")
+            logging.info(f"Best route: {best_route}")
+            logging.info(f"Distance: {route_distance(best_route, cities)}")
 
         if st.session_state["authentication_status"]:
-            print('Saving logged user results...')
+            logging.info('Saving logged user results...')
             activity = TspActivity(st.session_state["username"], "computer", st.session_state["name"],
                                    route_distance(best_route, cities), str(best_route))
             db_helper.add_tsp_activity(activity)
         else:
-            print('Saving guest result...')
+            logging.info('Saving guest result...')
             activity = TspActivity('Guest_account', "computer", 'Guest',
                                    route_distance(best_route, cities), str(best_route))
             db_helper.add_tsp_activity(activity)
