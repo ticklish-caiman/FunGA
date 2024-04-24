@@ -17,10 +17,13 @@ db_helper = DatabaseHelper('database/data/funga_data.db')
 
 def custom_city_generator():
     def update_cities(ccc):
-        st.session_state['cities'] = generate_cities(ccc)
+        if 'cities' not in st.session_state or len(st.session_state['cities']) != ccc:
+            st.session_state['cities'] = generate_cities(ccc)
+
+    number_of_cities = len(st.session_state['cities'])
 
     custom_cities_count = st.number_input("How many cities:", min_value=5,
-                                          value=51,
+                                          value=number_of_cities,
                                           max_value=300,
                                           key='custom_cities_c')
     update_cities(custom_cities_count)
@@ -57,7 +60,9 @@ def custom_city_creator():
             if st.button('Save route'):
                 if st.session_state["username"]:
                     activity = TspActivity(st.session_state["username"], "user", st.session_state["name"],
-                                           route_distance(st.session_state["user_permutation"], st.session_state['cities']), str(st.session_state["user_permutation"]))
+                                           route_distance(st.session_state["user_permutation"],
+                                                          st.session_state['cities']),
+                                           str(st.session_state["user_permutation"]))
                     db_helper.add_tsp_activity(activity)
                     st.info('Route has been successfully saved!')
                 else:
