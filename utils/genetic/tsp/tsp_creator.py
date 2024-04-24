@@ -39,12 +39,17 @@ def custom_city_creator():
     if 'user_permutation' not in st.session_state:
         st.session_state["user_permutation"] = []
 
+    if 'final_connection' not in st.session_state:
+        st.session_state["final_connection"] = False
+
     if st.session_state["last_error"]:
         st.error(st.session_state["last_error"])
         st.session_state["last_error"] = None
 
     if st.session_state["last_instruction"]:
         st.info(st.session_state["last_instruction"])
+        if st.button('Save route'):
+            st.write('Route has been successfully saved!')
 
     def init_user_input_plot():
         # Generate city data and create the Plotly figure (outside draw_map)
@@ -110,10 +115,11 @@ def custom_city_creator():
 
     if selected_points:
 
-        final_connection = len(st.session_state["user_permutation"]) == len(st.session_state['cities'])
+        st.session_state["final_connection"] = len(st.session_state["user_permutation"]) == len(
+            st.session_state['cities'])
         x, y = selected_points[0]['x'], selected_points[0]['y']
 
-        if final_connection:
+        if st.session_state["final_connection"]:
             st.session_state['last_instruction'] = "Congratulations! Your route has been successfully created!"
         else:
             st.session_state['last_instruction'] = "Click on the next city to create another road!"
@@ -147,7 +153,8 @@ def custom_city_creator():
                     end_city_index = st.session_state['cities'].index((end_x, end_y))
 
                     # prevent creating sub-routes / Handle final connection
-                    if start_city_index not in old_permutation or end_city_index not in old_permutation or final_connection:
+                    if start_city_index not in old_permutation or end_city_index not in old_permutation or \
+                            st.session_state["final_connection"]:
                         st.session_state['user_roads'].append([(start_x, start_y), (end_x, end_y)])
                         st.session_state["user_permutation"] = coordinates_to_permutation(
                             st.session_state['user_roads'],
