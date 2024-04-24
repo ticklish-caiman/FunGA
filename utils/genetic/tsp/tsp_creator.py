@@ -48,8 +48,10 @@ def custom_city_creator():
 
     if st.session_state["last_instruction"]:
         st.info(st.session_state["last_instruction"])
-        if st.button('Save route'):
-            st.write('Route has been successfully saved!')
+        if st.session_state["final_connection"]:
+            if st.button('Save route'):
+                #TODO: route saving logic
+                st.write('Route has been successfully saved!')
 
     def init_user_input_plot():
         # Generate city data and create the Plotly figure (outside draw_map)
@@ -99,6 +101,7 @@ def custom_city_creator():
                 st.session_state.user_roads.pop()
                 st.session_state.user_permutation.pop()
                 st.session_state['road_clicks'] = []
+                st.session_state["final_connection"] = False
 
     with button_col2:
 
@@ -109,6 +112,7 @@ def custom_city_creator():
                 st.session_state['user_permutation'] = []
                 st.session_state['auto_connect_roads'] = False
                 st.session_state['last_instruction'] = "Click on the first city!"
+                st.session_state["final_connection"] = False
                 rerun = True
 
     selected_points = plotly_events(draw_map(), click_event=True, select_event=False, hover_event=False)
