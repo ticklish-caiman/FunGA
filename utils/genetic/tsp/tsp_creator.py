@@ -5,9 +5,14 @@ import plotly.graph_objects as go
 import plotly.express as px
 from streamlit_plotly_events import plotly_events
 
+from database.model.tspactivity import TspActivity
 from utils.custom_css import custom_write_style
 from utils.genetic.tsp.tsp_operators import coordinates_to_permutation, route_distance
 from utils.genetic.tsp.tsp_genes import generate_cities
+
+from database.database_helper import DatabaseHelper
+
+db_helper = DatabaseHelper('database/data/funga_data.db')
 
 
 def custom_city_generator():
@@ -50,8 +55,13 @@ def custom_city_creator():
         st.info(st.session_state["last_instruction"])
         if st.session_state["final_connection"]:
             if st.button('Save route'):
-                #TODO: route saving logic
-                st.write('Route has been successfully saved!')
+                if st.session_state["username"]:
+                    activity = TspActivity(st.session_state["username"], "user", st.session_state["name"],
+                                           route_distance(st.session_state["user_permutation"], st.session_state['cities']), str(st.session_state["user_permutation"]))
+                    db_helper.add_tsp_activity(activity)
+                    st.info('Route has been successfully saved!')
+                else:
+                    st.error('You have to login to save route!')
 
     def init_user_input_plot():
         # Generate city data and create the Plotly figure (outside draw_map)
