@@ -75,9 +75,10 @@ def show_tab0():
 
 def show_tab1():
     if st.session_state["authentication_status"]:
-        st.header('Hello')
-        st.write('You are logged in!')
-        st.write("st.session_state object:", st.session_state)
+        st.write("Your TSP results:")
+        st.dataframe(db_helper.get_user_tsp_activities(st.session_state['username']))
+        st.write("Best TSP results:")
+        st.dataframe(db_helper.get_best_tsp_activities(3))
     else:
         st.header('Logg in to your account to see your activities. ')
         st.write("Best TSP results:")
