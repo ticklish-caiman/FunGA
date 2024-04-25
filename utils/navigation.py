@@ -81,7 +81,6 @@ def show_tab1():
     else:
         st.header('Logg in to your account to see your activities. ')
         st.write("Best TSP results:")
-        print(db_helper.get_best_tsp_activities(3))
         st.dataframe(db_helper.get_best_tsp_activities(3))
 
 
