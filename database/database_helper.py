@@ -127,12 +127,12 @@ class DatabaseHelper:
         return self.fetchall(query)
 
     def get_user_tsp_activities(self, login):
-        query = "SELECT login, mode, username, distance, permutation FROM tsp_activities WHERE login=?"
+        query = "SELECT mode, username, distance, permutation FROM tsp_activities WHERE login=?"
         result = self.fetchall(query, (login,))
         return result
 
     def get_best_tsp_activities(self, num_tsp_activities):
-        query = "SELECT login, mode, username, distance, permutation FROM tsp_activities ORDER BY distance ASC LIMIT ?"
+        query = "SELECT mode, username, distance, permutation FROM tsp_activities ORDER BY distance ASC LIMIT ?"
         return self.fetchall(query, (num_tsp_activities,))
 
     def add_note(self, active_username, note):
