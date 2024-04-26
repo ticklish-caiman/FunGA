@@ -59,10 +59,11 @@ def custom_city_creator():
         if st.session_state["final_connection"]:
             if st.button('Save route'):
                 if st.session_state["username"]:
+                    ga_params = None
                     activity = TspActivity(st.session_state["username"], "user", st.session_state["name"],
                                            route_distance(st.session_state["user_permutation"],
                                                           st.session_state['cities']),
-                                           str(st.session_state["user_permutation"]))
+                                           str(st.session_state["user_permutation"]), ga_params)
                     db_helper.add_tsp_activity(activity)
                     st.info('Route has been successfully saved!')
                 else:

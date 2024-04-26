@@ -16,7 +16,7 @@ class DatabaseHelper:
                           'REFERENCES users(login)')
         self.create_table('tsp_activities',
                           'activity_id INTEGER PRIMARY KEY, login TEXT, mode TEXT, username TEXT, distance FLOAT, '
-                          'permutation TEXT,'
+                          'permutation TEXT, ga_params TEXT,'
                           'FOREIGN KEY(login) REFERENCES users(login)')
         # If the config is empty -> insert default values
         if not (self.execute_query('SELECT count(*) FROM (select 0 from cookies limit 1)').fetchall()[0][0]):
@@ -116,23 +116,24 @@ class DatabaseHelper:
 
     def add_tsp_activity(self, activity):
         query = """
-            INSERT INTO tsp_activities (login, mode, username, distance, permutation) 
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO tsp_activities (login, mode, username, distance, permutation, ga_params) 
+            VALUES (?, ?, ?, ?, ?, ?)
         """
-        params = (activity.login, activity.mode, activity.username, activity.distance, activity.permutation)
+        params = (activity.login, activity.mode, activity.username, activity.distance, activity.permutation, activity.ga_params)
         self.execute_query(query, params)
 
     def get_all_tsp_activities(self):
-        query = "SELECT login, mode, username, distance, permutation FROM tsp_activities"
+        query = "SELECT login, mode, username, distance, permutation, ga_params FROM tsp_activities"
         return self.fetchall(query)
 
     def get_user_tsp_activities(self, login):
-        query = "SELECT mode, username, distance, permutation FROM tsp_activities WHERE login=?"
+        query = "SELECT mode, username, distance, permutation, ga_params FROM tsp_activities WHERE login=?"
         result = self.fetchall(query, (login,))
         return result
 
     def get_best_tsp_activities(self, num_tsp_activities):
-        query = "SELECT mode, username, distance, permutation FROM tsp_activities ORDER BY distance ASC LIMIT ?"
+        query = ("SELECT mode, username, distance, permutation, ga_params FROM tsp_activities ORDER BY distance ASC "
+                 "LIMIT ?")
         return self.fetchall(query, (num_tsp_activities,))
 
     def add_note(self, active_username, note):

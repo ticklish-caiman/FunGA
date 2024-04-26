@@ -96,15 +96,18 @@ if task_type == ":blue[**Computer**]":
             logging.info(f"Best route: {best_route}")
             logging.info(f"Distance: {route_distance(best_route, cities)}")
 
+        ga_params = {'generations': generations, 'pop_size': pop_size, 'tournament_size': tournament_size,
+                     'mutation_rate': mutation_rate}
         if st.session_state["authentication_status"]:
             logging.info('Saving logged user results...')
             activity = TspActivity(st.session_state["username"], "computer", st.session_state["name"],
-                                   route_distance(best_route, cities), str(best_route))
+                                   route_distance(best_route, cities), str(best_route), str(ga_params))
             db_helper.add_tsp_activity(activity)
         else:
             logging.info('Saving guest result...')
+
             activity = TspActivity('Guest_account', "computer", 'Guest',
-                                   route_distance(best_route, cities), str(best_route))
+                                   route_distance(best_route, cities), str(best_route), ga_params)
             db_helper.add_tsp_activity(activity)
 
         complete_message.text("Evolution complete! ✅")
