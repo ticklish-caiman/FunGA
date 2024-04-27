@@ -3,7 +3,6 @@ import pandas as pd
 import streamlit as st
 import gettext
 
-from utils.custom_css import custom_css
 from utils.streamlit_demos import sliders, chart, selectbox, multiselect, checkbox, file_uploader, progress, form, \
     session_demo
 

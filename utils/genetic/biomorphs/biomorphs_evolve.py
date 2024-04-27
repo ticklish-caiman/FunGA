@@ -30,6 +30,3 @@ def evolve_biomrophs(population, chosen_one_index=0):
 
 def test_pass_choice(best):
     print(best)
-
-# pop = init_biomorphs_population()
-# evolve_biomrophs(pop)

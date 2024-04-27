@@ -1,5 +1,4 @@
 import streamlit as st
-import gettext
 
 from utils.custom_css import custom_write_style
 from utils.navigation import show_main_menu, get_localizator
