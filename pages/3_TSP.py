@@ -107,7 +107,7 @@ if task_type == ":blue[**Computer**]":
             logging.info('Saving guest result...')
 
             activity = TspActivity('Guest_account', "computer", 'Guest',
-                                   route_distance(best_route, cities), str(best_route), ga_params)
+                                   route_distance(best_route, cities), str(best_route), str(ga_params))
             db_helper.add_tsp_activity(activity)
 
         complete_message.text("Evolution complete! ✅")
