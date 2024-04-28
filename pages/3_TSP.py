@@ -42,45 +42,45 @@ st.header(_(':rainbow[Traveling Salesman Problem]'))
 
 task_type = st.radio(
     _("**Choose type of the game**"),
-    [":blue[**Computer**]", ":orange[**Human**]", ":green[**Cooperation**]"],
-    captions=["Let the algorithm work for you.", "Do it yourself.", "Help the computer."], horizontal=True)
+    [_(":blue[**Computer**]"), _(":orange[**Human**]"), _(":green[**Cooperation**]")],
+    captions=[_("Let the algorithm work for you."), _("Do it yourself."), _("Help the computer.")], horizontal=True)
 
-if task_type == ":blue[**Computer**]":
+if task_type == _(":blue[**Computer**]"):
 
-    with st.sidebar.expander("⚙️ TSP OPTIONS️ ⚙️", expanded=True):
+    with st.sidebar.expander(_("⚙️ TSP OPTIONS️ ⚙️"), expanded=True):
         generations = st.number_input("Generations", min_value=50, value=st.session_state['generations_choice'],
                                       disabled=st.session_state.disabled)
 
-        with st.popover("🔧 Advanced options", disabled=st.session_state.disabled):
+        with st.popover(_("🔧 Advanced options"), disabled=st.session_state.disabled):
             col1, col2 = st.columns(2)
             with col1:
-                pop_size = st.number_input("Population Size", min_value=10, value=50)
-                st.session_state['cities_count'] = st.number_input("How many cities:", min_value=5,
+                pop_size = st.number_input(_("Population Size"), min_value=10, value=50)
+                st.session_state['cities_count'] = st.number_input(_("How many cities:"), min_value=5,
                                                                    value=st.session_state['cities_count'],
                                                                    max_value=300)
-                random_cities = st.checkbox('⬅️ Random cities')
+                random_cities = st.checkbox(_('⬅️ Random cities'))
             with col2:
-                tournament_size = st.number_input("Tournament size:", min_value=2, value=int(pop_size / 10),
+                tournament_size = st.number_input(_("Tournament size:"), min_value=2, value=int(pop_size / 10),
                                                   max_value=pop_size)
-                mutation_rate = st.number_input("Mutation rate:", min_value=0.01, value=0.5, step=0.01)
+                mutation_rate = st.number_input(_("Mutation rate:"), min_value=0.01, value=0.5, step=0.01)
 
-    with st.expander("What is TSP? (click to expand)", expanded=False):
+    with st.expander(_("What is TSP? (click to expand)"), expanded=False):
         custom_write_style()
         st.write(
-            """The Traveling Salesman Problem is like finding the shortest way to visit a bunch of cities, going to each 
-            city only once, and ending back where you started.""")
-        st.write('Want to know why it is so hard?')
-        st.page_link('pages/4_Theory.py', label="Click here to see detailed explanation")
+            _("""The Traveling Salesman Problem is like finding the shortest way to visit a bunch of cities, 
+            going to each city only once, and ending back where you started."""))
+        st.write(_('Want to know why it is so hard?'))
+        st.page_link('pages/4_Theory.py', label=_("Click here to see detailed explanation"))
 
-    st.write("⤸ Adjust parameters from ⚙️TSP OPTIONS️⚙️ in the sidebar.")
+    st.write(_("⤸ Adjust parameters from ⚙️TSP OPTIONS️⚙️ in the sidebar."))
 
     if st.session_state["disabled"]:
-        st.button("Start again", on_click=enable)
-        st.sidebar.button("Start again", on_click=enable, key='sidebar_reset')
+        st.button(_("Start again"), on_click=enable)
+        st.sidebar.button(_("Start again"), on_click=enable, key='sidebar_reset')
 
-    if st.button("⏱Start Evolution⏱", on_click=disable, disabled=st.session_state.disabled):
+    if st.button(_("⏱Start Evolution⏱"), on_click=disable, disabled=st.session_state.disabled):
         complete_message = st.empty()
-        with st.spinner("Running Genetic Algorithm..."):
+        with st.spinner(_("Running Genetic Algorithm...")):
             cities = generate_cities(st.session_state['cities_count'], random_cities)
             population = create_population(pop_size, len(cities))
             progress_plot_img = []
@@ -99,24 +99,24 @@ if task_type == ":blue[**Computer**]":
         ga_params = {'generations': generations, 'pop_size': pop_size, 'tournament_size': tournament_size,
                      'mutation_rate': mutation_rate}
         if st.session_state["authentication_status"]:
-            logging.info('Saving logged user results...')
+            logging.info(_('Saving logged user results...'))
             activity = TspActivity(st.session_state["username"], "computer", st.session_state["name"],
                                    route_distance(best_route, cities), str(best_route), str(ga_params))
             db_helper.add_tsp_activity(activity)
         else:
-            logging.info('Saving guest result...')
+            logging.info(_('Saving guest result...'))
 
             activity = TspActivity('Guest_account', "computer", 'Guest',
                                    route_distance(best_route, cities), str(best_route), str(ga_params))
             db_helper.add_tsp_activity(activity)
 
-        complete_message.text("Evolution complete! ✅")
+        complete_message.text(_("Evolution complete! ✅"))
 
-        with st.popover("Show Evolution Process"):
+        with st.popover(_("Show Evolution Process")):
             for plot_img in progress_plot_img:
                 st.image(plot_img)
 
-if task_type == ":orange[**Human**]":
+if task_type == _(":orange[**Human**]"):
 
     if 'cities' not in st.session_state:
         st.session_state['cities'] = generate_cities()
@@ -129,5 +129,5 @@ if task_type == ":orange[**Human**]":
     custom_city_generator()
     custom_city_creator()
 
-if task_type == ":green[**Cooperation**]":
+if task_type == _(":green[**Cooperation**]"):
     st.write("Work in progress...")

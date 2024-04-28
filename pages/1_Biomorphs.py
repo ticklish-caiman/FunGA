@@ -27,7 +27,7 @@ if "first_run" not in st.session_state:
     st.session_state["first_run"] = True
 
 if not st.session_state["first_run"]:
-    if st.button("🔄 START  AGAIN 🔄", type='primary'):
+    if st.button(_("🔄 START  AGAIN 🔄"), type='primary'):
         del st.session_state["biomorphs"]
         del st.session_state["first_run"]
         del st.session_state["clicked"]
@@ -63,13 +63,13 @@ for row in range(num_rows):
         with cols[col_index]:
             with st.container(border=1):
                 if not st.session_state["first_run"]:
-                    if st.button("⬇️ Choose me ⬇️", key=biomorph_id, on_click=on_click()):
+                    if st.button(_("⬇️ Choose me ⬇️"), key=biomorph_id, on_click=on_click()):
                         st.session_state["clicked"] = biomorph_id
                         test_pass_choice(biomorph_id)
                     st.image(biomorph_img, width=200)
                 else:
                     # To bypass "the double click bug" we make the user click on a blank array first
-                    if st.button("START GENERATING", key=biomorph_id, on_click=on_click()):
+                    if st.button(_("START GENERATING"), key=biomorph_id, on_click=on_click()):
                         st.session_state["clicked"] = biomorph_id
                         test_pass_choice(biomorph_id)
                         st.session_state["first_run"] = False

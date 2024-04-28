@@ -46,7 +46,7 @@ Won't-haves:
 3. Tests<br/>
 ![0%](https://progress-bar.dev/0?title=progress&width=400)
 4. Translation<br/>
-![1%](https://progress-bar.dev/1?title=progress&width=400)
+![3%](https://progress-bar.dev/3?title=progress&width=400)
 5. Database<br/>
 ![32%](https://progress-bar.dev/32?title=progress&width=400)
 6. Pipelines:<br/>
