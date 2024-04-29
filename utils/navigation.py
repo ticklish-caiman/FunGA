@@ -9,7 +9,24 @@ from utils.streamlit_demos import sliders, chart, selectbox, multiselect, checkb
 from utils.authorization import authorization_check
 from database.database_helper import DatabaseHelper
 
-_ = gettext.gettext
+
+def get_localizator():
+    if 'language' not in st.session_state:
+        st.session_state['language'] = 'en'
+
+    _ = gettext.gettext
+
+    try:
+        # Important - languages=[language] have to be passed as a list, won't work without []
+        localizator = gettext.translation('base', localedir='locales', languages=[st.session_state['language']])
+        localizator.install()
+        _ = localizator.gettext
+    except Exception as e:
+        st.error(e)
+    return _
+
+
+_ = get_localizator()
 db_helper = DatabaseHelper('database/data/funga_data.db')
 sidebar_options = ["Hello", "Button", "Sliders demo", "Chart demo", "Select box demo", "Multiselect demo",
                    "Checkbox demo", "File uploader demo", "Progress demo", "Form demo", "Session demo"]
@@ -74,13 +91,13 @@ def show_tab0():
 
 def show_tab1():
     if st.session_state["authentication_status"]:
-        st.write("Your TSP results:")
+        st.write(_('Your TSP results:'))
         st.dataframe(db_helper.get_user_tsp_activities(st.session_state['username']))
-        st.write("Best TSP results:")
+        st.write(_('Best TSP results:'))
         st.dataframe(db_helper.get_best_tsp_activities(3))
     else:
-        st.header('Logg in to your account to see your activities. ')
-        st.write("Best TSP results:")
+        st.header(_('Logg in to your account to see your activities. '))
+        st.write(_('Best TSP results:'))
         st.dataframe(db_helper.get_best_tsp_activities(3))
 
 
@@ -89,12 +106,12 @@ def show_tab2():
 
         note_task_type = st.radio(
             " ",
-            [":green[**Add a note**]", ":red[**Remove notes**]"])
+            [_(":green[**Add a note**]"), _(":red[**Remove notes**]")])
 
-        if note_task_type == ":green[**Add a note**]":
+        if note_task_type == _(":green[**Add a note**]"):
 
             # problem with text_input: "press enter to apply" can't be translated, can be disabled at best
-            note = st.text_input('Write below and press ENTER to add:', '')
+            note = st.text_input(_('Write below and press ENTER to add:'), '')
             if note != '':
                 db_helper.add_note(st.session_state['username'], note)
 
@@ -103,47 +120,32 @@ def show_tab2():
             df.index = np.arange(1, len(df) + 1)  # index from 1
             st.table(df)
 
-        if note_task_type == ":red[**Remove notes**]":
+        if note_task_type == _(":red[**Remove notes**]"):
 
             df = pd.DataFrame(db_helper.get_user_notes(), columns=("Date", "Note"))
             df.index = np.arange(1, len(df) + 1)  # index from 1
             st.table(df)
 
-            selected_indices = st.multiselect('Select notes to delete:', df.index, placeholder='Select notes to delete')
+            selected_indices = st.multiselect(_('Select notes to delete:'), df.index,
+                                              placeholder=_('Select notes to delete'))
             selected_rows = df.loc[selected_indices]
             st.table(selected_rows)
-            if st.button('Delete selected notes'):
+            if st.button(_('Delete selected notes')):
                 db_helper.delete_notes(st.session_state['username'], selected_rows['Note'])
                 st.rerun()
     else:
-        st.header('Logg in to your account to add or see your notes. ')
+        st.header(_('Logg in to your account to add or see your notes. '))
 
 
 def show_tabs():
     task_type = st.radio(
         " ",
-        [":blue[**Account**]", ":orange[**Activities**]", ":green[**Notes**]"],
-        captions=["Manage your account.", "Check your activity.", "Manage your notes."], horizontal=True)
+        [_(":blue[**Account**]"), _(":orange[**Activities**]"), _(":green[**Notes**]")],
+        captions=[_("Manage your account."), _("Check your activity."), _("Manage your notes.")], horizontal=True)
 
-    if task_type == ":blue[**Account**]":
+    if task_type == _(":blue[**Account**]"):
         show_tab0()
-    if task_type == ":orange[**Activities**]":
+    if task_type == _(":orange[**Activities**]"):
         show_tab1()
-    if task_type == ":green[**Notes**]":
+    if task_type == _(":green[**Notes**]"):
         show_tab2()
-
-
-def get_localizator():
-    if 'language' not in st.session_state:
-        st.session_state['language'] = 'en'
-
-    _ = gettext.gettext
-
-    try:
-        # Important - languages=[language] have to be passed as a list, won't work without []
-        localizator = gettext.translation('base', localedir='locales', languages=[st.session_state['language']])
-        localizator.install()
-        _ = localizator.gettext
-    except Exception as e:
-        st.error(e)
-    return _

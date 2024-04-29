@@ -48,7 +48,7 @@ st.sidebar.markdown("""<hr style="height:2px;border:none;background-color:#996;m
 
 st.title("")  # empty title makes the view jump below it at initial render
 st.image('img/fung_line.png')
-st.title("Welcome to FunGA!")
+st.title(_("Welcome to FunGA!"))
 
 show_tabs()
 
