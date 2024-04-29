@@ -1,30 +1,13 @@
 import numpy as np
 import pandas as pd
 import streamlit as st
-import gettext
 
+from utils.localization_helper import get_localizator
 from utils.streamlit_demos import sliders, chart, selectbox, multiselect, checkbox, file_uploader, progress, form, \
     session_demo
 
 from utils.authorization import authorization_check
 from database.database_helper import DatabaseHelper
-
-
-def get_localizator():
-    if 'language' not in st.session_state:
-        st.session_state['language'] = 'en'
-
-    _ = gettext.gettext
-
-    try:
-        # Important - languages=[language] have to be passed as a list, won't work without []
-        localizator = gettext.translation('base', localedir='locales', languages=[st.session_state['language']])
-        localizator.install()
-        _ = localizator.gettext
-    except Exception as e:
-        st.error(e)
-    return _
-
 
 _ = get_localizator()
 db_helper = DatabaseHelper('database/data/funga_data.db')
