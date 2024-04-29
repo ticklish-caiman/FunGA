@@ -121,6 +121,8 @@ def show_tab2():
 
 
 def show_tabs():
+    # TODO: not translating for some reason
+    print(_('translation test string'))
     task_type = st.radio(
         " ",
         [_(":blue[**Account**]"), _(":orange[**Activities**]"), _(":green[**Notes**]")],
