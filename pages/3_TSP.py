@@ -40,6 +40,14 @@ def enable():
 
 st.header(_(':rainbow[Traveling Salesman Problem]'))
 
+with st.expander(_("What is TSP? (click to expand)"), expanded=False):
+    custom_write_style()
+    st.write(
+        _("""The Traveling Salesman Problem is like finding the shortest way to visit a bunch of cities, 
+        going to each city only once, and ending back where you started."""))
+    st.write(_('Want to know why it is so hard?'))
+    st.page_link('pages/4_Theory.py', label=_("Click here to see detailed explanation"))
+
 task_type = st.radio(
     _("**Choose type of the game**"),
     [_(":blue[**Computer**]"), _(":orange[**Human**]"), _(":green[**Cooperation**]")],
@@ -64,13 +72,6 @@ if task_type == _(":blue[**Computer**]"):
                                                   max_value=pop_size)
                 mutation_rate = st.number_input(_("Mutation rate:"), min_value=0.01, value=0.5, step=0.01)
 
-    with st.expander(_("What is TSP? (click to expand)"), expanded=False):
-        custom_write_style()
-        st.write(
-            _("""The Traveling Salesman Problem is like finding the shortest way to visit a bunch of cities, 
-            going to each city only once, and ending back where you started."""))
-        st.write(_('Want to know why it is so hard?'))
-        st.page_link('pages/4_Theory.py', label=_("Click here to see detailed explanation"))
 
     st.write(_("⤸ Adjust parameters from ⚙️TSP OPTIONS️⚙️ in the sidebar."))
 
