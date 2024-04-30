@@ -20,6 +20,8 @@ def authorization_check():
             # it's a known issue https://github.com/mkhorasani/Streamlit-Authenticator/issues/134
             # the author promises to fix this in v0.3.2.
             # a temporary solution is to catch the KeyError
+            # update: v0.3.2 was released,
+            # but it introduced many problems for current FunGA implementation
             try:
                 authenticator.logout(button_name='Logout 🚀', location='main')  # Logout button
             except KeyError:
