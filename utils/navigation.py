@@ -72,16 +72,25 @@ def show_tab0():
     authorization_check()
 
 
+def show_best_tsp():
+    st.write(_('Best TSP results:'))
+    best_tsp_results = pd.DataFrame(db_helper.get_best_tsp_activities(3))
+    best_tsp_results.index = np.arange(1, len(best_tsp_results) + 1)  # index from 1
+    best_tsp_results.columns = [_('Type'), _('User'), _('Distance'), _('Route'), _('Parameters')]
+    st.dataframe(best_tsp_results)
+
+
 def show_tab1():
     if st.session_state["authentication_status"]:
         st.write(_('Your TSP results:'))
-        st.dataframe(db_helper.get_user_tsp_activities(st.session_state['username']))
-        st.write(_('Best TSP results:'))
-        st.dataframe(db_helper.get_best_tsp_activities(3))
+        user_tsp_results = pd.DataFrame(db_helper.get_user_tsp_activities(st.session_state['username']))
+        user_tsp_results.index = np.arange(1, len(user_tsp_results) + 1)  # index from 1
+        user_tsp_results.columns = [_('Type'), _('User'), _('Distance'), _('Route'), _('Parameters')]
+        st.dataframe(user_tsp_results)
+        show_best_tsp()
     else:
         st.header(_('Logg in to your account to see your activities. '))
-        st.write(_('Best TSP results:'))
-        st.dataframe(db_helper.get_best_tsp_activities(3))
+        show_best_tsp()
 
 
 def show_tab2():
