@@ -9,7 +9,7 @@ from utils.streamlit_demos import sliders, chart, selectbox, multiselect, checkb
 from utils.authorization import authorization_check
 from database.database_helper import DatabaseHelper
 
-_ = get_localizator()
+
 db_helper = DatabaseHelper('database/data/funga_data.db')
 sidebar_options = ["Hello", "Button", "Sliders demo", "Chart demo", "Select box demo", "Multiselect demo",
                    "Checkbox demo", "File uploader demo", "Progress demo", "Form demo", "Session demo"]
@@ -73,6 +73,7 @@ def show_tab0():
 
 
 def show_best_tsp():
+    _ = get_localizator()
     st.write(_('Best TSP results:'))
     best_tsp_results = pd.DataFrame(db_helper.get_best_tsp_activities(3))
     best_tsp_results.index = np.arange(1, len(best_tsp_results) + 1)  # index from 1
@@ -81,6 +82,7 @@ def show_best_tsp():
 
 
 def show_tab1():
+    _ = get_localizator()
     if st.session_state["authentication_status"]:
         st.write(_('Your TSP results:'))
         user_tsp_results = pd.DataFrame(db_helper.get_user_tsp_activities(st.session_state['username']))
@@ -94,6 +96,7 @@ def show_tab1():
 
 
 def show_tab2():
+    _ = get_localizator()
     if st.session_state["authentication_status"]:
 
         note_task_type = st.radio(
@@ -130,8 +133,7 @@ def show_tab2():
 
 
 def show_tabs():
-    # TODO: not translating for some reason
-    print(_('translation test string'))
+    _ = get_localizator()
     task_type = st.radio(
         " ",
         [_(":blue[**Account**]"), _(":orange[**Activities**]"), _(":green[**Notes**]")],
