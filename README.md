@@ -46,7 +46,7 @@ Won't-haves:
 3. Tests<br/>
 ![0%](https://progress-bar.dev/0?title=progress&width=400)
 4. Translation<br/>
-![3%](https://progress-bar.dev/3?title=progress&width=400)
+![6%](https://progress-bar.dev/6?title=progress&width=400)
 5. Database<br/>
 ![32%](https://progress-bar.dev/32?title=progress&width=400)
 6. Pipelines:<br/>
@@ -55,7 +55,7 @@ Won't-haves:
    b) Shapevo (probably to be thrown out)<br/>
    ![2%](https://progress-bar.dev/2?title=progress&width=400) <br/>
    c) TSP <br/>
-   ![45%](https://progress-bar.dev/45?title=progress&width=400) <br/>
+   ![50%](https://progress-bar.dev/50?title=progress&width=400) <br/>
    d) 2D Knapsack problem <br/>
    ![1%](https://progress-bar.dev/1?title=progress&width=400) <br/>
    e) Ice-cream tycoon <br/>
