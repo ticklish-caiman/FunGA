@@ -1,3 +1,5 @@
+import numpy as np
+import pandas as pd
 import streamlit as st
 import logging
 
@@ -131,4 +133,15 @@ if task_type == _(":orange[**Human**]"):
     custom_city_creator()
 
 if task_type == _(":green[**Cooperation**]"):
-    st.write("Work in progress...")
+    user_tsp_results = pd.DataFrame(db_helper.get_user_manual_tsp(st.session_state['username']))
+    user_tsp_results.index = np.arange(1, len(user_tsp_results) + 1)  # index from 1
+    user_tsp_results.columns = [_('Distance'), _('Route')]
+    st.table(user_tsp_results)
+
+    selected_indices = st.multiselect(_('Select routes to use:'), user_tsp_results.index,
+                                      placeholder=_('Select routes to use'))
+    selected_rows = user_tsp_results.loc[selected_indices]
+    st.table(selected_rows)
+    if st.button(_('Evolve with selected routes')):
+        st.write(f'Evolving with routes: {selected_rows['Route']}')
+        print(selected_rows['Route'])

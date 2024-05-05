@@ -119,7 +119,9 @@ class DatabaseHelper:
             INSERT INTO tsp_activities (login, mode, username, distance, permutation, ga_params) 
             VALUES (?, ?, ?, ?, ?, ?)
         """
-        params = (activity.login, activity.mode, activity.username, activity.distance, activity.permutation, activity.ga_params)
+        params = (
+            activity.login, activity.mode, activity.username, activity.distance, activity.permutation,
+            activity.ga_params)
         self.execute_query(query, params)
 
     def get_all_tsp_activities(self):
@@ -135,6 +137,11 @@ class DatabaseHelper:
         query = ("SELECT mode, username, distance, permutation, ga_params FROM tsp_activities ORDER BY distance ASC "
                  "LIMIT ?")
         return self.fetchall(query, (num_tsp_activities,))
+
+    def get_user_manual_tsp(self, login):
+        query = "SELECT distance, permutation FROM tsp_activities WHERE login=? and mode=?"
+        result = self.fetchall(query, (login, 'user'))
+        return result
 
     def add_note(self, active_username, note):
         query = """
