@@ -41,6 +41,45 @@ def enable():
     st.session_state["disabled"] = False
 
 
+def start_evolution():
+    complete_message = st.empty()
+    with st.spinner(_("Running Genetic Algorithm...")):
+        cities = generate_cities(st.session_state['cities_count'], random_cities)
+        population = create_population(pop_size, len(cities))
+        progress_plot_img = []
+        generator = evolve(population, cities, generations, tournament_size,
+                           mutation_rate)  # Get generator object
+        image_placeholder = st.empty()  # Create a placeholder
+
+        for i, (population, last_image) in enumerate(generator):
+            image_placeholder.image(last_image)  # Display only the new images
+            progress_plot_img.append(last_image)
+
+        best_route = min(population, key=lambda route: route_distance(route, cities))
+        logging.info(f"Best route: {best_route}")
+        logging.info(f"Distance: {route_distance(best_route, cities)}")
+
+    ga_params = {'generations': generations, 'pop_size': pop_size, 'tournament_size': tournament_size,
+                 'mutation_rate': mutation_rate}
+    if st.session_state["authentication_status"]:
+        logging.info(_('Saving logged user results...'))
+        activity = TspActivity(st.session_state["username"], "computer", st.session_state["name"],
+                               route_distance(best_route, cities), str(best_route), str(ga_params))
+        db_helper.add_tsp_activity(activity)
+    else:
+        logging.info(_('Saving guest result...'))
+
+        activity = TspActivity('Guest_account', "computer", 'Guest',
+                               route_distance(best_route, cities), str(best_route), str(ga_params))
+        db_helper.add_tsp_activity(activity)
+
+    complete_message.text(_("Evolution complete! ✅"))
+
+    with st.popover(_("Show Evolution Process")):
+        for plot_img in progress_plot_img:
+            st.image(plot_img)
+
+
 st.header(_(':rainbow[Traveling Salesman Problem]'))
 
 with st.expander(_("What is TSP? (click to expand)"), expanded=False):
@@ -82,42 +121,7 @@ if task_type == _(":blue[**Computer**]"):
         st.sidebar.button(_("Start again"), on_click=enable, key='sidebar_reset')
 
     if st.button(_("⏱Start Evolution⏱"), on_click=disable, disabled=st.session_state.disabled):
-        complete_message = st.empty()
-        with st.spinner(_("Running Genetic Algorithm...")):
-            cities = generate_cities(st.session_state['cities_count'], random_cities)
-            population = create_population(pop_size, len(cities))
-            progress_plot_img = []
-            generator = evolve(population, cities, generations, tournament_size,
-                               mutation_rate)  # Get generator object
-            image_placeholder = st.empty()  # Create a placeholder
-
-            for i, (population, last_image) in enumerate(generator):
-                image_placeholder.image(last_image)  # Display only the new images
-                progress_plot_img.append(last_image)
-
-            best_route = min(population, key=lambda route: route_distance(route, cities))
-            logging.info(f"Best route: {best_route}")
-            logging.info(f"Distance: {route_distance(best_route, cities)}")
-
-        ga_params = {'generations': generations, 'pop_size': pop_size, 'tournament_size': tournament_size,
-                     'mutation_rate': mutation_rate}
-        if st.session_state["authentication_status"]:
-            logging.info(_('Saving logged user results...'))
-            activity = TspActivity(st.session_state["username"], "computer", st.session_state["name"],
-                                   route_distance(best_route, cities), str(best_route), str(ga_params))
-            db_helper.add_tsp_activity(activity)
-        else:
-            logging.info(_('Saving guest result...'))
-
-            activity = TspActivity('Guest_account', "computer", 'Guest',
-                                   route_distance(best_route, cities), str(best_route), str(ga_params))
-            db_helper.add_tsp_activity(activity)
-
-        complete_message.text(_("Evolution complete! ✅"))
-
-        with st.popover(_("Show Evolution Process")):
-            for plot_img in progress_plot_img:
-                st.image(plot_img)
+        start_evolution()
 
 if task_type == _(":orange[**Human**]"):
 
@@ -150,6 +154,6 @@ if task_type == _(":green[**Cooperation**]"):
                 selected_routes = selected_rows["Route"].tolist()
                 st.write(f'Evolving with routes: {selected_routes}')
                 print(selected_routes)
-            
+
     else:
         st.header(_('Logg in to your account to see or create routes. '))
