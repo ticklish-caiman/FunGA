@@ -7,7 +7,7 @@ from database.model.tspactivity import TspActivity
 from utils.custom_css import custom_write_style
 from utils.genetic.tsp.tsp_creator import custom_city_generator, custom_city_creator
 from utils.genetic.tsp.tsp_evolve import create_population, evolve
-from utils.genetic.tsp.tsp_genes import generate_cities
+from utils.genetic.tsp.tsp_genes import generate_cities, convert_string_routes
 from utils.genetic.tsp.tsp_operators import route_distance
 
 from utils.navigation import show_main_menu
@@ -41,11 +41,30 @@ def enable():
     st.session_state["disabled"] = False
 
 
-def start_evolution():
+def start_evolution(population: list = None):
     complete_message = st.empty()
     with st.spinner(_("Running Genetic Algorithm...")):
         cities = generate_cities(st.session_state['cities_count'], random_cities)
-        population = create_population(pop_size, len(cities))
+        if not population:
+            mode = 'computer'
+            population = create_population(pop_size, len(cities))
+        else:
+            mode = 'cooperation'
+            if len(population) == pop_size:
+                pass
+            elif len(population) < pop_size:
+                print('population:', population)
+                population = convert_string_routes(population)
+                print(population)
+                print('pop_size', pop_size)
+                logging.info('User passed too small population, expanding with random ones')
+                population.extend(create_population(pop_size - len(population), len(cities)))
+                print('new population:', population)
+            else:
+                print('population:', len(population))
+                print('pop_size', pop_size)
+                logging.info('User passed too big population, not all proposed routes will be used')
+
         progress_plot_img = []
         generator = evolve(population, cities, generations, tournament_size,
                            mutation_rate)  # Get generator object
@@ -63,7 +82,7 @@ def start_evolution():
                  'mutation_rate': mutation_rate}
     if st.session_state["authentication_status"]:
         logging.info(_('Saving logged user results...'))
-        activity = TspActivity(st.session_state["username"], "computer", st.session_state["name"],
+        activity = TspActivity(st.session_state["username"], mode, st.session_state["name"],
                                route_distance(best_route, cities), str(best_route), str(ga_params))
         db_helper.add_tsp_activity(activity)
     else:
@@ -90,29 +109,29 @@ with st.expander(_("What is TSP? (click to expand)"), expanded=False):
     st.write(_('Want to know why it is so hard?'))
     st.page_link('pages/4_Theory.py', label=_("Click here to see detailed explanation"))
 
+with st.sidebar.expander(_("⚙️ TSP OPTIONS️ ⚙️"), expanded=True):
+    generations = st.number_input("Generations", min_value=50, value=st.session_state['generations_choice'],
+                                  disabled=st.session_state.disabled)
+
+    with st.popover(_("🔧 Advanced options"), disabled=st.session_state.disabled):
+        col1, col2 = st.columns(2)
+        with col1:
+            pop_size = st.number_input(_("Population Size"), min_value=10, value=50)
+            st.session_state['cities_count'] = st.number_input(_("How many cities:"), min_value=5,
+                                                               value=st.session_state['cities_count'],
+                                                               max_value=300)
+            random_cities = st.checkbox(_('⬅️ Random cities'))
+        with col2:
+            tournament_size = st.number_input(_("Tournament size:"), min_value=2, value=int(pop_size / 10),
+                                              max_value=pop_size)
+            mutation_rate = st.number_input(_("Mutation rate:"), min_value=0.01, value=0.5, step=0.01)
+
 task_type = st.radio(
     _("**Choose type of the game**"),
     [_(":blue[**Computer**]"), _(":orange[**Human**]"), _(":green[**Cooperation**]")],
     captions=[_("Let the algorithm work for you."), _("Do it yourself."), _("Help the computer.")], horizontal=True)
 
 if task_type == _(":blue[**Computer**]"):
-
-    with st.sidebar.expander(_("⚙️ TSP OPTIONS️ ⚙️"), expanded=True):
-        generations = st.number_input("Generations", min_value=50, value=st.session_state['generations_choice'],
-                                      disabled=st.session_state.disabled)
-
-        with st.popover(_("🔧 Advanced options"), disabled=st.session_state.disabled):
-            col1, col2 = st.columns(2)
-            with col1:
-                pop_size = st.number_input(_("Population Size"), min_value=10, value=50)
-                st.session_state['cities_count'] = st.number_input(_("How many cities:"), min_value=5,
-                                                                   value=st.session_state['cities_count'],
-                                                                   max_value=300)
-                random_cities = st.checkbox(_('⬅️ Random cities'))
-            with col2:
-                tournament_size = st.number_input(_("Tournament size:"), min_value=2, value=int(pop_size / 10),
-                                                  max_value=pop_size)
-                mutation_rate = st.number_input(_("Mutation rate:"), min_value=0.01, value=0.5, step=0.01)
 
     st.write(_("⤸ Adjust parameters from ⚙️TSP OPTIONS️⚙️ in the sidebar."))
 
@@ -152,8 +171,7 @@ if task_type == _(":green[**Cooperation**]"):
                 st.error("Please select routes to evolve with.")
             else:
                 selected_routes = selected_rows["Route"].tolist()
-                st.write(f'Evolving with routes: {selected_routes}')
-                print(selected_routes)
+                start_evolution(selected_routes)
 
     else:
         st.header(_('Logg in to your account to see or create routes. '))

@@ -91,3 +91,22 @@ def generate_cities(cities_count: int = 50, random_cities: bool = False) -> list
         return cities
     else:
         return get_cities(cities_count)
+
+
+def convert_string_routes(population):
+    """Converts string representations of routes to lists of integers.
+
+    Args:
+        population: A list of strings representing routes (e.g., '["0", "4", ...]').
+
+    Returns:
+        A list of lists of integers representing the converted routes.
+    """
+    converted_population = []
+    for route_string in population:
+        # Remove square brackets and quotes
+        route_string = route_string.strip('[]').replace('"', '')
+        # Split the string by comma and convert each element to integer
+        route_list = [int(element) for element in route_string.split(',')]
+        converted_population.append(route_list)
+    return converted_population
