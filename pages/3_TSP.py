@@ -144,7 +144,12 @@ if task_type == _(":green[**Cooperation**]"):
         selected_rows = user_tsp_results.loc[selected_indices]
         st.table(selected_rows)
         if st.button(_('Evolve with selected routes')):
-            st.write(f'Evolving with routes: {selected_rows['Route']}')
-            print(selected_rows['Route'])
+            if not selected_indices:  # Check if any indices are selected
+                st.error("Please select routes to evolve with.")
+            else:
+                selected_routes = selected_rows["Route"].tolist()
+                st.write(f'Evolving with routes: {selected_routes}')
+                print(selected_routes)
+            
     else:
         st.header(_('Logg in to your account to see or create routes. '))
