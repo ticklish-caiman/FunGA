@@ -87,7 +87,7 @@ def show_tab1():
         st.write(_('Your TSP results:'))
         user_tsp_results = pd.DataFrame(db_helper.get_user_tsp_activities(st.session_state['username']))
         user_tsp_results.index = np.arange(1, len(user_tsp_results) + 1)  # index from 1
-        user_tsp_results.columns = [_('Type'), _('User'), _('Distance'), _('Route'), _('Parameters')]
+        user_tsp_results.columns = [_('Type'), _('Distance'), _('Route'), _('Parameters')]
         st.dataframe(user_tsp_results)
         show_best_tsp()
     else:

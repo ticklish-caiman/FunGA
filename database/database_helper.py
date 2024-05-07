@@ -129,7 +129,7 @@ class DatabaseHelper:
         return self.fetchall(query)
 
     def get_user_tsp_activities(self, login):
-        query = "SELECT mode, username, distance, permutation, ga_params FROM tsp_activities WHERE login=?"
+        query = "SELECT mode, distance, permutation, ga_params FROM tsp_activities WHERE login=?"
         result = self.fetchall(query, (login,))
         return result
 
