@@ -13,6 +13,7 @@ from utils.genetic.tsp.tsp_genes import generate_cities
 from database.database_helper import DatabaseHelper
 
 db_helper = DatabaseHelper('database/data/funga_data.db')
+competition_cities = [10, 20, 30, 40, 50]
 
 
 def custom_city_generator():
@@ -26,6 +27,8 @@ def custom_city_generator():
                                           value=number_of_cities,
                                           max_value=300,
                                           key='custom_cities_c')
+    if competition_cities.__contains__(custom_cities_count):
+        st.info('This quantity of cities is a part of competition!')
     update_cities(custom_cities_count)
 
 
