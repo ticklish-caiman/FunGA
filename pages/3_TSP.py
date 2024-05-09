@@ -144,16 +144,31 @@ if task_type == _(":blue[**Computer**]"):
 
 if task_type == _(":orange[**Human**]"):
 
-    if 'cities' not in st.session_state:
-        st.session_state['cities'] = generate_cities()
+    subtask_type = st.radio(
+        _("**Choose difficulty**"),
+        [_(":green[**Easy**]"), _(":orange[**Medium**]"), _(":red[**Hard**]"), _(":blue[**Custom**]")],
+        captions=[_("20 Cities"), _("30 cities"), _("50 cities")], horizontal=True)
 
-    if 'road_clicks' not in st.session_state:
-        st.session_state['road_clicks'] = []
-    if 'user_roads' not in st.session_state:
-        st.session_state['user_roads'] = []
+    if subtask_type == _(":green[**Easy**]"):
+        pass
 
-    custom_city_generator()
-    custom_city_creator()
+    if subtask_type == _(":orange[**Medium**]"):
+        pass
+
+    if subtask_type == _(":red[**Hard**]"):
+        pass
+
+    if subtask_type == _(":blue[**Custom**]"):
+        if 'cities' not in st.session_state:
+            st.session_state['cities'] = generate_cities()
+
+        if 'road_clicks' not in st.session_state:
+            st.session_state['road_clicks'] = []
+        if 'user_roads' not in st.session_state:
+            st.session_state['user_roads'] = []
+
+        custom_city_generator()
+        custom_city_creator()
 
 if task_type == _(":green[**Cooperation**]"):
     if st.session_state["authentication_status"]:
