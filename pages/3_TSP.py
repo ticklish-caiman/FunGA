@@ -27,7 +27,7 @@ if 'generations_choice' not in st.session_state:
     st.session_state['generations_choice'] = 500
 
 if 'cities_count' not in st.session_state:
-    st.session_state['cities_count'] = 50
+    st.session_state['cities_count'] = 20
 
 if "disabled" not in st.session_state:
     st.session_state["disabled"] = False
