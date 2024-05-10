@@ -162,11 +162,14 @@ if task_type == _(":orange[**Human**]"):
         custom_city_generator()
 
     if 'cities' not in st.session_state:
-        st.session_state['cities'] = generate_cities()
+        st.session_state['cities'] = generate_cities(st.session_state['cities_count'])
     if 'road_clicks' not in st.session_state:
         st.session_state['road_clicks'] = []
     if 'user_roads' not in st.session_state:
         st.session_state['user_roads'] = []
+
+    if st.session_state['cities_count'] != len(st.session_state['cities']):
+        st.session_state['cities'] = generate_cities(st.session_state['cities_count'])
 
     custom_city_creator()
 
