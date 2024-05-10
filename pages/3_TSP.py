@@ -150,25 +150,25 @@ if task_type == _(":orange[**Human**]"):
         captions=[_("20 Cities"), _("30 cities"), _("50 cities")], horizontal=True)
 
     if subtask_type == _(":green[**Easy**]"):
-        pass
+        st.session_state['cities_count'] = 20
 
     if subtask_type == _(":orange[**Medium**]"):
-        pass
+        st.session_state['cities_count'] = 30
 
     if subtask_type == _(":red[**Hard**]"):
-        pass
+        st.session_state['cities_count'] = 50
 
     if subtask_type == _(":blue[**Custom**]"):
-        if 'cities' not in st.session_state:
-            st.session_state['cities'] = generate_cities()
-
-        if 'road_clicks' not in st.session_state:
-            st.session_state['road_clicks'] = []
-        if 'user_roads' not in st.session_state:
-            st.session_state['user_roads'] = []
-
         custom_city_generator()
-        custom_city_creator()
+
+    if 'cities' not in st.session_state:
+        st.session_state['cities'] = generate_cities()
+    if 'road_clicks' not in st.session_state:
+        st.session_state['road_clicks'] = []
+    if 'user_roads' not in st.session_state:
+        st.session_state['user_roads'] = []
+
+    custom_city_creator()
 
 if task_type == _(":green[**Cooperation**]"):
     if st.session_state["authentication_status"]:
