@@ -20,6 +20,7 @@ def custom_city_generator():
     def update_cities(ccc):
         if 'cities' not in st.session_state or len(st.session_state['cities']) != ccc:
             st.session_state['cities'] = generate_cities(ccc)
+            st.session_state['cities_count'] = ccc
 
     number_of_cities = len(st.session_state['cities'])
 
