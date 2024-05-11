@@ -13,7 +13,7 @@ from utils.genetic.tsp.tsp_genes import generate_cities
 from database.database_helper import DatabaseHelper
 
 db_helper = DatabaseHelper('database/data/funga_data.db')
-competition_cities = [10, 20, 30, 40, 50]
+competition_cities = [20, 30, 50]
 
 
 def custom_city_generator():
