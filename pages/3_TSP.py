@@ -55,7 +55,7 @@ def start_evolution(population: list = None):
             elif len(population) < pop_size:
                 print('population:', population)
                 population = convert_string_routes(population)
-                print(population)
+                print('converted population:', population)
                 print('pop_size', pop_size)
                 logging.info('User passed too small population, expanding with random ones')
                 population.extend(create_population(pop_size - len(population), len(cities)))
