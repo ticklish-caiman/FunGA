@@ -126,6 +126,11 @@ with st.sidebar.expander(_("⚙️ TSP OPTIONS️ ⚙️"), expanded=True):
                                               max_value=pop_size)
             mutation_rate = st.number_input(_("Mutation rate:"), min_value=0.01, value=0.5, step=0.01)
 
+difficulty = st.radio(
+    _("**Choose difficulty**"),
+    [_(":green[**Easy**]"), _(":orange[**Medium**]"), _(":red[**Hard**]"), _(":blue[**Custom**]")],
+    captions=[_("20 Cities"), _("30 cities"), _("50 cities")], horizontal=True)
+
 task_type = st.radio(
     _("**Choose type of the game**"),
     [_(":blue[**Computer**]"), _(":orange[**Human**]"), _(":green[**Cooperation**]")],
@@ -144,21 +149,16 @@ if task_type == _(":blue[**Computer**]"):
 
 if task_type == _(":orange[**Human**]"):
 
-    subtask_type = st.radio(
-        _("**Choose difficulty**"),
-        [_(":green[**Easy**]"), _(":orange[**Medium**]"), _(":red[**Hard**]"), _(":blue[**Custom**]")],
-        captions=[_("20 Cities"), _("30 cities"), _("50 cities")], horizontal=True)
-
-    if subtask_type == _(":green[**Easy**]"):
+    if difficulty == _(":green[**Easy**]"):
         st.session_state['cities_count'] = 20
 
-    if subtask_type == _(":orange[**Medium**]"):
+    if difficulty == _(":orange[**Medium**]"):
         st.session_state['cities_count'] = 30
 
-    if subtask_type == _(":red[**Hard**]"):
+    if difficulty == _(":red[**Hard**]"):
         st.session_state['cities_count'] = 50
 
-    if subtask_type == _(":blue[**Custom**]"):
+    if difficulty == _(":blue[**Custom**]"):
         custom_city_generator()
 
     if 'cities' not in st.session_state:
