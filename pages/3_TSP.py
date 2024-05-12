@@ -178,7 +178,10 @@ if task_type == _(":green[**Cooperation**]"):
         user_tsp_results = pd.DataFrame(
             db_helper.get_user_manual_tsp_by_city_count(st.session_state['username'], st.session_state['cities_count']))
         user_tsp_results.index = np.arange(1, len(user_tsp_results) + 1)  # index from 1
-        user_tsp_results.columns = [_('Distance'), _('Route')]
+        try:
+            user_tsp_results.columns = [_('Distance'), _('Route')]
+        except ValueError:
+            logging.info('No records found')
         st.table(user_tsp_results)
 
         selected_indices = st.multiselect(_('Select routes to use:'), user_tsp_results.index,
