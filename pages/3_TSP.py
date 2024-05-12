@@ -175,7 +175,8 @@ if task_type == _(":orange[**Human**]"):
 
 if task_type == _(":green[**Cooperation**]"):
     if st.session_state["authentication_status"]:
-        user_tsp_results = pd.DataFrame(db_helper.get_user_manual_tsp(st.session_state['username']))
+        user_tsp_results = pd.DataFrame(
+            db_helper.get_user_manual_tsp_by_city_count(st.session_state['username'], st.session_state['cities_count']))
         user_tsp_results.index = np.arange(1, len(user_tsp_results) + 1)  # index from 1
         user_tsp_results.columns = [_('Distance'), _('Route')]
         st.table(user_tsp_results)

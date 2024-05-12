@@ -143,6 +143,17 @@ class DatabaseHelper:
         result = self.fetchall(query, (login, 'user'))
         return result
 
+    def get_user_manual_tsp_by_city_count(self, login, city_count):
+        query = (
+            "SELECT distance, permutation FROM tsp_activities WHERE login=? AND mode=?")
+        results = self.fetchall(query, (login, 'user'))
+        difficulty_results = []
+        for result in results:
+            # the number of commas + 1 is the number of cities in permutation
+            if result[1].count(',') + 1 == city_count:
+                difficulty_results.append(result)
+        return difficulty_results
+
     def add_note(self, active_username, note):
         query = """
             INSERT INTO notes (login, date, note) 
