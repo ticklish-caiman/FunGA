@@ -136,6 +136,17 @@ task_type = st.radio(
     [_(":blue[**Computer**]"), _(":orange[**Human**]"), _(":green[**Cooperation**]")],
     captions=[_("Let the algorithm work for you."), _("Do it yourself."), _("Help the computer.")], horizontal=True)
 
+# setting the difficulty has to be outside the tabs;
+# otherwise changing it won't refresh the content
+if difficulty == _(":green[**Easy**]"):
+    st.session_state['cities_count'] = 20
+
+if difficulty == _(":orange[**Medium**]"):
+    st.session_state['cities_count'] = 30
+
+if difficulty == _(":red[**Hard**]"):
+    st.session_state['cities_count'] = 50
+
 if task_type == _(":blue[**Computer**]"):
 
     st.write(_("⤸ Adjust parameters from ⚙️TSP OPTIONS️⚙️ in the sidebar."))
@@ -148,15 +159,6 @@ if task_type == _(":blue[**Computer**]"):
         start_evolution()
 
 if task_type == _(":orange[**Human**]"):
-
-    if difficulty == _(":green[**Easy**]"):
-        st.session_state['cities_count'] = 20
-
-    if difficulty == _(":orange[**Medium**]"):
-        st.session_state['cities_count'] = 30
-
-    if difficulty == _(":red[**Hard**]"):
-        st.session_state['cities_count'] = 50
 
     if difficulty == _(":blue[**Custom**]"):
         custom_city_generator()
