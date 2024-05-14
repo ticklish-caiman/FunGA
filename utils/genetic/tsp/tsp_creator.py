@@ -16,21 +16,21 @@ db_helper = DatabaseHelper('database/data/funga_data.db')
 competition_cities = [20, 30, 50]
 
 
-def custom_city_generator():
-    def update_cities(ccc):
-        if 'cities' not in st.session_state or len(st.session_state['cities']) != ccc:
-            st.session_state['cities'] = generate_cities(ccc)
-            st.session_state['cities_count'] = ccc
-
-    number_of_cities = len(st.session_state['cities'])
-
-    custom_cities_count = st.number_input("How many cities:", min_value=5,
-                                          value=number_of_cities,
-                                          max_value=300,
-                                          key='custom_cities_c')
-    if competition_cities.__contains__(custom_cities_count):
-        st.info('This quantity of cities is a part of competition!')
-    update_cities(custom_cities_count)
+# def custom_city_generator():
+#     def update_cities(ccc):
+#         if 'cities' not in st.session_state or len(st.session_state['cities']) != ccc:
+#             st.session_state['cities'] = generate_cities(ccc)
+#             st.session_state['cities_count'] = ccc
+#
+#     number_of_cities = len(st.session_state['cities'])
+#
+#     custom_cities_count = st.number_input("How many cities:", min_value=5,
+#                                           value=number_of_cities,
+#                                           max_value=300,
+#                                           key='custom_cities_c')
+#     if competition_cities.__contains__(custom_cities_count):
+#         st.info('This quantity of cities is a part of competition!')
+#     update_cities(custom_cities_count)
 
 
 # that took a while... but I'm not satisfied with the results,

@@ -5,7 +5,7 @@ import logging
 
 from database.model.tspactivity import TspActivity
 from utils.custom_css import custom_write_style
-from utils.genetic.tsp.tsp_creator import custom_city_generator, custom_city_creator
+from utils.genetic.tsp.tsp_creator import custom_city_creator
 from utils.genetic.tsp.tsp_evolve import create_population, evolve
 from utils.genetic.tsp.tsp_genes import generate_cities, convert_string_routes
 from utils.genetic.tsp.tsp_operators import route_distance
@@ -147,6 +147,11 @@ if difficulty == _(":orange[**Medium**]"):
 if difficulty == _(":red[**Hard**]"):
     st.session_state['cities_count'] = 50
 
+if difficulty == _(":blue[**Custom**]"):
+    st.session_state['cities_count'] = st.number_input(_("How many cities d:"), min_value=5,
+                                                       value=st.session_state['cities_count'],
+                                                       max_value=300)
+
 if task_type == _(":blue[**Computer**]"):
 
     st.write(_("⤸ Adjust parameters from ⚙️TSP OPTIONS️⚙️ in the sidebar."))
@@ -160,8 +165,8 @@ if task_type == _(":blue[**Computer**]"):
 
 if task_type == _(":orange[**Human**]"):
 
-    if difficulty == _(":blue[**Custom**]"):
-        custom_city_generator()
+    # if difficulty == _(":blue[**Custom**]"):
+    #     custom_city_generator()
 
     if 'cities' not in st.session_state:
         st.session_state['cities'] = generate_cities(st.session_state['cities_count'])
