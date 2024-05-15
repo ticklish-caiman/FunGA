@@ -148,7 +148,7 @@ if difficulty == _(":red[**Hard**]"):
     st.session_state['cities_count'] = 50
 
 if difficulty == _(":blue[**Custom**]"):
-    st.session_state['cities_count'] = st.number_input(_("How many cities d:"), min_value=5,
+    st.session_state['cities_count'] = st.number_input(_("How many cities:"), min_value=5,
                                                        value=st.session_state['cities_count'],
                                                        max_value=300)
 
