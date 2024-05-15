@@ -1,6 +1,6 @@
 import streamlit as st
 
-from utils.custom_css import custom_buttons_style
+from utils.custom_css import custom_buttons_style, custom_write_style
 from utils.genetic.biomorphs.biomorphs_evolve import draw_biomorph_pil, test_pass_choice, init_biomorphs_population, \
     evolve_biomrophs
 from utils.genetic.biomorphs.biomorphs_phenotype import get_base64_of_image
@@ -12,6 +12,14 @@ st.set_page_config(page_title=_("FunGA - About"), page_icon='🕹️')
 show_main_menu(_)
 
 st.header(_('Biomorphs'))
+with st.expander(_("Biomorphs? What's this all about? (click to expand)"), expanded=False):
+    custom_write_style()
+    st.write(
+        _("Witness the power of evolution in your hands! Biomorphs are like digital creatures in a race. Click on "
+          "your favorite, and watch it inspire the next generation, with cooler shapes and features spreading through "
+          "the pack. It's like playing God, but with way more clicks!"))
+    st.write(_('Want to know full story behind Biomorphs?'))
+    st.page_link('pages/4_Theory.py', label=_("Yes! (Click here)"))
 
 custom_buttons_style()
 
