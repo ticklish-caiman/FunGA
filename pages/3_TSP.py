@@ -79,7 +79,7 @@ def start_evolution(population: list = None):
         logging.info(f"Distance: {route_distance(best_route, cities)}")
 
     ga_params = {'generations': generations, 'pop_size': pop_size, 'tournament_size': tournament_size,
-                 'mutation_rate': mutation_rate}
+                 'mutation_rate': mutation_rate, 'number_of_cities': len(cities)}
     if st.session_state["authentication_status"]:
         logging.info(_('Saving logged user results...'))
         activity = TspActivity(st.session_state["username"], mode, st.session_state["name"],

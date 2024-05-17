@@ -63,7 +63,7 @@ def custom_city_creator():
         if st.session_state["final_connection"]:
             if st.button('Save route'):
                 if st.session_state["username"]:
-                    ga_params = None
+                    ga_params = {'number_of_cities': len(st.session_state['cities'])}
                     activity = TspActivity(st.session_state["username"], "user", st.session_state["name"],
                                            route_distance(st.session_state["user_permutation"],
                                                           st.session_state['cities']),
