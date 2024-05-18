@@ -133,10 +133,16 @@ class DatabaseHelper:
         result = self.fetchall(query, (login,))
         return result
 
+    def get_user_tsp_activities_count_cities(self, login):
+        query = "SELECT mode, distance, ga_params FROM tsp_activities WHERE login=?"
+        result = self.fetchall(query, (login,))
+        return result
+
     def get_best_tsp_activities(self, num_tsp_activities):
         query = ("SELECT mode, username, distance, permutation, ga_params FROM tsp_activities ORDER BY distance ASC "
                  "LIMIT ?")
         return self.fetchall(query, (num_tsp_activities,))
+
 
     def get_user_manual_tsp(self, login):
         query = "SELECT distance, permutation FROM tsp_activities WHERE login=? and mode=?"

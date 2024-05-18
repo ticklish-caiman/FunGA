@@ -88,6 +88,15 @@ def show_tab1():
         user_tsp_results = pd.DataFrame(db_helper.get_user_tsp_activities(st.session_state['username']))
         user_tsp_results.index = np.arange(1, len(user_tsp_results) + 1)  # index from 1
         user_tsp_results.columns = [_('Type'), _('Distance'), _('Route'), _('Parameters')]
+
+        # Extract num_cities using Pandas
+        try:
+            user_tsp_results['num_cities'] = user_tsp_results[_('Route')].astype(str).str.extract(
+                r"'number_of_cities': (\d+)").astype(int)
+            print(user_tsp_results['num_cities'])
+        except ValueError:
+            pass
+
         st.dataframe(user_tsp_results)
         show_best_tsp()
     else:
