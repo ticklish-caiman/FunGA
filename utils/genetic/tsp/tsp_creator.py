@@ -45,11 +45,14 @@ def custom_city_creator():
     if 'last_error' not in st.session_state:
         st.session_state['last_error'] = None
 
-    if 'last_instruction' not in st.session_state:
-        st.session_state['last_instruction'] = "Click on the first city!"
-
     if 'user_permutation' not in st.session_state:
         st.session_state["user_permutation"] = []
+
+    print(st.session_state["user_permutation"])
+
+    if 'last_instruction' not in st.session_state:
+        if not st.session_state["user_permutation"]:
+            st.session_state['last_instruction'] = "Click on the first city!"
 
     if 'final_connection' not in st.session_state:
         st.session_state["final_connection"] = False
