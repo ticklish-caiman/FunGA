@@ -8,7 +8,6 @@ from streamlit_plotly_events import plotly_events
 from database.model.tspactivity import TspActivity
 from utils.custom_css import custom_write_style
 from utils.genetic.tsp.tsp_operators import coordinates_to_permutation, route_distance
-from utils.genetic.tsp.tsp_genes import generate_cities
 
 from database.database_helper import DatabaseHelper
 
