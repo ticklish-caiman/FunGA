@@ -165,9 +165,6 @@ if task_type == _(":blue[**Computer**]"):
 
 if task_type == _(":orange[**Human**]"):
 
-    # if difficulty == _(":blue[**Custom**]"):
-    #     custom_city_generator()
-
     if 'cities' not in st.session_state:
         st.session_state['cities'] = generate_cities(st.session_state['cities_count'])
     if 'road_clicks' not in st.session_state:
