@@ -120,7 +120,7 @@ def authorization_check():
             None
         )
         # Login widget
-        authenticator.login(fields={'Form name': 'Login 🔑',
+        authenticator.login(fields={'Form name': _('Login 🔑'),
                                     'Username': _('Login'),
                                     'Password': _('Password'),
                                     'Login': 'Login'})
