@@ -56,9 +56,7 @@ Won't-haves:
    ![2%](https://progress-bar.dev/2?title=progress&width=400) <br/>
    c) TSP <br/>
    ![62%](https://progress-bar.dev/62?title=progress&width=400) <br/>
-   d) 2D Knapsack problem <br/>
-   ![1%](https://progress-bar.dev/1?title=progress&width=400) <br/>
-   e) Ice-cream tycoon <br/>
+   d) Ice-cream tycoon <br/>
    ![1%](https://progress-bar.dev/1?title=progress&width=400) <br/>
 
 # 100COMMITÓW:
