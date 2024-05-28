@@ -43,13 +43,11 @@ Won't-haves:
 ![60%](https://progress-bar.dev/60?title=progress&width=400)
 2. Theory<br/>
 ![2%](https://progress-bar.dev/2?title=progress&width=400)
-3. Tests<br/>
-![0%](https://progress-bar.dev/0?title=progress&width=400)
-4. Translation<br/>
+3. Translation<br/>
 ![8%](https://progress-bar.dev/8?title=progress&width=400)
-5. Database<br/>
+4. Database<br/>
 ![32%](https://progress-bar.dev/32?title=progress&width=400)
-6. Pipelines:<br/>
+5. Pipelines:<br/>
    a) Biomorphs<br/>
    ![9%](https://progress-bar.dev/9?title=progress&width=400) <br/>
    b) Shapevo (scrapped)<br/>
