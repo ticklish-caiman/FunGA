@@ -1,9 +1,9 @@
 import streamlit as st
 
-from utils.genetic.shapevo.shapevo_evolve import evolve
-from utils.genetic.shapevo.shapevo_operators import calculate_fitness_return_all
-from utils.genetic.shapevo.shapevo_phenotype import draw_image_from_array
-from utils.genetic.shapevo.shapevo_population import init_population
+from pages.scrapped.shapevo.shapevo_evolve import evolve
+from pages.scrapped.shapevo.shapevo_operators import calculate_fitness_return_all
+from pages.scrapped.shapevo.shapevo_phenotype import draw_image_from_array
+from pages.scrapped.shapevo.shapevo_population import init_population
 from utils.navigation import show_main_menu, get_localizator
 
 _ = get_localizator()
