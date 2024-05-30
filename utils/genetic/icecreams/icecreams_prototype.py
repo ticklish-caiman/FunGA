@@ -77,44 +77,55 @@ def crossover(parent1, parent2):
     return child1, child2
 
 
-# Genetic algorithm parameters
-population_size = 50
-generations = 10000
-mutation_rate = 0.1
-
-# Initialize population
-population = [create_chromosome() for _ in range(population_size)]
-
 # Run the genetic algorithm
-for generation in range(generations):
-    print(f"-- Generation {generation} --")
+def genetic_algorithm(population_size, generations, mutation_rate, elitism_rate):
+    """Runs the genetic algorithm with the specified parameters and elitism."""
 
-    # Evaluate fitness
-    fitness_scores = [fitness(chromosome) for chromosome in population]
+    # Initialize population
+    population = [create_chromosome() for _ in range(population_size)]
 
-    # Select parents (here we use tournament selection as an example)
-    parents = []
-    for _ in range(population_size):
-        competitor1 = random.choice(population)
-        competitor2 = random.choice(population)
-        if fitness(competitor1) > fitness(competitor2):
-            parents.append(competitor1)
-        else:
-            parents.append(competitor2)
+    for generation in range(generations):
+        # Evaluate fitness and sort (crucial for elitism)
+        population = sorted(population, key=fitness, reverse=True)
 
-    # Create new generation through crossover and mutation
-    new_population = []
-    for i in range(0, population_size, 2):
-        child1, child2 = crossover(parents[i], parents[i + 1])
-        mutate(child1)
-        mutate(child2)
-        new_population.append(child1)
-        new_population.append(child2)
+        # Elitism: Keep the top individuals unchanged
+        num_elites = int(elitism_rate * population_size)
+        new_population = population[:num_elites]
 
-    population = new_population
+        # Select parents (tournament selection) for the rest
+        parents = []
+        for _ in range(population_size - num_elites):
+            # Only select from the non-elite part
+            competitor1 = random.choice(population[num_elites:])
+            competitor2 = random.choice(population[num_elites:])
+            parents.append(competitor1 if fitness(competitor1) > fitness(competitor2) else competitor2)
+
+        # Create the remaining offspring through crossover and mutation
+        for i in range(0, len(parents), 2):
+            child1, child2 = crossover(parents[i], parents[i + 1])
+            if random.random() < mutation_rate:
+                mutate(child1)
+            if random.random() < mutation_rate:
+                mutate(child2)
+            new_population.append(child1)
+            new_population.append(child2)
+
+        population = new_population
+
+    # After all generations, return the best solution
+    return max(population, key=fitness)
+
 
 # Find and display the most profitable ice cream configuration
-best_solution = max(population, key=fitness)
+# Genetic algorithm parameters
+population_size = 50
+generations = 1000
+mutation_rate = 0.1
+elitism_rate = 0.05  # Keep 5% of the population as elites
+
+# Run the genetic algorithm and get the best solution
+best_solution = genetic_algorithm(population_size, generations, mutation_rate, elitism_rate)
+
 print("\nBest Ice Cream Configuration:")
 print(best_solution)
 print("Profit:", fitness(best_solution))
