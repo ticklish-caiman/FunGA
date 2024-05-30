@@ -18,9 +18,11 @@ EXTRA_MARKUPS = [1.1, 1.3, 1.2]
 
 
 def create_chromosome():
-    flavor = random.choice(list(FLAVOR_COSTS.keys()))
-    package = random.choice(list(PACKAGE_COSTS.keys()))
-    extras = random.sample(list(EXTRA_COSTS.keys()), random.randint(0, len(EXTRA_COSTS)))
+    """Creates a random ice cream configuration."""
+    flavor = random.choices(list(FLAVOR_COSTS.keys()), weights=list(FLAVOR_MARKUPS.values()))[
+        0]  # Biased towards higher markups
+    package = random.choices(list(PACKAGE_COSTS.keys()), weights=list(PACKAGE_MARKUPS.values()))[0]
+    extras = random.sample(list(EXTRA_COSTS.keys()), random.randint(1, len(EXTRA_COSTS)))  # Always at least one extra
     return {"flavor": flavor, "package": package, "extras": extras}
 
 
@@ -119,7 +121,7 @@ def genetic_algorithm(population_size, generations, mutation_rate, elitism_rate)
 # Find and display the most profitable ice cream configuration
 # Genetic algorithm parameters
 population_size = 50
-generations = 1000
+generations = 100
 mutation_rate = 0.1
 elitism_rate = 0.05  # Keep 5% of the population as elites
 
