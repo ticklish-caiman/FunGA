@@ -70,14 +70,19 @@ def mutate(chromosome):
 
 def crossover(parent1, parent2):
     # Swap 'package' type
-    child1 = parent1.copy()
-    child2 = parent2.copy()
+    child1, child2 = parent1.copy(), parent2.copy()
     child1["package"] = parent2["package"]
     child2["package"] = parent1["package"]
 
-    # Merge extras with a check to avoid exact duplicates
-    child1['extras'] = list(set(child1['extras'] + parent2['extras']))
-    child2['extras'] = list(set(child2['extras'] + parent1['extras']))
+    # Inherit all extras from the fitter parent with 50% probability
+    if fitness(parent1) > fitness(parent2) and random.random() < 0.5:
+        child1['extras'] = parent1['extras']
+    elif fitness(parent2) > fitness(parent1) and random.random() < 0.5:
+        child2['extras'] = parent2['extras']
+    else:
+        # Merge extras with a check to avoid exact duplicates
+        child1['extras'] = list(set(child1['extras'] + parent2['extras']))
+        child2['extras'] = list(set(child2['extras'] + parent1['extras']))
 
     return child1, child2
 
