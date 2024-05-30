@@ -88,7 +88,7 @@ def crossover(parent1, parent2):
 
 
 # Run the genetic algorithm
-def genetic_algorithm(population_size, generations, mutation_rate, elitism_rate):
+def genetic_algorithm(population_size, generations, mutation_rate, elitism_rate, prestige_factor):
     """Runs the genetic algorithm with the specified parameters and elitism."""
 
     # Initialize population
@@ -96,7 +96,7 @@ def genetic_algorithm(population_size, generations, mutation_rate, elitism_rate)
 
     for generation in range(generations):
         # Evaluate fitness and sort (crucial for elitism)
-        population = sorted(population, key=fitness, reverse=True)
+        population = sorted(population, key=lambda c: fitness(c, prestige_factor), reverse=True)
 
         # Elitism: Keep the top individuals unchanged
         num_elites = int(elitism_rate * population_size)
@@ -132,9 +132,10 @@ population_size = 50
 generations = 100
 mutation_rate = 0.1
 elitism_rate = 0.05  # Keep 5% of the population as elites
+prestige_factor = 1.2  # More extras, higher profit multiplier
 
 # Run the genetic algorithm and get the best solution
-best_solution = genetic_algorithm(population_size, generations, mutation_rate, elitism_rate)
+best_solution = genetic_algorithm(population_size, generations, mutation_rate, elitism_rate, prestige_factor)
 
 print("\nBest Ice Cream Configuration:")
 print(best_solution)
