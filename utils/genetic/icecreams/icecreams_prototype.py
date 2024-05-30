@@ -52,19 +52,20 @@ def fitness(chromosome, prestige_factor=1.1):
 
 
 def mutate(chromosome):
-    mutation_type = random.choice(["flavor", "package", "extras"])
-    if mutation_type == "flavor":
-        chromosome['flavor'] = random.choice(list(FLAVOR_COSTS.keys()))
-    elif mutation_type == "package":
-        chromosome['package'] = random.choice(list(PACKAGE_COSTS.keys()))
-    else:  # extras
-        if random.random() < 0.5:  # Add an extra
-            new_extra = random.choice(list(EXTRA_COSTS.keys()))
-            if new_extra not in chromosome['extras']:
-                chromosome['extras'].append(new_extra)
-        else:  # Remove an extra
-            if chromosome['extras']:  # Check if extras exist
-                chromosome['extras'].pop(random.randrange(len(chromosome['extras'])))
+    if random.random() < mutation_rate:
+        mutation_type = random.choice(["flavor", "package", "extras"])
+        if mutation_type == "flavor":
+            chromosome['flavor'] = random.choice(list(FLAVOR_COSTS.keys()))
+        elif mutation_type == "package":
+            chromosome['package'] = random.choice(list(PACKAGE_COSTS.keys()))
+        else:  # extras
+            if random.random() < 0.5:  # Add an extra
+                new_extra = random.choice(list(EXTRA_COSTS.keys()))
+                if new_extra not in chromosome['extras']:
+                    chromosome['extras'].append(new_extra)
+            else:  # Remove an extra
+                if chromosome['extras']:  # Check if extras exist
+                    chromosome['extras'].pop(random.randrange(len(chromosome['extras'])))
 
 
 def crossover(parent1, parent2):
