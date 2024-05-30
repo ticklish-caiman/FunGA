@@ -43,10 +43,12 @@ def calculate_markup(ice_cream_config):
     return markup
 
 
-def fitness(chromosome):
-    selling_price = calculate_markup(chromosome)
-    cost = calculate_cost(chromosome)
-    return selling_price - cost
+def fitness(chromosome, prestige_factor=1.1):
+    """Calculates the fitness (profit) with an optional prestige factor."""
+    profit = calculate_markup(chromosome) - calculate_cost(chromosome)
+    if len(chromosome['extras']) > 1:  # More extras, more prestigious
+        profit *= prestige_factor
+    return profit
 
 
 def mutate(chromosome):
