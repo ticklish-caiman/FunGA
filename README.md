@@ -55,7 +55,7 @@ Won't-haves:
    c) TSP <br/>
    ![62%](https://progress-bar.dev/62?title=progress&width=400) <br/>
    d) Ice-cream tycoon <br/>
-   ![1%](https://progress-bar.dev/1?title=progress&width=400) <br/>
+   ![3%](https://progress-bar.dev/3?title=progress&width=400) <br/>
 
 # 100COMMITÓW:
 This repository takes part in:
