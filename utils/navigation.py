@@ -19,7 +19,7 @@ def show_main_menu(_):
     st.sidebar.page_link("Home_Page.py", label=_("Home"), icon="🏠")
     with st.sidebar.expander("Fun and games 🕹️", expanded=True):
         st.page_link("pages/1_Biomorphs.py", label=_("Biomorphs"), icon="😶️")
-        # st.page_link("pages/2_Shapevo.py", label=_("Shapevo"), icon="💠️")
+        st.page_link("pages/3_Ice-cream_Tycoon.py", label=_("Ice-cream Tycoon"), icon="🍦️")
         st.page_link("pages/3_TSP.py", label=_("TSP"), icon="🗺️️")
     st.sidebar.page_link("pages/4_Theory.py", label=_("Theory"), icon="📚")
     st.sidebar.page_link("pages/About.py", label=_("About"), icon="❓")
