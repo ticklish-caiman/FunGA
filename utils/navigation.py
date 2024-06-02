@@ -9,7 +9,6 @@ from utils.streamlit_demos import sliders, chart, selectbox, multiselect, checkb
 from utils.authorization import authorization_check
 from database.database_helper import DatabaseHelper
 
-
 db_helper = DatabaseHelper('database/data/funga_data.db')
 sidebar_options = ["Hello", "Button", "Sliders demo", "Chart demo", "Select box demo", "Multiselect demo",
                    "Checkbox demo", "File uploader demo", "Progress demo", "Form demo", "Session demo"]
@@ -77,7 +76,11 @@ def show_best_tsp():
     st.write(_('Best TSP results:'))
     best_tsp_results = pd.DataFrame(db_helper.get_best_tsp_activities(3))
     best_tsp_results.index = np.arange(1, len(best_tsp_results) + 1)  # index from 1
-    best_tsp_results.columns = [_('Type'), _('User'), _('Distance'), _('Route'), _('Parameters')]
+
+    try:
+        best_tsp_results.columns = [_('Type'), _('User'), _('Distance'), _('Route'), _('Parameters')]
+    except ValueError:
+        pass
     st.dataframe(best_tsp_results)
 
 
