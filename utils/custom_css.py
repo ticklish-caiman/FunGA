@@ -69,7 +69,7 @@ def custom_buttons_style():
             color: #ffffff;
         }
     </style>
-    """, unsafe_allow_html=True, help='unwanted element')
+    """, unsafe_allow_html=True)
 
 
 def custom_write_style():
@@ -79,4 +79,4 @@ def custom_write_style():
       text-align: justify;
     }
     </style>
-    """, unsafe_allow_html=True, help='unwanted element')
+    """, unsafe_allow_html=True)
