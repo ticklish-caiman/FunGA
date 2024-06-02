@@ -8,7 +8,7 @@ st.set_page_config(page_title=_("FunGA - About"), page_icon='❓')
 show_main_menu(_)
 st.header('About FunGA', divider=True)
 st.write("Repository: [GitHub link](https://github.com/ticklish-caiman/FunGA)")
-st.write("")
+st.image('img/funga_img03.png')
 st.write(
     _("The project was created using the Streamlit framework. The premise was simple: I focus on the back-end, "
       "so it\'s best to automate the front-end creation as much as possible. I chose Streamlit because it\'s a pure "
