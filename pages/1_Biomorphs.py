@@ -12,6 +12,7 @@ st.set_page_config(page_title=_("FunGA - About"), page_icon='🕹️')
 show_main_menu(_)
 
 st.header(_('Biomorphs'))
+st.header(_('🚧 Project not yet ready 🚧'))
 with st.expander(_("Biomorphs? What's this all about? (click to expand)"), expanded=False):
     custom_write_style()
     st.write(

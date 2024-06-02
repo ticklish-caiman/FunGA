@@ -7,3 +7,5 @@ _ = get_localizator()
 st.set_page_config(page_title=_("FunGA - About"), page_icon='📚')
 
 show_main_menu(_)
+
+st.header(_("🚧 Under construction 🚧"))
