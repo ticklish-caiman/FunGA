@@ -6,18 +6,9 @@ _ = get_localizator()
 st.set_page_config(page_title=_("FunGA - About"), page_icon='❓')
 
 show_main_menu(_)
-
-st.header('100Commitów', divider=True)
-st.text(_('This project takes part in:'))
-st.markdown(
-    f"""[<img src="https://100commitow.pl/img/100-comittow_long.png" width=400px >](https://100commitow.pl/)""",
-    True)
-st.text('Competition organized by:')
-st.markdown(
-    f"""[<img src="https://100commitow.pl/img/devmentors-logo.png" width=400px 
-    style="background-color:grey" >](https://devmentors.io/)""",
-    True)
-st.divider()
+st.header('About FunGA', divider=True)
+st.write("Repository: [GitHub link](https://github.com/ticklish-caiman/FunGA)")
+st.write("")
 st.write(
     _("The project was created using the Streamlit framework. The premise was simple: I focus on the back-end, "
       "so it\'s best to automate the front-end creation as much as possible. I chose Streamlit because it\'s a pure "
@@ -61,3 +52,16 @@ with col2:
         f"""[<img src="https://avatars.githubusercontent.com/u/91501936?v=4" width=200px 
         style="background-color:grey" >](https://github.com/ticklish-caiman)""",
         True)
+
+
+st.header('100Commitów', divider=True)
+st.text(_('This project takes part in:'))
+st.markdown(
+    f"""[<img src="https://100commitow.pl/img/100-comittow_long.png" width=400px >](https://100commitow.pl/)""",
+    True)
+st.text('Competition organized by:')
+st.markdown(
+    f"""[<img src="https://100commitow.pl/img/devmentors-logo.png" width=400px 
+    style="background-color:grey" >](https://devmentors.io/)""",
+    True)
+st.divider()
