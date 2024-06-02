@@ -178,6 +178,7 @@ if task_type == _(":orange[**Human**]"):
     custom_city_creator()
 
 if task_type == _(":green[**Cooperation**]"):
+    st.header(_("🚧 Under construction 🚧"))
     if st.session_state["authentication_status"]:
         user_tsp_results = pd.DataFrame(
             db_helper.get_user_manual_tsp_by_city_count(st.session_state['username'], st.session_state['cities_count']))
