@@ -11,8 +11,7 @@ An awesome way to understand the coding techniques inspired by Darwinian natural
 </p>
 
 
-# DEMO: 
-<a href="https://tc-funga.streamlit.app">tc-funga.streamlit.app</a>
+# DEMO: <a href="https://tc-funga.streamlit.app">tc-funga.streamlit.app</a>
 
 # The plan
 Must-haves:
