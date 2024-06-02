@@ -12,7 +12,7 @@ An awesome way to understand the coding techniques inspired by Darwinian natural
 
 
 # DEMO: 
-<a href="tc-funga.streamlit.app">tc-funga.streamlit.app</a>
+<a href="https://tc-funga.streamlit.app">tc-funga.streamlit.app</a>
 
 # The plan
 Must-haves:
