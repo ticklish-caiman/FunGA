@@ -24,6 +24,6 @@ Over successive generations, the genetic algorithm ruthlessly weeds out less opt
 
 From the grand tapestry of biological life, woven by natural selection, to the computational optimization of genetic algorithms, the idea of continuous, adaptive improvement is a potent one. Darwin's insights, born from meticulous observation of the natural world, have reverberated far beyond biology, laying the foundation for the astonishing problem-solving capabilities of modern computing."""))
 with tabs[1]:
-    st.header('Hello Holland/De Jong')
+    st.header(_("🚧 Under construction 🚧"))
 with tabs[2]:
-    st.header('Hello others')
+    st.header(_("🚧 Under construction 🚧"))
