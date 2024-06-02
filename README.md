@@ -11,6 +11,9 @@ An awesome way to understand the coding techniques inspired by Darwinian natural
 </p>
 
 
+# DEMO
+## <a>tc-funga.streamlit.app</a>
+
 # The plan
 Must-haves:
 
@@ -40,20 +43,20 @@ Won't-haves:
 
 # Roadmap
 1. GUI template<br/>
-![60%](https://progress-bar.dev/60?title=progress&width=400)
+![90%](https://progress-bar.dev/90?title=progress&width=400)
 2. Theory<br/>
-![2%](https://progress-bar.dev/2?title=progress&width=400)
+![5%](https://progress-bar.dev/5?title=progress&width=400)
 3. Translation<br/>
-![8%](https://progress-bar.dev/8?title=progress&width=400)
+![80%](https://progress-bar.dev/80?title=progress&width=400)
 4. Database<br/>
-![32%](https://progress-bar.dev/32?title=progress&width=400)
+![52%](https://progress-bar.dev/52?title=progress&width=400)
 5. Pipelines:<br/>
    a) Biomorphs<br/>
-   ![9%](https://progress-bar.dev/9?title=progress&width=400) <br/>
+   ![19%](https://progress-bar.dev/19?title=progress&width=400) <br/>
    b) Shapevo (scrapped)<br/>
    ![2%](https://progress-bar.dev/2?title=progress&width=400) <br/>
    c) TSP <br/>
-   ![62%](https://progress-bar.dev/62?title=progress&width=400) <br/>
+   ![72%](https://progress-bar.dev/72?title=progress&width=400) <br/>
    d) Ice-cream tycoon <br/>
    ![3%](https://progress-bar.dev/3?title=progress&width=400) <br/>
 
