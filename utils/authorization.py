@@ -75,21 +75,22 @@ def authorization_check():
 
     def show_register_form(authenticator: stauth):
         _ = get_localizator()
+        success_message = _('User registered successfully')
         st.warning(_('Don\'t have an account? Register below.'))
-        try:
-            email_of_registered_user, _, _ = authenticator.register_user(
-                preauthorization=False, fields={'Form name': _('Register User 📝'),
-                                                'Email': 'Email',
-                                                'Username': _('Login'),
-                                                'Name': _('Name (public)'),
-                                                'Password': _('Password'),
-                                                'Repeat password': _('Repeat password'),
-                                                'Register': _('Register')})
-            db_helper.safe_credentials_to_database(authenticator.credentials)
-            if email_of_registered_user:
-                st.success(_('User registered successfully'))
-        except Exception as e:
-            st.error(e)
+
+        email_of_registered_user, _, _ = authenticator.register_user(
+            preauthorization=False, fields={'Form name': _('Register User 📝'),
+                                            'Email': 'Email',
+                                            'Username': _('Login'),
+                                            'Name': _('Name (public)'),
+                                            'Password': _('Password'),
+                                            'Repeat password': _('Repeat password'),
+                                            'Register': _('Register')})
+        db_helper.safe_credentials_to_database(authenticator.credentials)
+        if email_of_registered_user:
+            # calling st.success with translation _ throws 'str' object is not callable
+            # that's why we have to create the message earlier
+            st.success(success_message)
 
     def authentication(authenticator: stauth):
         # Authentication logic
