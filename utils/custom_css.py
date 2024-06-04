@@ -41,14 +41,17 @@ div.stButton > button:hover {
     }
     </style>""", unsafe_allow_html=True)
 
-    # Setting custom width spectrum for sidebar
+    # Setting custom width spectrum for sidebar, hide default menu
     st.sidebar.markdown("""
         <style>
         [data-testid="stSidebar"][aria-expanded="true"]{
        min-width: 350px;
        max-width: 800px;
            }   
-    }
+        [data-testid="stSidebarNavItems"] {
+        max-height: 1px;
+        visibility: hidden;
+        }
      </style>""", unsafe_allow_html=True)
 
 
