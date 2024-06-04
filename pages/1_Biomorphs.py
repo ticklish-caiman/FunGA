@@ -1,6 +1,6 @@
 import streamlit as st
 
-from utils.custom_css import custom_buttons_style, custom_write_style
+from utils.custom_css import custom_buttons_style, custom_write_style, custom_css
 from utils.genetic.biomorphs.biomorphs_evolve import draw_biomorph_pil, test_pass_choice, init_biomorphs_population, \
     evolve_biomrophs
 from utils.genetic.biomorphs.biomorphs_phenotype import get_base64_of_image
@@ -9,6 +9,7 @@ from utils.localization_helper import get_localizator
 
 _ = get_localizator()
 st.set_page_config(page_title=_("FunGA - About"), page_icon='🕹️')
+custom_css()
 show_main_menu(_)
 
 st.header(_('Biomorphs'))

@@ -4,7 +4,7 @@ import streamlit as st
 import logging
 
 from database.model.tspactivity import TspActivity
-from utils.custom_css import custom_write_style
+from utils.custom_css import custom_write_style, custom_css
 from utils.genetic.tsp.tsp_creator import custom_city_creator
 from utils.genetic.tsp.tsp_evolve import create_population, evolve
 from utils.genetic.tsp.tsp_genes import generate_cities, convert_string_routes
@@ -17,6 +17,7 @@ from database.database_helper import DatabaseHelper
 
 _ = get_localizator()
 st.set_page_config(page_title=_("FunGA - About"), page_icon='🕹️')
+custom_css()
 show_main_menu(_)
 
 db_helper = DatabaseHelper('database/data/funga_data.db')
