@@ -49,7 +49,10 @@ div.stButton > button:hover {
        max-width: 800px;
            }   
         [data-testid="stSidebarNavItems"] {
-        max-height: 1px;
+        max-height: 0px;
+        visibility: hidden;
+        }
+        [data-testid="stSidebarNavSeparator"] {
         visibility: hidden;
         }
      </style>""", unsafe_allow_html=True)
