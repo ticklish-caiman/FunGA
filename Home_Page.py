@@ -2,6 +2,7 @@ import streamlit as st
 
 import gettext
 
+from utils.custom_css import custom_css
 from utils.navigation import show_tabs, show_main_menu
 
 _ = gettext.gettext
@@ -45,7 +46,7 @@ if st.session_state['language'] != 'en':
 show_main_menu(_)
 st.sidebar.markdown("""<hr style="height:2px;border:none;background-color:#996;margin-top:1px;margin-bottom:1px" /> """,
                     unsafe_allow_html=True)
-
+custom_css()
 st.title("")  # empty title makes the view jump below it at initial render
 st.image('img/fung_line.png')
 st.title(_("Welcome to FunGA!"))
