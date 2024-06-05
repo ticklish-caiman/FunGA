@@ -13,7 +13,7 @@ st.image('img/funga_img03.png')
 st.write(
     _("The project was created using the Streamlit framework. The premise was simple: I focus on the back-end, "
       "so it\'s best to automate the front-end creation as much as possible. I chose Streamlit because it\'s a pure "
-      "Python approach. Each page is rendered based on Python code \"from top to bottom\" with every change in variable "
+      "Python approach. Each page is rendered based on Python code \"from top to bottom\" with every change in variable"
       "values. This has its limitations. I bent over backwards to create a dynamic user interface for the \"TSP\"... "
       "and the result is quite poor. The idea of Streamlit is very tempting, and the project is constantly being "
       "developed and gaining functionality. However, it\'s important to carefully analyze whether its current features "
@@ -53,7 +53,6 @@ with col2:
         f"""[<img src="https://avatars.githubusercontent.com/u/91501936?v=4" width=200px 
         style="background-color:grey" >](https://github.com/ticklish-caiman)""",
         True)
-
 
 st.header('100Commitów', divider=True)
 st.text(_('This project takes part in:'))
