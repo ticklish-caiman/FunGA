@@ -194,6 +194,8 @@ if task_type == _(":green[**Cooperation**]"):
                                           placeholder=_('Select routes to use'))
         selected_rows = user_tsp_results.loc[selected_indices]
         st.table(selected_rows)
+        # https://discuss.streamlit.io/t/version-1-35-0/70464
+        # Streamlit 1.35 now supports dataframe row and column selection!
         if st.button(_('Evolve with selected routes')):
             if not selected_indices:  # Check if any indices are selected
                 st.error("Please select routes to evolve with.")
