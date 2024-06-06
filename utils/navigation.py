@@ -74,7 +74,7 @@ def show_tab0():
 def show_best_tsp():
     _ = get_localizator()
     st.write(_('Best TSP results:'))
-    best_tsp_results = pd.DataFrame(db_helper.get_best_tsp_activities(3))
+    best_tsp_results = pd.DataFrame(db_helper.get_best_tsp_activities(10))
     best_tsp_results.index = np.arange(1, len(best_tsp_results) + 1)  # index from 1
 
     try:
