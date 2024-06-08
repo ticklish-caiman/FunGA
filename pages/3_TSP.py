@@ -183,24 +183,33 @@ if task_type == _(":green[**Cooperation**]"):
     if st.session_state["authentication_status"]:
         user_tsp_results = pd.DataFrame(
             db_helper.get_user_manual_tsp_by_city_count(st.session_state['username'], st.session_state['cities_count']))
-        user_tsp_results.index = np.arange(1, len(user_tsp_results) + 1)  # index from 1
+        # user_tsp_results.index = np.arange(0, len(user_tsp_results) + 1)  # index from 0
         try:
             user_tsp_results.columns = [_('Distance'), _('Route')]
         except ValueError:
             logging.info('No records found')
-        st.table(user_tsp_results)
-
-        selected_indices = st.multiselect(_('Select routes to use:'), user_tsp_results.index,
-                                          placeholder=_('Select routes to use'))
-        selected_rows = user_tsp_results.loc[selected_indices]
-        st.table(selected_rows)
+        # st.table(user_tsp_results)
+        st.write("Select routes to use")
         # https://discuss.streamlit.io/t/version-1-35-0/70464
         # Streamlit 1.35 now supports dataframe row and column selection!
+        event = st.dataframe(
+            user_tsp_results,
+            key="data",
+            on_select="rerun",
+            selection_mode=["multi-row"],
+        )
+
+        print(event.selection,"\n")
+        print(user_tsp_results)
+        selected_routes = list()
+        for rows in event.selection['rows']:
+            selected_routes.append(user_tsp_results["Route"][rows])
+
         if st.button(_('Evolve with selected routes')):
-            if not selected_indices:  # Check if any indices are selected
+            if not selected_routes:  # Check if any indices are selected
                 st.error("Please select routes to evolve with.")
             else:
-                selected_routes = selected_rows["Route"].tolist()
+                print("selected_routes", selected_routes)
                 start_evolution(selected_routes)
 
     else:
